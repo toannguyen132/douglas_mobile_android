@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">GroupProject</string>
+
+    <string name="login_header">LOGIN</string>
+    <string name="login_email">Email</string>
+    <string name="login_password">Password</string>
+    <string name="login_button">Login</string>
 </resources>
