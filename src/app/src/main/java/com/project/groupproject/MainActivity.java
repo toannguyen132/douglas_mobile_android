@@ -1,6 +1,8 @@
 package com.project.groupproject;
 
-import android.content.Context;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.project.groupproject.fragment.LoginFragment;
 
 //import com.google.firebase.database.DatabaseReference;
 //import com.google.firebase.database.FirebaseDatabase;
@@ -34,6 +37,14 @@ public class MainActivity extends AppCompatActivity {
         // init fỉebase auth instance
         mAuth = FirebaseAuth.getInstance();
 
+
+        // add login fragment
+        LoginFragment loginFragment = new LoginFragment();
+        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.add(R.id.fragment_container, loginFragment).commit();
+
+
         // init edit text
         inputEmail = findViewById(R.id.input_email);
         inputPassword = findViewById(R.id.input_password);
@@ -44,7 +55,9 @@ public class MainActivity extends AppCompatActivity {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                register();
+//                register();
+                Intent i = new Intent(MainActivity.this, SingleEvent.class);
+                startActivity(i);
             }
         });
     }
