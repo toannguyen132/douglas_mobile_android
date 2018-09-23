@@ -1,10 +1,14 @@
 <resources>
     <string name="app_name">GroupProject</string>
 
-    <string name="login_header">LOGIN</string>
-    <string name="login_email">Email</string>
-    <string name="login_password">Password</string>
-    <string name="login_button">Login</string>
+    <string name="header_login">LOGIN</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="button_login">Login</string>
+
+    <string name="header_register">REGISTER</string>
+    <string name="password_confirm">Retype Password</string>
+    <string name="button_register">Register</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

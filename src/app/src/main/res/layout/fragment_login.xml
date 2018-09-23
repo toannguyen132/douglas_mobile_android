@@ -9,22 +9,21 @@
     <!-- TODO: Update blank fragment layout -->
 
     <TextView
-        android:id="@+id/header_login2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/login_header" />
+        android:text="@string/header_login" />
 
     <EditText
-        android:id="@+id/input_email2"
+        android:id="@+id/login_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/login_email" />
+        android:hint="@string/email" />
 
     <EditText
-        android:id="@+id/input_password2"
+        android:id="@+id/login_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/login_password"
+        android:hint="@string/password"
         android:inputType="textPassword"
         android:selectAllOnFocus="false" />
 
@@ -32,5 +31,5 @@
         android:id="@+id/button_login2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/login_button" />
+        android:text="@string/button_login" />
 </LinearLayout>
