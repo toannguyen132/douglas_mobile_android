@@ -3,8 +3,6 @@ package com.project.groupproject.fragment;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -12,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,10 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.project.groupproject.MainActivity;
-import com.project.groupproject.MapsActivity;
 import com.project.groupproject.R;
-import com.project.groupproject.SingleEvent;
 
 
 /**
@@ -38,6 +34,10 @@ public class LoginFragment extends Fragment {
 
     //
     private FirebaseAuth mAuth;
+
+    // components
+    private EditText mEmail;
+    private EditText mPassword;
 
     public LoginFragment() { }
 
@@ -56,6 +56,10 @@ public class LoginFragment extends Fragment {
 
         // init firebase
         mAuth = FirebaseAuth.getInstance();
+
+        // init component;
+        mEmail = rootView.findViewById(R.id.login_email);
+        mPassword = rootView.findViewById(R.id.login_password);
 
         // init button and assign event listener
         mButton = rootView.findViewById(R.id.button_login2);
@@ -103,8 +107,8 @@ public class LoginFragment extends Fragment {
     }
 
     private void login(){
-        String email = "n.minhtoan@gmail.com";
-        String password = "123456";
+        String email = mEmail.getText().toString();
+        String password = mPassword.getText().toString();
 
         mAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {

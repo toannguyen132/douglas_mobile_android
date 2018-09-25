@@ -20,4 +20,12 @@
 
     </style>
 
+    <style name="InfoLabel" parent="Base.TextAppearance.AppCompat.Display1">
+        <item name="android:textSize">15dp</item>
+    </style>
+
+    <style name="InfoValue" parent="Base.TextAppearance.AppCompat.Display2">
+        <item name="android:textSize">15dp</item>
+    </style>
+
 </resources>
