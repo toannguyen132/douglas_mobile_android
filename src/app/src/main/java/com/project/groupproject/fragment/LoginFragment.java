@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -70,6 +71,14 @@ public class LoginFragment extends Fragment {
             }
         });
 
+        TextView switchView = rootView.findViewById(R.id.text_register);
+        switchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchRegisterView();
+            }
+        });
+
 
         return rootView;
     }
@@ -104,9 +113,14 @@ public class LoginFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onLoginSuccess(FirebaseUser user);
+        void onSwitchRegister();
     }
 
-    private void login(){
+    private void switchRegisterView() {
+        mListener.onSwitchRegister();
+    }
+
+    private void login() {
         String email = mEmail.getText().toString();
         String password = mPassword.getText().toString();
 

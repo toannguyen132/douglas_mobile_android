@@ -69,6 +69,14 @@ public class RegisterFragment extends Fragment {
             }
         });
 
+        fragmentView.findViewById(R.id.text_login)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        switchLoginView();
+                    }
+                });
+
         return fragmentView;
     }
 
@@ -101,6 +109,7 @@ public class RegisterFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         void onRegisterSuccess(FirebaseUser user);
+        void onSwitchLogin();
     }
 
 
@@ -110,6 +119,10 @@ public class RegisterFragment extends Fragment {
 
     private String getPassword(){
         return inputPassword.getText().toString();
+    }
+
+    private void switchLoginView() {
+        mListener.onSwitchLogin();
     }
 
     /**

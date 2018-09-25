@@ -69,4 +69,16 @@ public class AuthActivity extends AppCompatActivity
         Intent i = new Intent(AuthActivity.this, UserProfile.class);
         startActivity(i);
     }
+
+    @Override
+    public void onSwitchRegister() {
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, registerFragment).commit();
+    }
+
+    @Override
+    public void onSwitchLogin() {
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, loginFragment).commit();
+    }
 }
