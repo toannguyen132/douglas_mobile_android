@@ -26,12 +26,6 @@ public class AuthActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
 
-        // add login fragment
-//        LoginFragment loginFragment = new LoginFragment();
-//        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-//        android.support.v4.app.FragmentTransaction ft = fragmentManager.beginTransaction();
-//        ft.add(R.id.fragment_container, loginFragment).commit();
-
         // login fragment
         loginFragment = LoginFragment.getInstance();
         fragmentManager = getFragmentManager();
@@ -41,7 +35,6 @@ public class AuthActivity extends AppCompatActivity
 
         // register fragment
         registerFragment = RegisterFragment.getInstance();
-//        fragmentTransaction.add(R.id.fragment_container, registerFragment).commit();
 
     }
 
@@ -66,7 +59,7 @@ public class AuthActivity extends AppCompatActivity
         Toast.makeText(this, "You have been login as " + user.getEmail(),
                 Toast.LENGTH_SHORT).show();
         // after login success, move to user profile activity
-        Intent i = new Intent(AuthActivity.this, UserProfile.class);
+        Intent i = new Intent(AuthActivity.this, UserProfileActivity.class);
         startActivity(i);
     }
 

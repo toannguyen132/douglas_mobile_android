@@ -9,7 +9,7 @@
     <string name="header_register">REGISTER</string>
     <string name="password_confirm">Retype Password</string>
     <string name="button_register">Register</string>
-    <string name="already_has_account">Already has account?</string>
+    <string name="already_have_account">Already have account?</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

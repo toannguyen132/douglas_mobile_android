@@ -1,23 +1,61 @@
 <resources>
 
+    <attr name="button_radius" format="dimension" />
+    <attr name="border" format="dimension" />
+    <attr name="input_bg" format="reference" />
+
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="button_radius">30dp</item>
+        <item name="border">1dp</item>
+        <item name="input_bg">@color/colorInputBg</item>
+    </style>
+
+    <style name="Container">
+        <item name="android:padding">15dp</item>
     </style>
 
     <style name="ActivityHeader">
-        <item name="android:textSize">18dp</item>
+        <item name="android:textSize">36dp</item>
         <item name="android:textAlignment">center</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_marginTop">15dp</item>
         <item name="android:layout_marginBottom">15dp</item>
+        <item name="android:textAllCaps">true</item>
     </style>
 
-    <style name="Input" parent="Base.Widget.AppCompat.EditText">
+    <style name="Label">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
 
+    <style name="Edittext" parent="Base.Widget.AppCompat.EditText">
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:paddingStart">15dp</item>
+        <item name="android:paddingEnd">15dp</item>
+        <item name="android:layout_height">45dp</item>
+    </style>
+
+    <style name="Button">
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:paddingStart">15dp</item>
+        <item name="android:paddingEnd">15dp</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ButtonPrimary" parent="Button">
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:paddingStart">15dp</item>
+        <item name="android:paddingEnd">15dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:textColor">#fff</item>
     </style>
 
     <style name="InfoLabel" parent="Base.TextAppearance.AppCompat.Display1">

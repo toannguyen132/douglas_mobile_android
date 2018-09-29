@@ -4,34 +4,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fragment.LoginFragment">
+    tools:context=".fragment.LoginFragment"
+    style="@style/Container"
+    >
 
     <!-- TODO: Update blank fragment layout -->
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/header_login" />
+        android:text="@string/header_login"
+        style="@style/ActivityHeader"
+        />
 
     <EditText
         android:id="@+id/login_email"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:background="@drawable/edittext"
+        style="@style/Edittext"
         android:hint="@string/email" />
 
     <EditText
         android:id="@+id/login_password"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:background="@drawable/edittext"
         android:hint="@string/password"
         android:inputType="textPassword"
+        style="@style/Edittext"
         android:selectAllOnFocus="false" />
 
     <Button
         android:id="@+id/button_login2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button_login" />
+        android:background="@drawable/button"
+        style="@style/ButtonPrimary"
+        android:text="@string/button_login"/>
     <TextView
         android:id="@+id/text_register"
         android:layout_width="wrap_content"
