@@ -23,7 +23,7 @@ public class UserInfoFragment extends Fragment {
     private String mLabel;
     private String mValue;
 
-//    private OnFragmentInteractionListener mListener;
+    private OnFragmentInteractionListener mListener;
 
     public UserInfoFragment() {
         // Required empty public constructor
@@ -68,7 +68,24 @@ public class UserInfoFragment extends Fragment {
         tvLabel.setText(mLabel);
         tvValue.setText(mValue);
 
+        // event click
+        (view.findViewById(R.id.user_info_edit_button)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchView();
+            }
+        });
+
         return view;
+    }
+
+    /**
+     * Switch to edit view
+     */
+    public void switchView(){
+        if (mListener != null){
+            mListener.onEditButtonClicked();
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -78,16 +95,16 @@ public class UserInfoFragment extends Fragment {
 //        }
 //    }
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnUserEditFragmentInteractionListener");
+        }
+    }
 //
 //    @Override
 //    public void onDetach() {
@@ -97,8 +114,8 @@ public class UserInfoFragment extends Fragment {
 
     /**
      */
-//    public interface OnFragmentInteractionListener {
-//        // TODO: Update argument type and name
-//        void onFragmentInteraction(Uri uri);
-//    }
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onEditButtonClicked();
+    }
 }
