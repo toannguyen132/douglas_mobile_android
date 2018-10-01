@@ -2,6 +2,7 @@ package com.project.groupproject;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Window;
 
 public class SingleEvent extends AppCompatActivity {
 

@@ -6,8 +6,8 @@
             <stroke
                 android:width="?border"
                 android:color="@color/colorInputBg" />
-            <corners
-                android:radius="?button_radius" />
+            <!--<corners-->
+                <!--android:radius="?button_radius" />-->
         </shape>
     </item>
     <item android:state_pressed="true" android:state_focused="true">
@@ -16,8 +16,8 @@
             <stroke
                 android:width="?border"
                 android:color="@color/colorInputFocus" />
-            <corners
-                android:radius="?button_radius" />
+            <!--<corners-->
+                <!--android:radius="?button_radius" />-->
         </shape>
     </item>
     <item android:state_pressed="false" android:state_focused="true">
@@ -26,8 +26,8 @@
             <stroke
                 android:width="?border"
                 android:color="@color/colorInputFocus" />
-            <corners
-                android:radius="?button_radius" />
+            <!--<corners-->
+                <!--android:radius="?button_radius" />-->
         </shape>
     </item>
     <item android:state_pressed="true" android:state_focused="false">
@@ -36,8 +36,8 @@
             <stroke
                 android:width="?border"
                 android:color="@color/colorInputBg" />
-            <corners
-                android:radius="?button_radius" />
+            <!--<corners-->
+                <!--android:radius="?button_radius" />-->
         </shape>
     </item>
     <item android:state_enabled="true">
