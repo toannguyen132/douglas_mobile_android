@@ -76,12 +76,15 @@ public class UserEditFragment extends Fragment {
         return rootView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
-//    }
+    /**
+     * On save button click event
+     * @param view
+     */
+    public void onSaveButtonClicked(View view){
+        if (mListener != null) {
+            mListener.onFinishEditing();
+        }
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -112,6 +115,6 @@ public class UserEditFragment extends Fragment {
      */
     public interface OnUserEditFragmentInteractionListener {
         // TODO: Update argument type and name
-//        void onFragmentInteraction(Uri uri);
+        void onFinishEditing();
     }
 }

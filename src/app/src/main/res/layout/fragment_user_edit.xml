@@ -18,13 +18,13 @@
             style="@style/Label"
             android:text="@string/first_name"
             />
+
         <EditText
             android:id="@+id/input_first_name"
+            style="@style/Edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edittext"
-            style="@style/Edittext"
-            />
+            android:background="@drawable/edittext" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -40,12 +40,12 @@
             />
 
         <Button
+            style="@style/ButtonPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/button"
-            style="@style/ButtonPrimary"
-            android:text="Save"
-            />
+            android:onClick="onSaveButtonClicked"
+            android:text="Save" />
     </LinearLayout>
 
 </FrameLayout>
