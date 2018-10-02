@@ -10,4 +10,14 @@
                 android:radius="?button_radius" />
         </shape>
     </item>
+    <item android:state_enabled="false">
+        <shape>
+            <solid android:color="@color/colorDisabled"/>
+            <stroke
+                android:width="2.3dp"
+                android:color="@color/colorDisabled" />
+            <corners
+                android:radius="?button_radius" />
+        </shape>
+    </item>
 </selector>

@@ -27,6 +27,11 @@ public class UserProfileActivity extends AppCompatActivity implements
     FirebaseUser mUser;
     User currentUser;
 
+    UserEditFragment userEditFragment;
+    UserInfoFragment userInfoFragment;
+
+    boolean isEditMode = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,20 +40,15 @@ public class UserProfileActivity extends AppCompatActivity implements
         // init firebase
         mAuth = FirebaseAuth.getInstance();
 
-
-        // prepare fragment manager
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
         // get current user
         mUser = mAuth.getCurrentUser();
         if (mUser != null) {
+            // init database reference
+            mUserReference = FirebaseDatabase.getInstance().getReference()
+                    .child("Users").child(mUser.getUid());
+
+            // get current user
             getCurrentUser();
-
-            UserInfoFragment fragment = UserInfoFragment.newInstance("Email", mUser.getEmail());
-
-            fragmentTransaction.add(R.id.user_info_container, fragment);
-            fragmentTransaction.commit();
 
         } else {
             // TODO: redirect to user
@@ -56,7 +56,7 @@ public class UserProfileActivity extends AppCompatActivity implements
     }
 
     /**
-     * Implement event click edit button
+     * UserInfoFragment interface: Implement event click edit button
      */
     @Override
     public void onEditButtonClicked() {
@@ -64,29 +64,50 @@ public class UserProfileActivity extends AppCompatActivity implements
     }
 
     /**
+     * UserEditFragment interface: implement user save info
+     */
+    @Override
+    public void onSaveUserInfo(User updatedUser) {
+        updateCurrentUserInfo(updatedUser);
+    }
+
+    /**
      *
      */
     private void switchEditMode() {
-        UserEditFragment editFragment = UserEditFragment.newInstance(currentUser);
+        userEditFragment = UserEditFragment.newInstance(currentUser);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.user_info_container, editFragment).commit();
+        fragmentTransaction.replace(R.id.user_info_container, userEditFragment).commit();
+        isEditMode = true;
     }
 
     private void switchViewMode() {
+        // prepare fragment manager
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+        // update
+        userInfoFragment = UserInfoFragment.newInstance( currentUser );
+        fragmentTransaction.add(R.id.user_info_container, userInfoFragment);
+        isEditMode = false;
     }
 
     /**
      * get Current user
      */
     private void getCurrentUser(){
-        mUserReference = FirebaseDatabase.getInstance().getReference()
-                .child("Users").child(mUser.getUid());
         mUserReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 currentUser = dataSnapshot.getValue(User.class);
+
+                // for the first time loading, add fragment
+                if (isEditMode){
+                    // enable the button
+                    userEditFragment.setLoading(false);
+                }
+                switchViewMode();
             }
 
             @Override
@@ -100,7 +121,10 @@ public class UserProfileActivity extends AppCompatActivity implements
     /**
      *
      */
-    private void updateCurrentUserInfo() {
+    private void updateCurrentUserInfo(User updatedUser) {
+        // disable button
+        userEditFragment.setLoading(true);
 
+        mUserReference.setValue(updatedUser);
     }
 }

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -29,6 +30,7 @@ public class UserEditFragment extends Fragment {
     private OnUserEditFragmentInteractionListener mListener;
 
     private EditText inputFirstName, inputLastName;
+    private Button btnSave;
 
     public UserEditFragment() {
         // Required empty public constructor
@@ -73,16 +75,38 @@ public class UserEditFragment extends Fragment {
         inputFirstName.setText(user.firstname);
         inputLastName.setText(user.lastname);
 
+        // button event
+        btnSave = rootView.findViewById(R.id.btn_save_profile);
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSaveButtonClicked();
+            }
+        });
+
         return rootView;
+    }
+
+    public void setLoading(boolean isLoading) {
+        if (isLoading){
+            btnSave.setEnabled(false);
+        } else {
+            btnSave.setEnabled(true);
+        }
     }
 
     /**
      * On save button click event
-     * @param view
      */
-    public void onSaveButtonClicked(View view){
+    public void onSaveButtonClicked(){
         if (mListener != null) {
-            mListener.onFinishEditing();
+            // load updated user info into new user object
+            User newUser = new User();
+            newUser.firstname = inputFirstName.getText().toString();
+            newUser.lastname = inputLastName.getText().toString();
+
+            // trigger event
+            mListener.onSaveUserInfo(newUser);
         }
     }
 
@@ -115,6 +139,7 @@ public class UserEditFragment extends Fragment {
      */
     public interface OnUserEditFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFinishEditing();
+
+        void onSaveUserInfo(User user);
     }
 }

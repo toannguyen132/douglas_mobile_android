@@ -1,7 +1,6 @@
 package com.project.groupproject.fragment;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,18 +9,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.project.groupproject.R;
+import com.project.groupproject.models.User;
 
 /**
  */
 public class UserInfoFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_LABEL = "label";
-    private static final String ARG_VALUE = "text";
+    private static final String ARG_USER = "user";
 
     // TODO: Rename and change types of parameters
-    private String mLabel;
-    private String mValue;
+    private User mUser;
 
     private OnFragmentInteractionListener mListener;
 
@@ -33,16 +31,14 @@ public class UserInfoFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param label Parameter 1.
-     * @param value Parameter 2.
+     * @param user
      * @return A new instance of fragment UserInfoFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static UserInfoFragment newInstance(String label, String value) {
+    public static UserInfoFragment newInstance(User user) {
         UserInfoFragment fragment = new UserInfoFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_LABEL, label);
-        args.putString(ARG_VALUE, value);
+        args.putSerializable(ARG_USER, user);
         fragment.setArguments(args);
         return fragment;
     }
@@ -51,8 +47,7 @@ public class UserInfoFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mLabel = getArguments().getString(ARG_LABEL);
-            mValue = getArguments().getString(ARG_VALUE);
+            mUser = (User)getArguments().getSerializable(ARG_USER);
         }
     }
 
@@ -65,8 +60,8 @@ public class UserInfoFragment extends Fragment {
         TextView tvLabel = view.findViewById(R.id.user_info_label);
         TextView tvValue = view.findViewById(R.id.user_info_value);
 
-        tvLabel.setText(mLabel);
-        tvValue.setText(mValue);
+        tvLabel.setText("First Name");
+        tvValue.setText(mUser.firstname);
 
         // event click
         (view.findViewById(R.id.user_info_edit_button)).setOnClickListener(new View.OnClickListener() {
