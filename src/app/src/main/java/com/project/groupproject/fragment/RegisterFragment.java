@@ -17,7 +17,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.project.groupproject.R;
+import com.project.groupproject.models.User;
 
 
 /**
@@ -141,6 +144,14 @@ public class RegisterFragment extends Fragment {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "createUserWithEmail:success");
                         FirebaseUser user = mAuth.getCurrentUser();
+
+                        // add new User account
+                        DatabaseReference dataref = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
+                        User newUser = new User();
+                        newUser.firstname = "";
+                        newUser.lastname = "";
+                        newUser.email = user.getEmail();
+                        dataref.setValue(newUser);
 
                         // trigger event on register success
                         if (mListener != null) {
