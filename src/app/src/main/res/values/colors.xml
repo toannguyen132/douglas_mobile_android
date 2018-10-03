@@ -2,8 +2,9 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#e66f69</color>
     <color name="colorDisabled">#9a9a9a</color>
     <color name="colorInputBg">#e4e4e4</color>
     <color name="colorInputFocus">#9a9a9a</color>
+    <color name="background">#323c46</color>
 </resources>
