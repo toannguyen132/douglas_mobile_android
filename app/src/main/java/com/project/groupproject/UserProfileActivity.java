@@ -45,7 +45,7 @@ public class UserProfileActivity extends AppCompatActivity implements
         if (mUser != null) {
             // init database reference
             mUserReference = FirebaseDatabase.getInstance().getReference()
-                    .child("Users").child(mUser.getUid());
+                    .child("users").child(mUser.getUid());
 
             // get current user
             getCurrentUser();

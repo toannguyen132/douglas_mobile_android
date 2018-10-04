@@ -146,7 +146,7 @@ public class RegisterFragment extends Fragment {
                         FirebaseUser user = mAuth.getCurrentUser();
 
                         // add new User account
-                        DatabaseReference dataref = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
+                        DatabaseReference dataref = FirebaseDatabase.getInstance().getReference().child("users").child(user.getUid());
                         User newUser = new User();
                         newUser.firstname = "";
                         newUser.lastname = "";
