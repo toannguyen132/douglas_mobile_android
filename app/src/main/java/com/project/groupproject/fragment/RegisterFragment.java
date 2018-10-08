@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.project.groupproject.R;
 import com.project.groupproject.models.User;
 
@@ -146,12 +147,13 @@ public class RegisterFragment extends Fragment {
                         FirebaseUser user = mAuth.getCurrentUser();
 
                         // add new User account
-                        DatabaseReference dataref = FirebaseDatabase.getInstance().getReference().child("users").child(user.getUid());
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
                         User newUser = new User();
                         newUser.firstname = "";
                         newUser.lastname = "";
                         newUser.email = user.getEmail();
-                        dataref.setValue(newUser);
+                        db.collection("users").document(user.getUid())
+                                .set(newUser);
 
                         // trigger event on register success
                         if (mListener != null) {

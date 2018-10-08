@@ -101,7 +101,7 @@ public class UserEditFragment extends Fragment {
     public void onSaveButtonClicked(){
         if (mListener != null) {
             // load updated user info into new user object
-            User newUser = new User();
+            User newUser = user;
             newUser.firstname = inputFirstName.getText().toString();
             newUser.lastname = inputLastName.getText().toString();
 

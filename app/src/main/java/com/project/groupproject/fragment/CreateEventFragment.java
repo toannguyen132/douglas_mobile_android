@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +14,12 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
 import com.project.groupproject.R;
+import com.project.groupproject.lib.EventFactory;
 import com.project.groupproject.models.Event;
 
 import java.util.Calendar;
@@ -105,7 +108,12 @@ public class CreateEventFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Event e = getEvent();
-                createEvent(e);
+                EventFactory.createEvent(e, new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d("Event", "add event sucessfully");
+                    }
+                });
             }
         });
 
@@ -172,18 +180,5 @@ public class CreateEventFragment extends Fragment {
         e.start_date = Calendar.getInstance().getTimeInMillis();
         e.end_date = Calendar.getInstance().getTimeInMillis();
         return e;
-    }
-
-    /**
-     * Create a event
-     * @param event
-     */
-    private void createEvent(Event event) {
-        mReference = FirebaseDatabase.getInstance().getReference().child("events");
-
-        String key = mReference.push().getKey();
-
-        mReference.child(key).setValue(event.toMap());
-
     }
 }

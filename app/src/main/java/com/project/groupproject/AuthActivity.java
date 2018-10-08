@@ -18,11 +18,9 @@ import com.project.groupproject.fragment.RegisterFragment;
 public class AuthActivity extends AppCompatActivity
     implements RegisterFragment.OnFragmentInteractionListener, LoginFragment.OnFragmentInteractionListener {
 
-
     FragmentManager fragmentManager;
     LoginFragment loginFragment;
     RegisterFragment registerFragment;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +66,7 @@ public class AuthActivity extends AppCompatActivity
         Toast.makeText(this, "You have been login as " + user.getEmail(),
                 Toast.LENGTH_SHORT).show();
         // after login success, move to user profile activity
-        Intent i = new Intent(AuthActivity.this, MainActivity.class);
+        Intent i = new Intent(AuthActivity.this, UserProfileActivity.class);
         startActivity(i);
     }
 

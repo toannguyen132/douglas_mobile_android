@@ -1,7 +1,8 @@
 package com.project.groupproject.lib;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.project.groupproject.models.Event;
 
 public class EventFactory {
@@ -12,11 +13,10 @@ public class EventFactory {
      * @param event
      * @param listener
      */
-    public static void createEvent(Event event, DatabaseReference.CompletionListener listener) {
-        DatabaseReference mReference = FirebaseDatabase.getInstance().getReference().child("events");
+    public static void createEvent(Event event, OnSuccessListener<DocumentReference> listener) {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
-        String key = mReference.push().getKey();
-
-        mReference.child(key).setValue(event.toMap(), listener);
+        firestore.collection(DB_NAME).add(event.toMap())
+                .addOnSuccessListener(listener);
     }
 }
