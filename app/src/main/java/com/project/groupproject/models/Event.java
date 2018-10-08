@@ -15,6 +15,18 @@ public class Event {
     public long num_like;
     public long num_follow;
 
+    public Event() {
+    }
+
+    public Event(String uid, String name, String description, String location, long start_date, long end_date) {
+        this.uid = uid;
+        this.name = name;
+        this.description = description;
+        this.location = location;
+        this.start_date = start_date;
+        this.end_date = end_date;
+    }
+
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("uid", uid);
