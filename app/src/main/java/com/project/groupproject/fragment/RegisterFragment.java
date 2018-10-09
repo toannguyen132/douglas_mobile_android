@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,6 +40,7 @@ public class RegisterFragment extends Fragment {
     private EditText inputEmail;
     private EditText inputPassword;
     private EditText inputPasswordConfirm;
+    private TextView textError;
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -63,6 +65,7 @@ public class RegisterFragment extends Fragment {
         inputEmail = fragmentView.findViewById(R.id.register_email);
         inputPassword = fragmentView.findViewById(R.id.register_password);
         inputPasswordConfirm = fragmentView.findViewById(R.id.register_password_confirm);
+        textError = fragmentView.findViewById(R.id.text_error);
 
         // add click listener to button
         Button btn = fragmentView.findViewById(R.id.register_button);
@@ -125,6 +128,10 @@ public class RegisterFragment extends Fragment {
         return inputPassword.getText().toString();
     }
 
+    private String getConfirmPassword(){
+        return inputPasswordConfirm.getText().toString();
+    }
+
     private void switchLoginView() {
         mListener.onSwitchLogin();
     }
@@ -136,6 +143,11 @@ public class RegisterFragment extends Fragment {
     private void register() {
         String email = getUsername();
         String password = getPassword();
+
+        //validate first
+        if (!validate()) {
+            return;
+        }
 
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -162,11 +174,42 @@ public class RegisterFragment extends Fragment {
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                        Toast.makeText(context, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show();
+                        textError.setText(task.getException().getMessage());
                     }
 
                 }
             });
+    }
+
+    /**
+     *
+     */
+    private boolean validate() {
+        String email = getUsername();
+        String password = getPassword();
+        String confirmPassword = getConfirmPassword();
+        textError.setText("");
+
+        if (email.contentEquals("")){
+            textError.setText(R.string.error_email_blank);
+            return false;
+        }
+
+        if (password.contentEquals("")){
+            textError.setText(R.string.error_password_blank);
+            return false;
+        }
+
+        if (confirmPassword.contentEquals("")){
+            textError.setText(R.string.error_password_confirm_blank);
+            return false;
+        }
+
+        if (!password.contentEquals(confirmPassword)) {
+            textError.setText(R.string.error_password_confirm_not_match);
+            return false;
+        }
+
+        return true;
     }
 }

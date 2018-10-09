@@ -25,6 +25,11 @@
             android:text="@string/header_register"
             android:textColor="@android:color/white" />
 
+        <TextView
+            android:id="@+id/text_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <EditText
             android:id="@+id/register_email"
             style="@style/Edittext"
@@ -72,6 +77,7 @@
             android:text="@string/already_have_account"
             android:textColor="@android:color/white"
             android:textSize="15sp" />
+
     </LinearLayout>
 
 </FrameLayout>
