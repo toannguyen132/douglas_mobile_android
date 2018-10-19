@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GroupProject</string>
+    <string name="app_name">EventMe</string>
 
     <string name="header_login">LOGIN</string>
     <string name="email">Email</string>

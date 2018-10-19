@@ -22,6 +22,10 @@ public class Event {
     public long num_like;
     public long num_follow;
 
+    String title;
+    String desc;
+    int icon;
+
     public Event() {
     }
 
@@ -58,4 +62,15 @@ public class Event {
 
         return result;
     }
+    
+    public String getTitle() {
+        return this.title;
+    }
+
+    public String getDesc() {
+        return this.desc;
+    }
+
+    public int getIcon() {
+        return this.icon;
 }

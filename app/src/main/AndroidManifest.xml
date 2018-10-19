@@ -26,7 +26,7 @@
         <activity android:name=".MainActivity">
 
         </activity>
-        <activity android:name=".SingleEvent" />
+        <activity android:name=".SingleEventActivity" />
         <activity android:name=".UserProfileActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
