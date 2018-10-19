@@ -6,6 +6,4 @@ public class User implements Serializable{
     public String firstname;
     public String lastname;
     public String email;
-
-
 }

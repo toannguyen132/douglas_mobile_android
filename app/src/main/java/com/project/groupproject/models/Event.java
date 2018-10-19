@@ -1,6 +1,13 @@
 package com.project.groupproject.models;
 
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
+
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class Event {
@@ -25,6 +32,15 @@ public class Event {
         this.location = location;
         this.start_date = start_date;
         this.end_date = end_date;
+    }
+
+    public void generateCoordinate(Context context) throws IOException {
+        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+        List<Address> addresses = geocoder.getFromLocationName(this.location, 1);
+        if (addresses.size() > 0){
+            this.lat = addresses.get(0).getLatitude();
+            this.lng = addresses.get(0).getLatitude();
+        }
     }
 
     public Map<String, Object> toMap() {

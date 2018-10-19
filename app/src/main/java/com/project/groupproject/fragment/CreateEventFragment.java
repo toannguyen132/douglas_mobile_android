@@ -22,6 +22,7 @@ import com.project.groupproject.R;
 import com.project.groupproject.lib.EventFactory;
 import com.project.groupproject.models.Event;
 
+import java.io.IOException;
 import java.util.Calendar;
 
 /**
@@ -108,6 +109,15 @@ public class CreateEventFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Event e = getEvent();
+
+                // get coordinate first
+                try{
+                    e.generateCoordinate(getContext());
+                } catch (IOException ex) {
+                    Log.d("Event", "Get coordinate error");
+                    ex.printStackTrace();
+                }
+
                 EventFactory.createEvent(e, new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
@@ -116,10 +126,6 @@ public class CreateEventFragment extends Fragment {
                 });
             }
         });
-
-        // add sample event
-//        Event event = getEvent();
-//        createEvent(event);
 
         return view;
     }

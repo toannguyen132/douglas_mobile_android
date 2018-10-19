@@ -1,5 +1,8 @@
 package com.project.groupproject;
 
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProviders;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -24,6 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.project.groupproject.fragment.UserEditFragment;
 import com.project.groupproject.fragment.UserInfoFragment;
 import com.project.groupproject.models.User;
+import com.project.groupproject.viewmodals.AuthUserViewModal;
 
 public class UserProfileActivity extends AppCompatActivity implements
         UserInfoFragment.OnFragmentInteractionListener,
@@ -40,10 +44,14 @@ public class UserProfileActivity extends AppCompatActivity implements
 
     boolean isEditMode = false;
 
+    AuthUserViewModal viewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
+
+        viewModel = ViewModelProviders.of(this).get(AuthUserViewModal.class);
 
         // init firebase
         mAuth = FirebaseAuth.getInstance();
@@ -54,6 +62,8 @@ public class UserProfileActivity extends AppCompatActivity implements
             documentReference = FirebaseFirestore.getInstance().collection("users").document(mUser.getUid());
             // get current user
             getCurrentUser();
+
+            switchViewMode();
 
         } else {
             // TODO: redirect to user
@@ -110,6 +120,8 @@ public class UserProfileActivity extends AppCompatActivity implements
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         currentUser = document.toObject(User.class);
+                        // pass user to view model
+                        viewModel.setUser(currentUser);
                     } else {
                         Log.d("Event", "Current user is empty");
                     }
@@ -119,7 +131,6 @@ public class UserProfileActivity extends AppCompatActivity implements
                         // enable the button
                         userEditFragment.setLoading(false);
                     }
-                    switchViewMode();
 
                 } else {
                     Log.d("Event", "Cannot get current user");
@@ -142,6 +153,7 @@ public class UserProfileActivity extends AppCompatActivity implements
                     @Override
                     public void onSuccess(Void aVoid) {
                         currentUser = updatedUser;
+                        viewModel.setUser(currentUser);
                         switchViewMode();
                     }
                 });

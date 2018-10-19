@@ -1,7 +1,10 @@
 package com.project.groupproject.fragment;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,9 @@ import android.widget.TextView;
 
 import com.project.groupproject.R;
 import com.project.groupproject.models.User;
+import com.project.groupproject.viewmodals.AuthUserViewModal;
+
+import org.w3c.dom.Text;
 
 /**
  */
@@ -22,6 +28,12 @@ public class UserInfoFragment extends Fragment {
     private User mUser;
 
     private OnFragmentInteractionListener mListener;
+    private AuthUserViewModal viewModel;
+
+    // view
+    private TextView textFirstName;
+    private TextView textLastName;
+    private TextView textEmail;
 
     public UserInfoFragment() {
         // Required empty public constructor
@@ -46,9 +58,7 @@ public class UserInfoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mUser = (User)getArguments().getSerializable(ARG_USER);
-        }
+        viewModel = ViewModelProviders.of(getActivity()).get(AuthUserViewModal.class);
     }
 
     @Override
@@ -57,17 +67,25 @@ public class UserInfoFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_user_info, container, false);
 
-        TextView tvLabel = view.findViewById(R.id.user_info_label);
-        TextView tvValue = view.findViewById(R.id.user_info_value);
-
-        tvLabel.setText("First Name");
-        tvValue.setText(mUser.firstname);
+        //
+        textEmail = view.findViewById(R.id.user_email);
+        textFirstName = view.findViewById(R.id.user_first_name);
+        textLastName = view.findViewById(R.id.user_last_name);
 
         // event click
         (view.findViewById(R.id.user_info_edit_button)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switchView();
+            }
+        });
+
+        viewModel.getUser().observe(this, new Observer<User>() {
+            @Override
+            public void onChanged(@Nullable User user) {
+                textEmail.setText(user.email);
+                textFirstName.setText(user.firstname);
+                textLastName.setText(user.lastname);
             }
         });
 

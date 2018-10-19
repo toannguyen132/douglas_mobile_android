@@ -1,8 +1,12 @@
 package com.project.groupproject.fragment;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +17,7 @@ import android.widget.TextView;
 
 import com.project.groupproject.R;
 import com.project.groupproject.models.User;
+import com.project.groupproject.viewmodals.AuthUserViewModal;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +36,7 @@ public class UserEditFragment extends Fragment {
 
     private EditText inputFirstName, inputLastName;
     private Button btnSave;
+    private AuthUserViewModal userViewModal;
 
     public UserEditFragment() {
         // Required empty public constructor
@@ -55,9 +61,7 @@ public class UserEditFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            user = (User)getArguments().getSerializable(ARG_USER);
-        }
+        userViewModal = ViewModelProviders.of(getActivity()).get(AuthUserViewModal.class);
     }
 
     @Override
@@ -70,10 +74,16 @@ public class UserEditFragment extends Fragment {
         inputFirstName = rootView.findViewById(R.id.input_first_name);
         inputLastName = rootView.findViewById(R.id.input_last_name);
 
+        // track data
+        userViewModal.getUser().observe(this, new Observer<User>() {
+            @Override
+            public void onChanged(@Nullable User user) {
+                // set current user info to edit text
 
-        // set current user info to edit text
-        inputFirstName.setText(user.firstname);
-        inputLastName.setText(user.lastname);
+                inputFirstName.setText(user.firstname);
+                inputLastName.setText(user.lastname);
+            }
+        });
 
         // button event
         btnSave = rootView.findViewById(R.id.btn_save_profile);
@@ -101,7 +111,8 @@ public class UserEditFragment extends Fragment {
     public void onSaveButtonClicked(){
         if (mListener != null) {
             // load updated user info into new user object
-            User newUser = user;
+            User newUser = userViewModal.getUser().getValue();
+
             newUser.firstname = inputFirstName.getText().toString();
             newUser.lastname = inputLastName.getText().toString();
 
