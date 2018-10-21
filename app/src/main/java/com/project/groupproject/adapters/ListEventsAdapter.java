@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.zip.Inflater;
 
 import com.project.groupproject.R;
 import com.project.groupproject.models.Event;
@@ -73,45 +74,45 @@ public class ListEventsAdapter extends BaseAdapter{
             holder = (ViewHolder)view.getTag();
         }
         //set the results into textviews
-        holder.mTitleTv.setText(modellist.get(postition).getTitle());
-        holder.mDescTv.setText(modellist.get(postition).getDesc());
+        holder.mTitleTv.setText(modellist.get(postition).name);
+        holder.mDescTv.setText(modellist.get(postition).location);
         //set the result in imageview
-        holder.mIconIv.setImageResource(modellist.get(postition).getIcon());
+        holder.mIconIv.setImageResource(R.drawable.event1);
 
         //listview item clicks
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //code later
-                if (modellist.get(postition).getTitle().equals("Neighbor Community Potluck")){
+                if (postition == 1){
                     //start NewActivity with title for actionbar and text for textview
                     Intent intent = new Intent(mContext, SingleEventActivity.class);
                     intent.putExtra("actionBarTitle", "Neighbor Community Potluck");
                     intent.putExtra("contentTv", "Event 1 detail...");
                     mContext.startActivity(intent);
                 }
-                if (modellist.get(postition).getTitle().equals("Andre Nickatina")){
+                else if (postition == 2){
                     //start NewActivity with title for actionbar and text for textview
                     Intent intent = new Intent(mContext, SingleEventActivity.class);
                     intent.putExtra("actionBarTitle", "Andre Nickatina");
                     intent.putExtra("contentTv", "Event 2 detail...");
                     mContext.startActivity(intent);
                 }
-                if (modellist.get(postition).getTitle().equals("DON DIABLO")){
+                else if (postition == 3){
                     //start NewActivity with title for actionbar and text for textview
                     Intent intent = new Intent(mContext, SingleEventActivity.class);
                     intent.putExtra("actionBarTitle", "DON DIABLO");
                     intent.putExtra("contentTv", "Event 3 detail...");
                     mContext.startActivity(intent);
                 }
-                if (modellist.get(postition).getTitle().equals("DIM SUM Making")){
+                else if (modellist.get(postition).getTitle().equals("DIM SUM Making")){
                     //start NewActivity with title for actionbar and text for textview
                     Intent intent = new Intent(mContext, SingleEventActivity.class);
                     intent.putExtra("actionBarTitle", "DIM SUM Making");
                     intent.putExtra("contentTv", "Event 4 detail...");
                     mContext.startActivity(intent);
                 }
-                if (modellist.get(postition).getTitle().equals("My BizDay Vancouver")){
+                else {
                     //start NewActivity with title for actionbar and text for textview
                     Intent intent = new Intent(mContext, SingleEventActivity.class);
                     intent.putExtra("actionBarTitle", "My BizDay Vancouver");

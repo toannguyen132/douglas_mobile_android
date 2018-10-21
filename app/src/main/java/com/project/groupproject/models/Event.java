@@ -5,6 +5,8 @@ import android.location.Address;
 import android.location.Geocoder;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -41,7 +43,7 @@ public class Event {
     public void generateCoordinate(Context context) throws IOException {
         Geocoder geocoder = new Geocoder(context, Locale.getDefault());
         List<Address> addresses = geocoder.getFromLocationName(this.location, 1);
-        if (addresses.size() > 0){
+        if (addresses.size() > 0) {
             this.lat = addresses.get(0).getLatitude();
             this.lng = addresses.get(0).getLatitude();
         }
@@ -62,7 +64,7 @@ public class Event {
 
         return result;
     }
-    
+
     public String getTitle() {
         return this.title;
     }
@@ -73,4 +75,19 @@ public class Event {
 
     public int getIcon() {
         return this.icon;
+    }
+
+    public static ArrayList<Event> seedEvents(){
+        ArrayList<Event> events = new ArrayList<Event>();
+
+        Event event1 = new Event("1", "test", "test description", "location 1", new Date().getTime(), new Date().getTime());
+        Event event2 = new Event("2", "test 2", "test description 2", "location 3", new Date().getTime(), new Date().getTime());
+
+        events.add(event1);
+        events.add(event2);
+        events.add(event2);
+
+        return events;
+    }
+
 }
