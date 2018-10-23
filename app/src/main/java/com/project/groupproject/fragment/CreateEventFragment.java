@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.project.groupproject.R;
 import com.project.groupproject.lib.EventFactory;
@@ -42,9 +41,6 @@ public class CreateEventFragment extends Fragment {
     private EditText inputName;
     private EditText inputDesc;
     private EditText inputLocation;
-
-    //firebase
-    private DatabaseReference mReference;
 
     private DatePickerDialog datepicker;
     private DatePickerDialog.OnDateSetListener fromListener, toListener;

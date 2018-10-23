@@ -5,6 +5,7 @@ import android.location.Address;
 import android.location.Geocoder;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,7 +13,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class Event {
+public class Event implements Serializable {
+    public String id;
     public String uid;
     public String name;
     public String description;
@@ -63,6 +65,10 @@ public class Event {
         result.put("num_follow", num_follow);
 
         return result;
+    }
+    static public Event fromMap(Map<String, Object> data) {
+        Event event = new Event();
+        return event;
     }
 
     public String getTitle() {

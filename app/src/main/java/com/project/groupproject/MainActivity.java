@@ -15,6 +15,7 @@ import android.view.MenuItem;
 
 import android.widget.ListView;
 import com.project.groupproject.adapters.ListEventsAdapter;
+import com.project.groupproject.fragment.CreateEventFragment;
 import com.project.groupproject.fragment.EventsListFragment;
 import com.project.groupproject.fragment.UserEditFragment;
 import com.project.groupproject.fragment.UserInfoFragment;
@@ -47,11 +48,11 @@ public class MainActivity extends AppCompatActivity implements UserInfoFragment.
                     break;
 
                 case R.id.navigation_dashboard:
-                    selectedFragment = new UserInfoFragment();
+                    selectedFragment = new CreateEventFragment();
                     break;
 
                 case R.id.navigation_notifications:
-                    selectedFragment = new UserEditFragment();
+                    selectedFragment = new UserInfoFragment();
                     break;
             }
             return loadFragment(selectedFragment);

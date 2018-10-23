@@ -84,41 +84,47 @@ public class ListEventsAdapter extends BaseAdapter{
             @Override
             public void onClick(View view) {
                 //code later
-                if (postition == 1){
-                    //start NewActivity with title for actionbar and text for textview
-                    Intent intent = new Intent(mContext, SingleEventActivity.class);
-                    intent.putExtra("actionBarTitle", "Neighbor Community Potluck");
-                    intent.putExtra("contentTv", "Event 1 detail...");
-                    mContext.startActivity(intent);
-                }
-                else if (postition == 2){
-                    //start NewActivity with title for actionbar and text for textview
-                    Intent intent = new Intent(mContext, SingleEventActivity.class);
-                    intent.putExtra("actionBarTitle", "Andre Nickatina");
-                    intent.putExtra("contentTv", "Event 2 detail...");
-                    mContext.startActivity(intent);
-                }
-                else if (postition == 3){
-                    //start NewActivity with title for actionbar and text for textview
-                    Intent intent = new Intent(mContext, SingleEventActivity.class);
-                    intent.putExtra("actionBarTitle", "DON DIABLO");
-                    intent.putExtra("contentTv", "Event 3 detail...");
-                    mContext.startActivity(intent);
-                }
-                else if (modellist.get(postition).getTitle().equals("DIM SUM Making")){
-                    //start NewActivity with title for actionbar and text for textview
-                    Intent intent = new Intent(mContext, SingleEventActivity.class);
-                    intent.putExtra("actionBarTitle", "DIM SUM Making");
-                    intent.putExtra("contentTv", "Event 4 detail...");
-                    mContext.startActivity(intent);
-                }
-                else {
-                    //start NewActivity with title for actionbar and text for textview
-                    Intent intent = new Intent(mContext, SingleEventActivity.class);
-                    intent.putExtra("actionBarTitle", "My BizDay Vancouver");
-                    intent.putExtra("contentTv", "Event 5 detail...");
-                    mContext.startActivity(intent);
-                }
+                Event selectedEvent = modellist.get(postition);
+
+                Intent intent = new Intent(mContext, SingleEventActivity.class);
+                intent.putExtra("event", selectedEvent);
+                mContext.startActivity(intent);
+
+//                if (postition == 1){
+//                    //start NewActivity with title for actionbar and text for textview
+//                    Intent intent = new Intent(mContext, SingleEventActivity.class);
+//                    intent.putExtra("actionBarTitle", "Neighbor Community Potluck");
+//                    intent.putExtra("contentTv", "Event 1 detail...");
+//                    mContext.startActivity(intent);
+//                }
+//                else if (postition == 2){
+//                    //start NewActivity with title for actionbar and text for textview
+//                    Intent intent = new Intent(mContext, SingleEventActivity.class);
+//                    intent.putExtra("actionBarTitle", "Andre Nickatina");
+//                    intent.putExtra("contentTv", "Event 2 detail...");
+//                    mContext.startActivity(intent);
+//                }
+//                else if (postition == 3){
+//                    //start NewActivity with title for actionbar and text for textview
+//                    Intent intent = new Intent(mContext, SingleEventActivity.class);
+//                    intent.putExtra("actionBarTitle", "DON DIABLO");
+//                    intent.putExtra("contentTv", "Event 3 detail...");
+//                    mContext.startActivity(intent);
+//                }
+//                else if (modellist.get(postition).getTitle().equals("DIM SUM Making")){
+//                    //start NewActivity with title for actionbar and text for textview
+//                    Intent intent = new Intent(mContext, SingleEventActivity.class);
+//                    intent.putExtra("actionBarTitle", "DIM SUM Making");
+//                    intent.putExtra("contentTv", "Event 4 detail...");
+//                    mContext.startActivity(intent);
+//                }
+//                else {
+//                    //start NewActivity with title for actionbar and text for textview
+//                    Intent intent = new Intent(mContext, SingleEventActivity.class);
+//                    intent.putExtra("actionBarTitle", "My BizDay Vancouver");
+//                    intent.putExtra("contentTv", "Event 5 detail...");
+//                    mContext.startActivity(intent);
+//                }
             }
         });
 

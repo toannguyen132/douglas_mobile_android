@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.Window;
 import android.widget.TextView;
 
+import com.project.groupproject.models.Event;
+
 public class SingleEventActivity extends AppCompatActivity {
 
     @Override
@@ -19,12 +21,12 @@ public class SingleEventActivity extends AppCompatActivity {
 
         //get data from previous activity when item of listview is clicked using intent
         Intent intent = getIntent();
-        String mActionBarTitle = intent.getStringExtra("actionBarTitle");
-        String mContent = intent.getStringExtra("contentTv");
+        Event event = (Event)intent.getSerializableExtra("event");
+
 
         //set actionbar title
-        actionBar.setTitle(mActionBarTitle);
+        actionBar.setTitle(event.name);
         //set text in textview
-        mDetailTv.setText(mContent);
+        mDetailTv.setText(event.description);
     }
 }
