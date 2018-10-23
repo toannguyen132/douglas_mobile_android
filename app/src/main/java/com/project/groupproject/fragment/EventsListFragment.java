@@ -1,7 +1,11 @@
 package com.project.groupproject.fragment;
 
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +16,10 @@ import android.widget.ListView;
 import com.project.groupproject.R;
 import com.project.groupproject.adapters.ListEventsAdapter;
 import com.project.groupproject.models.Event;
+import com.project.groupproject.viewmodals.EventsListViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +29,7 @@ public class EventsListFragment extends Fragment {
     ListView eventsView;
     ArrayList<Event> eventsList;
     ListEventsAdapter adapter;
+    EventsListViewModel viewModel;
 
     public EventsListFragment() {
         // Required empty public constructor
@@ -53,6 +60,23 @@ public class EventsListFragment extends Fragment {
 
         //bind the adapter to the listview
         eventsView.setAdapter(adapter);
+
+        // query
+        viewModel = ViewModelProviders.of(getActivity()).get(EventsListViewModel.class);
+
+        // watch the event data
+        final LiveData<List<Event>> eventList = viewModel.getEventList();
+        eventList.observe(this, new Observer<List<Event>>() {
+            @Override
+            public void onChanged(@Nullable List<Event> events) {
+                eventsList.clear();
+                eventsList.addAll(events);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        // query
+        viewModel.queryEvents();
 
         return view;
     }
