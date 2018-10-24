@@ -4,6 +4,9 @@ import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.Exclude;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,7 +17,9 @@ import java.util.Locale;
 import java.util.Map;
 
 public class Event implements Serializable {
+    @Exclude
     public String id;
+
     public String uid;
     public String name;
     public String description;
@@ -66,10 +71,18 @@ public class Event implements Serializable {
 
         return result;
     }
+
     static public Event fromMap(Map<String, Object> data) {
         Event event = new Event();
         return event;
     }
+
+    static public Event parseFromDocument(DocumentSnapshot document) {
+        Event event = document.toObject(Event.class);
+        event.id = document.getId();
+        return event;
+    }
+
 
     public String getTitle() {
         return this.title;

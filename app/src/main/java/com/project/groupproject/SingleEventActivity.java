@@ -1,15 +1,23 @@
 package com.project.groupproject;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Window;
 import android.widget.TextView;
 
 import com.project.groupproject.models.Event;
+import com.project.groupproject.models.User;
+import com.project.groupproject.viewmodals.EventViewModel;
 
 public class SingleEventActivity extends AppCompatActivity {
+
+    TextView viewMonth, viewDate, viewTitle, viewOwner, viewDesc;
+    Event event;
+    EventViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,16 +25,55 @@ public class SingleEventActivity extends AppCompatActivity {
         setContentView(R.layout.activity_single_event);
 
         ActionBar actionBar = getSupportActionBar();
-        TextView mDetailTv = findViewById(R.id.textView);
+
+        // setup views
+        viewMonth = findViewById(R.id.view_month);
+        viewDate = findViewById(R.id.view_day);
+        viewTitle = findViewById(R.id.view_title);
+        viewOwner = findViewById(R.id.view_owner);
+        viewDesc = findViewById(R.id.view_desc);
 
         //get data from previous activity when item of listview is clicked using intent
         Intent intent = getIntent();
-        Event event = (Event)intent.getSerializableExtra("event");
-
+        event = (Event)intent.getSerializableExtra("event");
 
         //set actionbar title
         actionBar.setTitle(event.name);
-        //set text in textview
-        mDetailTv.setText(event.description);
+
+        // create viewModel
+        viewModel = ViewModelProviders.of(this).get(EventViewModel.class);
+
+        // track event data
+        viewModel.getEvent().observe(this, new Observer<Event>() {
+            @Override
+            public void onChanged(@Nullable Event newEvent) {
+                //set text in textview
+                viewTitle.setText(event.name);
+                viewMonth.setText(getEventStartMonth());
+                viewDate.setText(getEventStartDay());
+                viewDesc.setText(event.description);
+            }
+        });
+
+        // track user data
+        viewModel.getUser().observe(this, new Observer<User>() {
+            @Override
+            public void onChanged(@Nullable User user) {
+                viewOwner.setText(user.firstname + " " + user.lastname);
+            }
+        });
+
+        // pass event to view model
+        viewModel.fetchEvent(event.id);
+    }
+
+    private String getEventStartMonth(){
+        android.text.format.DateFormat df = new android.text.format.DateFormat();
+        return df.format("MMM", this.event.start_date).toString();
+    }
+
+    private String getEventStartDay(){
+        android.text.format.DateFormat df = new android.text.format.DateFormat();
+        return df.format("dd", this.event.start_date).toString();
     }
 }
