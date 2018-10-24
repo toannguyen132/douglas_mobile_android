@@ -90,7 +90,7 @@ public class LoginFragment extends Fragment {
             mListener = (LoginFragment.OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnUserEditFragmentInteractionListener");
+                    + " must implement OnUserEditFragmentListener");
         }
     }
 

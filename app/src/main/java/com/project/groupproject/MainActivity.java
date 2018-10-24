@@ -24,8 +24,8 @@ import com.project.groupproject.models.User;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements UserInfoFragment.OnFragmentInteractionListener,
-        UserEditFragment.OnUserEditFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements UserInfoFragment.OnUserInfoFragmentListener,
+        UserEditFragment.OnUserEditFragmentListener {
 
     ListView listView;
     ListEventsAdapter adapter;
@@ -33,6 +33,10 @@ public class MainActivity extends AppCompatActivity implements UserInfoFragment.
     String[] description;
     int[] icon;
     ArrayList<Event> arrayList = new ArrayList<>();
+
+    // fragments
+    UserInfoFragment fragmentUserInfo;
+    UserEditFragment fragmentUserEdit;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -76,6 +80,10 @@ public class MainActivity extends AppCompatActivity implements UserInfoFragment.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // create fragments
+        fragmentUserInfo = UserInfoFragment.newInstance();
+        fragmentUserEdit = new UserEditFragment();
 
         //Load navigation
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -128,11 +136,11 @@ public class MainActivity extends AppCompatActivity implements UserInfoFragment.
 
     @Override
     public void onSaveUserInfo(User user) {
-
+        loadFragment(fragmentUserInfo);
     }
 
     @Override
     public void onEditButtonClicked() {
-
+        loadFragment(fragmentUserEdit);
     }
 }

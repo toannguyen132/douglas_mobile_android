@@ -1,10 +1,8 @@
 package com.project.groupproject.fragment;
 
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.project.groupproject.R;
 import com.project.groupproject.models.User;
@@ -22,7 +19,7 @@ import com.project.groupproject.viewmodals.AuthUserViewModal;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link OnUserEditFragmentInteractionListener} interface
+ * {@link OnUserEditFragmentListener} interface
  * to handle interaction events.
  * Use the {@link UserEditFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -32,7 +29,7 @@ public class UserEditFragment extends Fragment {
     private static final String ARG_USER = "user";
 
     private User user;
-    private OnUserEditFragmentInteractionListener mListener;
+    private OnUserEditFragmentListener mListener;
 
     private EditText inputFirstName, inputLastName;
     private Button btnSave;
@@ -116,6 +113,8 @@ public class UserEditFragment extends Fragment {
             newUser.firstname = inputFirstName.getText().toString();
             newUser.lastname = inputLastName.getText().toString();
 
+            userViewModal.saveCurrentUser(newUser);
+
             // trigger event
             mListener.onSaveUserInfo(newUser);
         }
@@ -124,11 +123,11 @@ public class UserEditFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnUserEditFragmentInteractionListener) {
-            mListener = (OnUserEditFragmentInteractionListener) context;
+        if (context instanceof OnUserEditFragmentListener) {
+            mListener = (OnUserEditFragmentListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnUserEditFragmentInteractionListener");
+                    + " must implement OnUserEditFragmentListener");
         }
     }
 
@@ -148,7 +147,7 @@ public class UserEditFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnUserEditFragmentInteractionListener {
+    public interface OnUserEditFragmentListener {
         // TODO: Update argument type and name
 
         void onSaveUserInfo(User user);

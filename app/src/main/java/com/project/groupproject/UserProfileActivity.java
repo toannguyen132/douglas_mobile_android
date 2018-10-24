@@ -22,8 +22,8 @@ import com.project.groupproject.models.User;
 import com.project.groupproject.viewmodals.AuthUserViewModal;
 
 public class UserProfileActivity extends AppCompatActivity implements
-        UserInfoFragment.OnFragmentInteractionListener,
-        UserEditFragment.OnUserEditFragmentInteractionListener {
+        UserInfoFragment.OnUserInfoFragmentListener,
+        UserEditFragment.OnUserEditFragmentListener {
 
     FirebaseAuth mAuth;
     DocumentReference documentReference;
