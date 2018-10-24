@@ -10,6 +10,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.project.groupproject.fragment.LoginFragment;
 import com.project.groupproject.fragment.RegisterFragment;
@@ -33,16 +34,20 @@ public class AuthActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
 
+        // If user is already login, go to main events
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+
         // login fragment
         loginFragment = LoginFragment.getInstance();
         fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.fragment_container, loginFragment).commit();
 
-
         // register fragment
         registerFragment = RegisterFragment.getInstance();
-
     }
 
     /**

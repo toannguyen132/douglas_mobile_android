@@ -15,8 +15,6 @@ import com.project.groupproject.R;
 import com.project.groupproject.models.User;
 import com.project.groupproject.viewmodals.AuthUserViewModal;
 
-import org.w3c.dom.Text;
-
 /**
  */
 public class UserInfoFragment extends Fragment {
@@ -27,7 +25,7 @@ public class UserInfoFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private User mUser;
 
-    private OnFragmentInteractionListener mListener;
+    private OnUserInfoFragmentListener mListener;
     private AuthUserViewModal viewModel;
 
     // view
@@ -37,6 +35,10 @@ public class UserInfoFragment extends Fragment {
 
     public UserInfoFragment() {
         // Required empty public constructor
+    }
+
+    public static UserInfoFragment newInstance() {
+        return new UserInfoFragment();
     }
 
     /**
@@ -80,6 +82,7 @@ public class UserInfoFragment extends Fragment {
             }
         });
 
+        // track user data
         viewModel.getUser().observe(this, new Observer<User>() {
             @Override
             public void onChanged(@Nullable User user) {
@@ -88,6 +91,7 @@ public class UserInfoFragment extends Fragment {
                 textLastName.setText(user.lastname);
             }
         });
+        viewModel.fetchCurrentUser();
 
         return view;
     }
@@ -111,11 +115,11 @@ public class UserInfoFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnUserInfoFragmentListener) {
+            mListener = (OnUserInfoFragmentListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnUserEditFragmentInteractionListener");
+                    + " must implement OnUserEditFragmentListener");
         }
     }
 //
@@ -127,7 +131,7 @@ public class UserInfoFragment extends Fragment {
 
     /**
      */
-    public interface OnFragmentInteractionListener {
+    public interface OnUserInfoFragmentListener {
         // TODO: Update argument type and name
         void onEditButtonClicked();
     }
