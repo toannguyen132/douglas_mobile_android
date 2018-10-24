@@ -44,8 +44,10 @@ public class EventsListViewModel extends ViewModel {
                     List<Event> events = new ArrayList<>();
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         // Map<String, Object> data =  document.getData();
-                        events.add(document.toObject(Event.class));
-                        Log.d("testblabla", document.getId());
+                        Event event = document.toObject(Event.class);
+                        event.id = document.getId();
+                        events.add(event);
+                        Log.d("event id ", document.getId());
                     }
                     eventList.setValue(events);
                 }
