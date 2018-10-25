@@ -71,7 +71,7 @@ public class AuthActivity extends AppCompatActivity
         Toast.makeText(this, "You have been login as " + user.getEmail(),
                 Toast.LENGTH_SHORT).show();
         // after login success, move to user profile activity
-        Intent i = new Intent(AuthActivity.this, UserProfileActivity.class);
+        Intent i = new Intent(AuthActivity.this, MainActivity.class);
         startActivity(i);
     }
 
