@@ -3,6 +3,7 @@ package com.project.groupproject.fragment;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.project.groupproject.R;
 import com.project.groupproject.models.User;
 import com.project.groupproject.viewmodals.AuthUserViewModal;
@@ -82,6 +84,14 @@ public class UserInfoFragment extends Fragment {
             }
         });
 
+        // logout
+        (view.findViewById(R.id.user_info_logout)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
+            }
+        });
+
         // track user data
         viewModel.getUser().observe(this, new Observer<User>() {
             @Override
@@ -105,6 +115,14 @@ public class UserInfoFragment extends Fragment {
         }
     }
 
+    /**
+     * Firebase Auth sign out and return to auth activity
+     */
+    public void logout() {
+        FirebaseAuth.getInstance().signOut();
+        getActivity().finish();
+    }
+
     // TODO: Rename method, update argument and hook method into UI event
 //    public void onButtonPressed(Uri uri) {
 //        if (mListener != null) {
@@ -122,6 +140,8 @@ public class UserInfoFragment extends Fragment {
                     + " must implement OnUserEditFragmentListener");
         }
     }
+
+
 //
 //    @Override
 //    public void onDetach() {
