@@ -46,18 +46,9 @@ public class EventsListFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_events_list, container, false);
 
-        String[] title = new String[]{"Neighbor Community Potluck", "Andre Nickatina", "DON DIABLO", "DIM SUM Making", "My BizDay Vancouver"};
-        String[] description = new String[]{"Date: Tue, 16 Oct 2018\nTime: 6:00pm – 8:00pm",
-                "Date: Fri, 16 Nov 2018\nTime: 9:00pm – 1:00am",
-                "Date: Sun, 11 Nov 2018\nTime: 8:00pm - 1:00am",
-                "Date: Wed, 21 Nov 2018\nTime: 6:30pm – 9:00pm",
-                "Date: Thu, 18 Oct 2018\nTime: 10:00am – 5:00pm"};
-
         eventsView = view.findViewById(R.id.listView);
 
-        // demo only, add static event
-
-        eventsList = Event.seedEvents();
+        eventsList = new ArrayList<>();
 
         //pass results to listViewAdapter class
         adapter = new ListEventsAdapter(getContext(), eventsList);
