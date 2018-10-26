@@ -18,8 +18,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.project.groupproject.R;
-import com.project.groupproject.lib.EventFactory;
 import com.project.groupproject.models.Event;
+import com.project.groupproject.viewmodals.EventViewModel;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -27,12 +27,12 @@ import java.util.Calendar;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link CreateEventFragment.OnFragmentInteractionListener} interface
+ * {@link CreateEventFragmentListener} interface
  * to handle interaction events.
  */
 public class CreateEventFragment extends Fragment {
 
-    private OnFragmentInteractionListener mListener;
+    private CreateEventFragmentListener mListener;
 
     // components
     private Button mButton;
@@ -47,6 +47,10 @@ public class CreateEventFragment extends Fragment {
 
     public CreateEventFragment() {
         // Required empty public constructor
+    }
+
+    public static CreateEventFragment getInstance() {
+        return new CreateEventFragment();
     }
 
 
@@ -114,10 +118,10 @@ public class CreateEventFragment extends Fragment {
                     ex.printStackTrace();
                 }
 
-                EventFactory.createEvent(e, new OnSuccessListener<DocumentReference>() {
+                EventViewModel.createEvent(e).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Log.d("Event", "add event sucessfully");
+                        mListener.onCreated(documentReference.getId());
                     }
                 });
             }
@@ -126,22 +130,15 @@ public class CreateEventFragment extends Fragment {
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
+        if (context instanceof CreateEventFragmentListener) {
+            mListener = (CreateEventFragmentListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement CreateEventFragmentListener");
+        }
     }
 
     @Override
@@ -160,9 +157,9 @@ public class CreateEventFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    public interface CreateEventFragmentListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onCreated(String id);
     }
 
     /**

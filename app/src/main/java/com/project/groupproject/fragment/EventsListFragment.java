@@ -35,6 +35,10 @@ public class EventsListFragment extends Fragment {
         // Required empty public constructor
     }
 
+    static public EventsListFragment getInstance() {
+        return new EventsListFragment();
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
