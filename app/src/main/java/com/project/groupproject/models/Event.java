@@ -52,7 +52,7 @@ public class Event implements Serializable {
         List<Address> addresses = geocoder.getFromLocationName(this.location, 1);
         if (addresses.size() > 0) {
             this.lat = addresses.get(0).getLatitude();
-            this.lng = addresses.get(0).getLatitude();
+            this.lng = addresses.get(0).getLongitude();
         }
     }
 

@@ -5,7 +5,9 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.project.groupproject.models.Event;
@@ -49,5 +51,11 @@ public class EventViewModel extends ViewModel {
 
             }
         });
+    }
+
+    static public Task<DocumentReference> createEvent(Event event) {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+
+        return firestore.collection(NAME).add(event.toMap());
     }
 }

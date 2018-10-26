@@ -24,7 +24,7 @@ public class SingleEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_event);
 
-        ActionBar actionBar = getSupportActionBar();
+        final ActionBar actionBar = getSupportActionBar();
 
         // setup views
         viewMonth = findViewById(R.id.view_month);
@@ -35,10 +35,8 @@ public class SingleEventActivity extends AppCompatActivity {
 
         //get data from previous activity when item of listview is clicked using intent
         Intent intent = getIntent();
-        event = (Event)intent.getSerializableExtra("event");
-
-        //set actionbar title
-        actionBar.setTitle(event.name);
+//        event = (Event)intent.getSerializableExtra("event");
+        String id = intent.getStringExtra("event_id");
 
         // create viewModel
         viewModel = ViewModelProviders.of(this).get(EventViewModel.class);
@@ -47,11 +45,14 @@ public class SingleEventActivity extends AppCompatActivity {
         viewModel.getEvent().observe(this, new Observer<Event>() {
             @Override
             public void onChanged(@Nullable Event newEvent) {
+                event = newEvent;
                 //set text in textview
                 viewTitle.setText(event.name);
                 viewMonth.setText(getEventStartMonth());
                 viewDate.setText(getEventStartDay());
                 viewDesc.setText(event.description);
+                //set actionbar title
+                actionBar.setTitle(event.name);
             }
         });
 
@@ -64,7 +65,7 @@ public class SingleEventActivity extends AppCompatActivity {
         });
 
         // pass event to view model
-        viewModel.fetchEvent(event.id);
+        viewModel.fetchEvent(id);
     }
 
     private String getEventStartMonth(){

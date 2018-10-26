@@ -1,6 +1,7 @@
 package com.project.groupproject;
 
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 
@@ -25,7 +26,9 @@ import com.project.groupproject.models.User;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements UserInfoFragment.OnUserInfoFragmentListener,
-        UserEditFragment.OnUserEditFragmentListener {
+        UserEditFragment.OnUserEditFragmentListener,
+        CreateEventFragment.CreateEventFragmentListener
+        {
 
     ListView listView;
     ListEventsAdapter adapter;
@@ -35,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements UserInfoFragment.
     ArrayList<Event> arrayList = new ArrayList<>();
 
     // fragments
+    CreateEventFragment fragmentCreateEvent;
+    EventsListFragment fragmentEventsList;
     UserInfoFragment fragmentUserInfo;
     UserEditFragment fragmentUserEdit;
 
@@ -48,15 +53,15 @@ public class MainActivity extends AppCompatActivity implements UserInfoFragment.
 
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    selectedFragment = new EventsListFragment();
+                    selectedFragment = fragmentEventsList;
                     break;
 
                 case R.id.navigation_dashboard:
-                    selectedFragment = new CreateEventFragment();
+                    selectedFragment = fragmentCreateEvent;
                     break;
 
                 case R.id.navigation_notifications:
-                    selectedFragment = new UserInfoFragment();
+                    selectedFragment = fragmentUserInfo;
                     break;
             }
             return loadFragment(selectedFragment);
@@ -82,8 +87,10 @@ public class MainActivity extends AppCompatActivity implements UserInfoFragment.
         setContentView(R.layout.activity_main);
 
         // create fragments
+        fragmentEventsList = EventsListFragment.getInstance();
         fragmentUserInfo = UserInfoFragment.newInstance();
         fragmentUserEdit = new UserEditFragment();
+        fragmentCreateEvent = CreateEventFragment.getInstance();
 
         //Load navigation
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -142,5 +149,14 @@ public class MainActivity extends AppCompatActivity implements UserInfoFragment.
     @Override
     public void onEditButtonClicked() {
         loadFragment(fragmentUserEdit);
+    }
+
+    @Override
+    public void onCreated(String id) {
+        loadFragment(fragmentEventsList);
+
+        Intent intent = new Intent(this, SingleEventActivity.class);
+        intent.putExtra("event_id", id);
+        startActivity(intent);
     }
 }

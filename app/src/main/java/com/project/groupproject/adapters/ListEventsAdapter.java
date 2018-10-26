@@ -87,7 +87,8 @@ public class ListEventsAdapter extends BaseAdapter{
                 Event selectedEvent = modellist.get(postition);
 
                 Intent intent = new Intent(mContext, SingleEventActivity.class);
-                intent.putExtra("event", selectedEvent);
+//                intent.putExtra("event", selectedEvent);
+                intent.putExtra("event_id", selectedEvent.id);
                 mContext.startActivity(intent);
 
 //                if (postition == 1){
