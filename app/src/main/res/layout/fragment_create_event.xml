@@ -6,46 +6,62 @@
     android:orientation="vertical"
     tools:context=".fragment.CreateEventFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
-    <EditText
-        android:id="@+id/input_event_name"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/event_name"
-        android:inputType="text" />
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/input_event_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/event_name"
+            android:inputType="text" />
 
-    <EditText
-        android:id="@+id/input_event_desc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/description"
-        android:inputType="textMultiLine"
-        android:minLines="2" />
+    </android.support.design.widget.TextInputLayout>
 
-    <EditText
-        android:id="@+id/input_event_location"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/location"
-        android:inputType="text" />
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/input_event_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/description"
+            android:inputType="textMultiLine"
+            android:minLines="2" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/input_event_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/location"
+            android:inputType="text" />
+    </android.support.design.widget.TextInputLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/input_event_start_date"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:ems="10"
-            android:hint="@string/start_date"
-            android:inputType="datetime" />
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/input_event_start_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:ems="10"
+                android:hint="@string/start_date"
+                android:inputType="datetime" />
+        </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
 
@@ -54,15 +70,19 @@
         android:layout_height="wrap_content"
         android:layout_weight="0"
         android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/input_event_end_date"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:ems="10"
-            android:hint="@string/end_date"
-            android:inputType="datetime" />
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/input_event_end_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:ems="10"
+                android:hint="@string/end_date"
+                android:inputType="datetime" />
+        </android.support.design.widget.TextInputLayout>
+
     </LinearLayout>
 
     <Button
