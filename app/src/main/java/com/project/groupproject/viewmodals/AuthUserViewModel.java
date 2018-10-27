@@ -11,7 +11,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.project.groupproject.models.User;
 
-public class AuthUserViewModal extends ViewModel {
+public class AuthUserViewModel extends ViewModel {
     public static final String NAME = "users";
     private CollectionReference collection = FirebaseFirestore.getInstance().collection(NAME);
 

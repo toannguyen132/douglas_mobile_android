@@ -3,9 +3,7 @@ package com.project.groupproject.fragment;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -17,7 +15,7 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.project.groupproject.R;
 import com.project.groupproject.models.User;
-import com.project.groupproject.viewmodals.AuthUserViewModal;
+import com.project.groupproject.viewmodals.AuthUserViewModel;
 
 /**
  */
@@ -30,7 +28,7 @@ public class UserInfoFragment extends Fragment {
     private User mUser;
 
     private OnUserInfoFragmentListener mListener;
-    private AuthUserViewModal viewModel;
+    private AuthUserViewModel viewModel;
 
     // view
     private TextView textFirstName;
@@ -64,7 +62,7 @@ public class UserInfoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = ViewModelProviders.of(getActivity()).get(AuthUserViewModal.class);
+        viewModel = ViewModelProviders.of(getActivity()).get(AuthUserViewModel.class);
     }
 
     @Override

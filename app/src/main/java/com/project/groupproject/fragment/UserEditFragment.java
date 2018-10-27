@@ -14,7 +14,7 @@ import android.widget.EditText;
 
 import com.project.groupproject.R;
 import com.project.groupproject.models.User;
-import com.project.groupproject.viewmodals.AuthUserViewModal;
+import com.project.groupproject.viewmodals.AuthUserViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,7 +33,7 @@ public class UserEditFragment extends Fragment {
 
     private EditText inputFirstName, inputLastName;
     private Button btnSave;
-    private AuthUserViewModal userViewModal;
+    private AuthUserViewModel userViewModal;
 
     public UserEditFragment() {
         // Required empty public constructor
@@ -58,7 +58,7 @@ public class UserEditFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userViewModal = ViewModelProviders.of(getActivity()).get(AuthUserViewModal.class);
+        userViewModal = ViewModelProviders.of(getActivity()).get(AuthUserViewModel.class);
     }
 
     @Override

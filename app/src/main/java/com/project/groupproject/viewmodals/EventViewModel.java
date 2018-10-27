@@ -41,7 +41,7 @@ public class EventViewModel extends ViewModel {
 
                 // query user id
                 if (fetchedEvent.uid != null){
-                    FirebaseFirestore.getInstance().collection(AuthUserViewModal.NAME).document(fetchedEvent.uid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    FirebaseFirestore.getInstance().collection(AuthUserViewModel.NAME).document(fetchedEvent.uid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             user.setValue(User.parseFromDocument(documentSnapshot));

@@ -19,7 +19,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.project.groupproject.fragment.UserEditFragment;
 import com.project.groupproject.fragment.UserInfoFragment;
 import com.project.groupproject.models.User;
-import com.project.groupproject.viewmodals.AuthUserViewModal;
+import com.project.groupproject.viewmodals.AuthUserViewModel;
 
 public class UserProfileActivity extends AppCompatActivity implements
         UserInfoFragment.OnUserInfoFragmentListener,
@@ -36,14 +36,14 @@ public class UserProfileActivity extends AppCompatActivity implements
 
     boolean isEditMode = false;
 
-    AuthUserViewModal viewModel;
+    AuthUserViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
-        viewModel = ViewModelProviders.of(this).get(AuthUserViewModal.class);
+        viewModel = ViewModelProviders.of(this).get(AuthUserViewModel.class);
 
         // init firebase
         mAuth = FirebaseAuth.getInstance();
