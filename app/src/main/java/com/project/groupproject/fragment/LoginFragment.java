@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,8 @@ public class LoginFragment extends Fragment {
     // components
     private EditText mEmail;
     private EditText mPassword;
+
+    private ProgressBar loadingBar;
 
     public LoginFragment() { }
 
@@ -70,6 +73,9 @@ public class LoginFragment extends Fragment {
                 login();
             }
         });
+
+        // loading bar
+        loadingBar = getActivity().findViewById(R.id.loading_bar);
 
         TextView switchView = rootView.findViewById(R.id.text_register);
         switchView.setOnClickListener(new View.OnClickListener() {
@@ -124,10 +130,13 @@ public class LoginFragment extends Fragment {
         String email = mEmail.getText().toString();
         String password = mPassword.getText().toString();
 
+        loadingBar.setVisibility(View.VISIBLE);
+
         mAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
+                    loadingBar.setVisibility(View.GONE);
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "signInWithEmail:success");

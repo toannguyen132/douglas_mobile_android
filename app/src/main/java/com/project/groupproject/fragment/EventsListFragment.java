@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.project.groupproject.R;
 import com.project.groupproject.adapters.ListEventsAdapter;
@@ -59,6 +60,10 @@ public class EventsListFragment extends Fragment {
         // query
         viewModel = ViewModelProviders.of(getActivity()).get(EventsListViewModel.class);
 
+        //loading bar
+        final ProgressBar loadingBar = getActivity().findViewById(R.id.loading_bar);
+        loadingBar.setVisibility(View.VISIBLE);
+
         // watch the event data
         final LiveData<List<Event>> eventList = viewModel.getEventList();
         eventList.observe(this, new Observer<List<Event>>() {
@@ -67,6 +72,7 @@ public class EventsListFragment extends Fragment {
                 eventsList.clear();
                 eventsList.addAll(events);
                 adapter.notifyDataSetChanged();
+                loadingBar.setVisibility(View.GONE);
             }
         });
 
