@@ -5,7 +5,9 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,7 +72,9 @@ public class LoginFragment extends Fragment {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login();
+                if (validate()) {
+                    login();
+                }
             }
         });
 
@@ -124,6 +128,37 @@ public class LoginFragment extends Fragment {
 
     private void switchRegisterView() {
         mListener.onSwitchRegister();
+    }
+
+    /**
+     * validate
+     * @return
+     */
+    private boolean validate() {
+        boolean isValid = true;
+
+        String email = mEmail.getText().toString();
+        String password = mPassword.getText().toString();
+
+        mEmail.setError(null);
+        mPassword.setError(null);
+
+        if (TextUtils.isEmpty(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            isValid = false;
+            mEmail.setError(getString(R.string.error_email_invalid));
+        }
+
+        if (password.isEmpty()){
+            isValid = false;
+            mPassword.setError(getString(R.string.error_password_blank));
+        }
+
+        if (password.length() < 4) {
+            isValid = false;
+            mPassword.setError(getString(R.string.error_password_short));
+        }
+
+        return isValid;
     }
 
     private void login() {

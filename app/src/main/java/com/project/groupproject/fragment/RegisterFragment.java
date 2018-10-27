@@ -4,7 +4,9 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,7 +76,9 @@ public class RegisterFragment extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                register();
+                if (validate()) {
+                    register();
+                }
             }
         });
 
@@ -146,10 +150,6 @@ public class RegisterFragment extends Fragment {
         String email = getUsername();
         String password = getPassword();
 
-        //validate first
-        if (!validate()) {
-            return;
-        }
 
         loadingBar.setVisibility(View.VISIBLE);
 
@@ -189,32 +189,42 @@ public class RegisterFragment extends Fragment {
     /**
      *
      */
+
+    /**
+     * validate
+     * @return
+     */
     private boolean validate() {
-        String email = getUsername();
-        String password = getPassword();
-        String confirmPassword = getConfirmPassword();
-        textError.setText("");
+        boolean isValid = true;
 
-        if (email.contentEquals("")){
-            textError.setText(R.string.error_email_blank);
-            return false;
+        String email = inputEmail.getText().toString();
+        String password = inputPassword.getText().toString();
+        String passwordConfirm = inputPasswordConfirm.getText().toString();
+
+        inputEmail.setError(null);
+        inputPassword.setError(null);
+        inputPasswordConfirm.setError(null);
+
+        if (TextUtils.isEmpty(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            isValid = false;
+            inputEmail.setError(getString(R.string.error_email_invalid));
         }
 
-        if (password.contentEquals("")){
-            textError.setText(R.string.error_password_blank);
-            return false;
+        if (password.isEmpty()){
+            isValid = false;
+            inputPassword.setError(getString(R.string.error_password_blank));
         }
 
-        if (confirmPassword.contentEquals("")){
-            textError.setText(R.string.error_password_confirm_blank);
-            return false;
+        if (password.length() < 4) {
+            isValid = false;
+            inputPassword.setError(getString(R.string.error_password_short));
         }
 
-        if (!password.contentEquals(confirmPassword)) {
-            textError.setText(R.string.error_password_confirm_not_match);
-            return false;
+        if (!password.equals(passwordConfirm)) {
+            isValid = false;
+            inputPasswordConfirm.setError(getString(R.string.error_password_confirm_not_match));
         }
 
-        return true;
+        return isValid;
     }
 }

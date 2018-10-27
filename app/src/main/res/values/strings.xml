@@ -12,7 +12,9 @@
     <string name="already_have_account">Already have account?</string>
 
     <string name="error_email_blank">Email cannot be blanked</string>
+    <string name="error_email_invalid">Email is invalid</string>
     <string name="error_password_blank">Password cannot be blanked</string>
+    <string name="error_password_short">Password is too short</string>
     <string name="error_password_confirm_blank">Password confirmation cannot be blanked</string>
     <string name="error_email_used">Email has been used! please choose another email.</string>
     <string name="error_password_confirm_not_match">Password confirmation is not matched</string>
