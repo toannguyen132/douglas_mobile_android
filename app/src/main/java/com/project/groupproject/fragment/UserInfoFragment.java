@@ -5,11 +5,13 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -92,6 +94,10 @@ public class UserInfoFragment extends Fragment {
             }
         });
 
+        // enable loading
+        final ProgressBar loadingBar = getActivity().findViewById(R.id.loading_bar);
+        loadingBar.setVisibility(View.VISIBLE);
+
         // track user data
         viewModel.getUser().observe(this, new Observer<User>() {
             @Override
@@ -99,6 +105,7 @@ public class UserInfoFragment extends Fragment {
                 textEmail.setText(user.email);
                 textFirstName.setText(user.firstname);
                 textLastName.setText(user.lastname);
+                loadingBar.setVisibility(View.GONE);
             }
         });
         viewModel.fetchCurrentUser();

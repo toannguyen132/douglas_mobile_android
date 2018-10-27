@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -38,6 +39,7 @@ public class RegisterFragment extends Fragment {
     private EditText inputPassword;
     private EditText inputPasswordConfirm;
     private TextView textError;
+    private ProgressBar loadingBar;
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -63,6 +65,9 @@ public class RegisterFragment extends Fragment {
         inputPassword = fragmentView.findViewById(R.id.register_password);
         inputPasswordConfirm = fragmentView.findViewById(R.id.register_password_confirm);
         textError = fragmentView.findViewById(R.id.text_error);
+
+        // loading bar
+        loadingBar = getActivity().findViewById(R.id.loading_bar);
 
         // add click listener to button
         Button btn = fragmentView.findViewById(R.id.register_button);
@@ -146,6 +151,8 @@ public class RegisterFragment extends Fragment {
             return;
         }
 
+        loadingBar.setVisibility(View.VISIBLE);
+
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
@@ -174,6 +181,7 @@ public class RegisterFragment extends Fragment {
                         textError.setText(task.getException().getMessage());
                     }
 
+                    loadingBar.setVisibility(View.GONE);
                 }
             });
     }
