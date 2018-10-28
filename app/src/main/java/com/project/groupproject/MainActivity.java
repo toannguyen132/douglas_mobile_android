@@ -15,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import android.widget.ListView;
+import android.support.v7.widget.Toolbar;
+
 import com.project.groupproject.adapters.ListEventsAdapter;
 import com.project.groupproject.fragment.CreateEventFragment;
 import com.project.groupproject.fragment.EventsListFragment;
@@ -98,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements UserInfoFragment.
 
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Top events near you");
+
 
         // load home fragment by default
         navigation.setSelectedItemId(R.id.navigation_home);

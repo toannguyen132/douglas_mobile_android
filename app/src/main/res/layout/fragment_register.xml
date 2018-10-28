@@ -23,7 +23,8 @@
             android:layout_marginBottom="50dp"
             android:layout_marginTop="100dp"
             android:text="@string/header_register"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:textStyle="normal" />
 
         <TextView
             android:id="@+id/text_error"
@@ -32,7 +33,9 @@
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/colorAccent">
+
             <EditText
                 android:id="@+id/register_email"
                 style="@style/Edittext"
@@ -45,7 +48,9 @@
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/colorAccent">
+
             <EditText
                 android:id="@+id/register_password"
                 style="@style/Edittext"
@@ -54,12 +59,14 @@
                 android:hint="@string/password"
                 android:inputType="textPassword"
                 android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white" />
+                android:textColorHint="@color/colorAccent" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/colorAccent">
+
             <EditText
                 android:id="@+id/register_password_confirm"
                 style="@style/Edittext"

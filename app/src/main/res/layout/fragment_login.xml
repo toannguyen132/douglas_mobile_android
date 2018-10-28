@@ -15,8 +15,8 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="70dp"
+        android:layout_height="170dp"
+        android:layout_marginTop="80dp"
         android:src="@drawable/logo" />
 
     <!--<TextView-->
@@ -29,20 +29,23 @@
         android:id="@+id/emailView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
+        android:textColorHint="@color/colorAccent">
+
         <EditText
             android:id="@+id/login_email"
             style="@style/Edittext"
             android:layout_width="match_parent"
             android:hint="@string/email"
             android:textColor="@android:color/white"
-            android:textColorHint="@android:color/white" />
+            android:textColorHint="@color/colorAccent" />
 
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/colorAccent">
+
         <EditText
             android:id="@+id/login_password"
             style="@style/Edittext"
