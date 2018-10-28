@@ -4,6 +4,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Build;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Window;
@@ -23,6 +24,7 @@ public class AuthActivity extends AppCompatActivity
     LoginFragment loginFragment;
     RegisterFragment registerFragment;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Change status bar to bg color
@@ -31,6 +33,8 @@ public class AuthActivity extends AppCompatActivity
             w.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             w.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
 
