@@ -7,4 +7,6 @@
     <color name="colorInputBg">#e4e4e4</color>
     <color name="colorInputFocus">#9a9a9a</color>
     <color name="background">#323c46</color>
+    <color name="white">#ffffff</color>
+    <color name="gray_500">#c7c7c7</color>
 </resources>

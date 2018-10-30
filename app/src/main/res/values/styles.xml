@@ -13,6 +13,14 @@
         <item name="button_radius">30dp</item>
         <item name="border">1dp</item>
         <item name="input_bg">@color/colorInputBg</item>
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/MyActionBar</item>
+    </style>
+
+    <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@drawable/header_bg</item>
+        <!-- Support library compatibility -->
+        <item name="background">@drawable/header_bg</item>
     </style>
 
     <style name="Container">
