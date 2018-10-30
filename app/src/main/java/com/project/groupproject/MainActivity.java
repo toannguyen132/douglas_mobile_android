@@ -115,18 +115,14 @@ public class MainActivity extends AppCompatActivity implements UserInfoFragment.
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                return false;
+                if (!TextUtils.isEmpty(s)){
+                    fragmentEventsList.applyFilter(s);
+                }
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-                if (TextUtils.isEmpty(s)){
-                    adapter.filter("");
-                    listView.clearTextFilter();
-                }
-                else {
-                    adapter.filter(s);
-                }
                 return true;
             }
         });
