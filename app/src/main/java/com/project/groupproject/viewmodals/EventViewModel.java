@@ -56,6 +56,6 @@ public class EventViewModel extends ViewModel {
     static public Task<DocumentReference> createEvent(Event event) {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
-        return firestore.collection(NAME).add(event.toMap());
+        return firestore.collection(NAME).add(event);
     }
 }

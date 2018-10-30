@@ -87,4 +87,8 @@ public class EventsListFragment extends Fragment {
         return view;
     }
 
+    public void applyFilter(String s) {
+        viewModel.filterEvent(s);
+    }
+
 }
