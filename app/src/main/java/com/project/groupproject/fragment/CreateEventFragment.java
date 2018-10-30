@@ -23,6 +23,7 @@ import com.project.groupproject.viewmodals.EventViewModel;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,11 +43,16 @@ public class CreateEventFragment extends Fragment {
     private EditText inputDesc;
     private EditText inputLocation;
 
+    private Calendar fromDateValue;
+    private Calendar toDateValue;
+
     private DatePickerDialog datepicker;
     private DatePickerDialog.OnDateSetListener fromListener, toListener;
 
     public CreateEventFragment() {
         // Required empty public constructor
+        fromDateValue = Calendar.getInstance();
+        toDateValue = Calendar.getInstance();
     }
 
     public static CreateEventFragment getInstance() {
@@ -76,12 +82,14 @@ public class CreateEventFragment extends Fragment {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 fromDate.setText(year + "/" + month + "/" + dayOfMonth);
+                fromDateValue.set(year, month, dayOfMonth);
             }
         };
         toListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 toDate.setText(year + "/" + month + "/" + dayOfMonth);
+                toDateValue.set(year, month, dayOfMonth);
             }
         };
         fromDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -176,8 +184,9 @@ public class CreateEventFragment extends Fragment {
         e.lng = 23.0012;
         e.num_follow = 0;
         e.num_like = 0;
-        e.start_date = Calendar.getInstance().getTimeInMillis();
-        e.end_date = Calendar.getInstance().getTimeInMillis();
+        e.start_date = fromDateValue.getTimeInMillis();
+        e.end_date = toDateValue.getTimeInMillis();
+        e.extractTags();
         return e;
     }
 }

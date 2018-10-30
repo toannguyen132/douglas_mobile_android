@@ -10,6 +10,7 @@ import com.google.firebase.firestore.Exclude;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +31,7 @@ public class Event implements Serializable {
     public long end_date;
     public long num_like;
     public long num_follow;
+    public List<String> tags;
 
     String title;
     String desc;
@@ -45,6 +47,13 @@ public class Event implements Serializable {
         this.location = location;
         this.start_date = start_date;
         this.end_date = end_date;
+        //
+        this.extractTags();
+    }
+
+    public void extractTags() {
+        String[] tags = this.location.toLowerCase().replace(",", "").split(" ");
+        this.tags = Arrays.asList(tags);
     }
 
     public void generateCoordinate(Context context) throws IOException {
@@ -68,6 +77,7 @@ public class Event implements Serializable {
         result.put("end_date", end_date);
         result.put("num_like", num_like);
         result.put("num_follow", num_follow);
+        result.put("tags", tags);
 
         return result;
     }

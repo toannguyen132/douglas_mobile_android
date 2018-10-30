@@ -17,6 +17,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.project.groupproject.models.Event;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +38,11 @@ public class EventsListViewModel extends ViewModel {
 
     /** database **/
     public void queryEvents(){
-        collection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        long today = (new Date()).getTime();
+
+//        collection.whereArrayContains("tags", "douglas")
+//        collection.whereGreaterThan("start_date", today)
+        collection.whereGreaterThan("start_date", today).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
