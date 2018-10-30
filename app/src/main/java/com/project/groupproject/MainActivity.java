@@ -2,6 +2,7 @@ package com.project.groupproject;
 
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -88,6 +89,16 @@ public class MainActivity extends AppCompatActivity implements UserInfoFragment.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = this.getWindow();
+            Drawable background = this.getResources().getDrawable(R.drawable.header_bg);
+//            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//            window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+//            window.setStatusBarColor(this.getResources().getColor(android.R.color.transparent));
+//            window.setNavigationBarColor(this.getResources().getColor(android.R.color.transparent));
+//            window.setBackgroundDrawable(background);
+        }
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
