@@ -15,6 +15,6 @@
 
     <font
         android:fontStyle="normal"
-        android:fontWeight="400"
+        android:fontWeight="100"
         android:font="@font/playball_regular" />
 </font-family>

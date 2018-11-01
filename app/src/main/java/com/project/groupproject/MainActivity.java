@@ -113,8 +113,8 @@ public class MainActivity extends AppCompatActivity implements UserInfoFragment.
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
+//        final ActionBar actionBar = getSupportActionBar();
+//        actionBar.hide();
 
         // load home fragment by default
         navigation.setSelectedItemId(R.id.navigation_home);
