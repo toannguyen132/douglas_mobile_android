@@ -4,12 +4,19 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Exclude;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class User implements Serializable{
     private String id;
     public String firstname;
     public String lastname;
     public String email;
+    public List<String> liked_events;
+
+    public User() {
+        liked_events = new ArrayList<>();
+    }
 
     @Exclude
     public String getId() {

@@ -32,12 +32,15 @@ public class Event implements Serializable {
     public long num_like;
     public long num_follow;
     public List<String> tags;
+    public List<String> likes;
 
     String title;
     String desc;
     int icon;
 
     public Event() {
+        tags = new ArrayList<>();
+        likes = new ArrayList<>();
     }
 
     public Event(String uid, String name, String description, String location, long start_date, long end_date) {
@@ -47,6 +50,8 @@ public class Event implements Serializable {
         this.location = location;
         this.start_date = start_date;
         this.end_date = end_date;
+        tags = new ArrayList<>();
+        likes = new ArrayList<>();
         //
         this.extractTags();
     }
@@ -78,6 +83,7 @@ public class Event implements Serializable {
         result.put("num_like", num_like);
         result.put("num_follow", num_follow);
         result.put("tags", tags);
+        result.put("likes", likes);
 
         return result;
     }
