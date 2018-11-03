@@ -2,6 +2,8 @@ package com.project.groupproject;
 
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 
@@ -14,6 +16,8 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ListView;
 import android.support.v7.widget.Toolbar;
 
@@ -85,6 +89,17 @@ public class MainActivity extends AppCompatActivity implements UserInfoFragment.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = this.getWindow();
+            Drawable background = this.getResources().getDrawable(R.drawable.header_bg);
+//            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//            window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+//            window.setStatusBarColor(this.getResources().getColor(android.R.color.transparent));
+//            window.setNavigationBarColor(this.getResources().getColor(android.R.color.transparent));
+//            window.setBackgroundDrawable(background);
+        }
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -98,9 +113,8 @@ public class MainActivity extends AppCompatActivity implements UserInfoFragment.
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Top events near you");
-
+//        final ActionBar actionBar = getSupportActionBar();
+//        actionBar.hide();
 
         // load home fragment by default
         navigation.setSelectedItemId(R.id.navigation_home);

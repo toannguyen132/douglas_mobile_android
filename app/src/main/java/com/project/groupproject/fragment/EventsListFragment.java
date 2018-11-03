@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 
 import com.project.groupproject.R;
 import com.project.groupproject.adapters.ListEventsAdapter;
@@ -59,6 +61,14 @@ public class EventsListFragment extends Fragment {
 
         // query
         viewModel = ViewModelProviders.of(getActivity()).get(EventsListViewModel.class);
+
+        //Toolbar
+        final Toolbar toolbar = view.findViewById(R.id.toolbar);
+        toolbar.setBackgroundResource(R.drawable.header_bg);
+
+        //Input_search
+        final TextView inputSearch = view.findViewById(R.id.input_search);
+        inputSearch.setAllCaps(true);
 
         //loading bar
         final ProgressBar loadingBar = getActivity().findViewById(R.id.loading_bar);

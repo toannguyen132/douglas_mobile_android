@@ -32,7 +32,19 @@ public class SingleEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_event);
 
-        final ActionBar actionBar = getSupportActionBar();
+        //hide actionbar
+//        final ActionBar actionBar = getSupportActionBar();
+//        actionBar.hide();
+
+        final Toolbar toolbar = findViewById(R.id.toolbarSingleEvent);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        toolbar.setTitleTextAppearance(this, R.style.TitleFont);
 
         // setup views
         viewMonth = findViewById(R.id.view_month);
@@ -76,8 +88,8 @@ public class SingleEventActivity extends AppCompatActivity {
                 if (!event.likes.contains(currentUid)){
                     btnLike.setEnabled(true);
                 }
-                //set actionbar title
-                actionBar.setTitle(event.name);
+                //set toolbar title
+                toolbar.setTitle(event.name);
             }
         });
 

@@ -6,7 +6,7 @@
     <string name="password">Password</string>
     <string name="button_login">Login</string>
 
-    <string name="header_register">REGISTER</string>
+    <string name="header_register">Register</string>
     <string name="password_confirm">Retype Password</string>
     <string name="button_register">Register</string>
     <string name="already_have_account">Already have account?</string>

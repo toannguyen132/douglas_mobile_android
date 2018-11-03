@@ -7,6 +7,15 @@
     android:orientation="vertical"
     tools:context=".SingleEventActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbarSingleEvent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/header_bg"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:titleTextColor="@color/white" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

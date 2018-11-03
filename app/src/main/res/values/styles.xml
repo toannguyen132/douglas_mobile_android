@@ -5,7 +5,7 @@
     <attr name="input_bg" format="reference" />
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -13,6 +13,14 @@
         <item name="button_radius">30dp</item>
         <item name="border">1dp</item>
         <item name="input_bg">@color/colorInputBg</item>
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/MyActionBar</item>
+    </style>
+
+    <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@drawable/header_bg</item>
+        <!-- Support library compatibility -->
+        <item name="background">@drawable/header_bg</item>
     </style>
 
     <style name="Container">
@@ -26,6 +34,11 @@
         <item name="android:layout_marginTop">15dp</item>
         <item name="android:layout_marginBottom">15dp</item>
         <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="TitleFont">
+        <item name="android:fontFamily">@font/playball_regular</item>
+        <item name="android:textSize">27sp</item>
     </style>
 
     <style name="Label">
