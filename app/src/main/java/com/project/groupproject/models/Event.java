@@ -3,6 +3,7 @@ package com.project.groupproject.models;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Exclude;
@@ -20,6 +21,9 @@ import java.util.Map;
 public class Event implements Serializable {
     @Exclude
     public String id;
+
+    @Exclude
+    public Uri image;
 
     public String uid;
     public String name;

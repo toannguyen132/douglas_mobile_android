@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
 
@@ -19,10 +20,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.project.groupproject.models.Event;
 import com.project.groupproject.models.User;
 import com.project.groupproject.viewmodals.EventViewModel;
+import com.squareup.picasso.Picasso;
 
 public class SingleEventActivity extends AppCompatActivity {
 
     TextView viewMonth, viewDate, viewTitle, viewOwner, viewDesc;
+    ImageView viewImage;
     Button btnLike;
     Event event;
     EventViewModel viewModel;
@@ -53,6 +56,8 @@ public class SingleEventActivity extends AppCompatActivity {
         viewOwner = findViewById(R.id.view_owner);
         viewDesc = findViewById(R.id.view_desc);
         btnLike = findViewById(R.id.btn_like);
+        viewImage = findViewById(R.id.view_image);
+        viewImage.setImageResource(R.drawable.event1);
 
         //get data from previous activity when item of listview is clicked using intent
         Intent intent = getIntent();
@@ -83,6 +88,14 @@ public class SingleEventActivity extends AppCompatActivity {
                 viewMonth.setText(getEventStartMonth());
                 viewDate.setText(getEventStartDay());
                 viewDesc.setText(event.description);
+
+                // set image
+                if (event.image != null){
+//                    viewImage.setImageURI(event.image);
+                    Picasso.get().load(event.image).into(viewImage);
+                } else {
+                    viewImage.setImageResource(R.drawable.event1);
+                }
 
                 //
                 if (!event.likes.contains(currentUid)){

@@ -5,6 +5,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -12,9 +13,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.project.groupproject.models.Event;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,7 +41,7 @@ public class EventsListViewModel extends ViewModel {
     public void filterEvent(String query) {
         long today = (new Date()).getTime();
 
-        collection.whereArrayContains("tags", query).whereGreaterThan("start_date", today).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        OnCompleteListener<QuerySnapshot> listener = new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -53,7 +56,15 @@ public class EventsListViewModel extends ViewModel {
                     eventList.setValue(events);
                 }
             }
-        });
+        };
+
+        if (TextUtils.isEmpty(query)){
+            collection.whereGreaterThan("start_date", today).get().addOnCompleteListener(listener);
+        } else {
+            collection.whereArrayContains("tags", query).whereGreaterThan("start_date", today).get().addOnCompleteListener(listener);
+        }
+
+
     }
 
     /** database **/

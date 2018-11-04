@@ -7,15 +7,20 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
+import com.project.groupproject.MainActivity;
 import com.project.groupproject.R;
 import com.project.groupproject.adapters.ListEventsAdapter;
 import com.project.groupproject.models.Event;
@@ -33,6 +38,7 @@ public class EventsListFragment extends Fragment {
     ArrayList<Event> eventsList;
     ListEventsAdapter adapter;
     EventsListViewModel viewModel;
+    EditText inputSearch;
 
     public EventsListFragment() {
         // Required empty public constructor
@@ -50,6 +56,7 @@ public class EventsListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_events_list, container, false);
 
         eventsView = view.findViewById(R.id.listView);
+        inputSearch = view.findViewById(R.id.input_search);
 
         eventsList = new ArrayList<>();
 
@@ -88,6 +95,18 @@ public class EventsListFragment extends Fragment {
 
         // query
         viewModel.queryEvents();
+
+        inputSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_GO || actionId == EditorInfo.IME_ACTION_DONE){
+                    Log.d(MainActivity.TAG, "search here");
+                    String searchQuery = inputSearch.getText().toString();
+                    applyFilter(searchQuery);
+                }
+                return false;
+            }
+        });
 
         return view;
     }

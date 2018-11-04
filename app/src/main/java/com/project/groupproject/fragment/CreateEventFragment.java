@@ -91,6 +91,14 @@ public class CreateEventFragment extends Fragment {
         inputLocation = view.findViewById(R.id.input_event_location);
         imgEvent = view.findViewById(R.id.event_photo);
 
+        // reset fields
+        fromDate.setText("");
+        toDate.setText("");
+        inputName.setText("");
+        inputDesc.setText("");
+        inputLocation.setText("");
+        imgEvent.setImageResource(R.drawable.event1);
+
         // datepicker
         datepicker = new DatePickerDialog(view.getContext());
 
@@ -157,21 +165,17 @@ public class CreateEventFragment extends Fragment {
                 EventViewModel.createEvent(e).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        String id = documentReference.getId();
-                        mListener.onCreated(id);
+                        final String id = documentReference.getId();
 
                         // upload image after get id
                         FirebaseStorage storage = FirebaseStorage.getInstance();
                         StorageReference storageRef = storage.getReference("events");
 
-                        String mime = getActivity().getContentResolver().getType(selectedImage);
-                        String ext = ".jpg";
-                        if (mime == "image/png")
-                            ext = ".png";
-
-                        storageRef.child(id + ext).putFile(selectedImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        storageRef.child(id).putFile(selectedImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                // trigger listener to open single event
+                                mListener.onCreated(id);
                                 Log.d("project_group", "upload success");
                             }
                         });

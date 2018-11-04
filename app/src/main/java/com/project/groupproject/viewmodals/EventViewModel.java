@@ -3,9 +3,12 @@ package com.project.groupproject.viewmodals;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -14,8 +17,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Transaction;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.project.groupproject.R;
 import com.project.groupproject.models.Event;
 import com.project.groupproject.models.User;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +31,7 @@ public class EventViewModel extends ViewModel {
     public static final String NAME = "events";
 
     private CollectionReference collection = FirebaseFirestore.getInstance().collection(NAME);
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
 
     private MutableLiveData<Event> event = new MutableLiveData<>();
     private MutableLiveData<User> user = new MutableLiveData<>();
@@ -44,7 +52,7 @@ public class EventViewModel extends ViewModel {
             @Override
             public void onSuccess(DocumentSnapshot document) {
                 final Event fetchedEvent = Event.parseFromDocument(document);
-                event.setValue(fetchedEvent);
+                // event.setValue(fetchedEvent);
 
                 // query user id
                 if (fetchedEvent.uid != null){
@@ -54,8 +62,21 @@ public class EventViewModel extends ViewModel {
                             user.setValue(User.parseFromDocument(documentSnapshot));
                         }
                     });
-                }
 
+                    // get image
+                    StorageReference ref = storage.getReference("events").child(fetchedEvent.id);
+                    ref.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Uri> task) {
+                             Event e = fetchedEvent;
+                            if (task.isSuccessful()){
+                                e.image = task.getResult();
+                            }
+                            event.setValue(e);
+                            setEvent(e);
+                        }
+                    });
+                }
             }
         });
     }

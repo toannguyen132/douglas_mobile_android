@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -36,12 +37,12 @@ public class MainActivity extends AppCompatActivity implements UserInfoFragment.
         CreateEventFragment.CreateEventFragmentListener
         {
 
+
+    public final static String TAG = "group_project";
     ListView listView;
-    ListEventsAdapter adapter;
     String[] title;
     String[] description;
     int[] icon;
-    ArrayList<Event> arrayList = new ArrayList<>();
 
     // fragments
     CreateEventFragment fragmentCreateEvent;
