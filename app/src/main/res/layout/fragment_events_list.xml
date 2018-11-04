@@ -30,13 +30,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/playball_regular"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Top events in"
+                    android:textColor="@android:color/white"
+                    android:textSize="35sp" />
 
                 <EditText
                     android:id="@+id/input_search"
                     style="@style/TitleFont"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/playball_regular"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:hint="Search location"
                     android:inputType="textCapCharacters|textCapWords|textCapSentences|textPersonName"
