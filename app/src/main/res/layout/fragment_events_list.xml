@@ -43,13 +43,15 @@
 
                 <EditText
                     android:id="@+id/input_search"
+                    style="@style/TitleFont"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:hint="Search location"
-                    android:inputType="textPersonName"
-                    android:textAllCaps="true" />
+                    android:inputType="textCapCharacters|textCapWords|textCapSentences|textPersonName"
+                    android:textAllCaps="false"
+                    android:textSize="24sp" />
 
             </LinearLayout>
         </LinearLayout>
