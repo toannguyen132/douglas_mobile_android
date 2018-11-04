@@ -75,7 +75,6 @@ public class EventsListFragment extends Fragment {
 
         //Input_search
         final TextView inputSearch = view.findViewById(R.id.input_search);
-        inputSearch.setAllCaps(true);
 
         //loading bar
         final ProgressBar loadingBar = getActivity().findViewById(R.id.loading_bar);
