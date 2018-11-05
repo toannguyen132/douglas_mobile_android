@@ -1,12 +1,10 @@
 package com.project.groupproject;
 
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -16,19 +14,33 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.project.groupproject.models.Event;
 import com.project.groupproject.models.User;
 import com.project.groupproject.viewmodals.EventViewModel;
 import com.squareup.picasso.Picasso;
 
-public class SingleEventActivity extends AppCompatActivity {
+public class SingleEventActivity extends AppCompatActivity implements OnMapReadyCallback, Observer<Event> {
 
     TextView viewMonth, viewDate, viewTitle, viewOwner, viewDesc;
     ImageView viewImage;
     Button btnLike;
     Event event;
     EventViewModel viewModel;
+//    MapView mapView;
+    SupportMapFragment mapView;
+    String currentUid;
+    Toolbar toolbar;
+    GoogleMap gmap;
+
+    private static final String MAP_VIEW_BUNDLE_KEY = "viewbundlekey";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +51,7 @@ public class SingleEventActivity extends AppCompatActivity {
 //        final ActionBar actionBar = getSupportActionBar();
 //        actionBar.hide();
 
-        final Toolbar toolbar = findViewById(R.id.toolbarSingleEvent);
+        toolbar = findViewById(R.id.toolbarSingleEvent);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +60,8 @@ public class SingleEventActivity extends AppCompatActivity {
             }
         });
         toolbar.setTitleTextAppearance(this, R.style.TitleFont);
+
+        final SingleEventActivity instance = this;
 
         // setup views
         viewMonth = findViewById(R.id.view_month);
@@ -58,19 +72,27 @@ public class SingleEventActivity extends AppCompatActivity {
         btnLike = findViewById(R.id.btn_like);
         viewImage = findViewById(R.id.view_image);
         viewImage.setImageResource(R.drawable.event1);
+        mapView = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_view);
+
+        // map init
+        Bundle mapViewBundle = null;
+        if (savedInstanceState != null) {
+            mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
+        }
+        mapView.onCreate(mapViewBundle);
 
         //get data from previous activity when item of listview is clicked using intent
         Intent intent = getIntent();
         String id = intent.getStringExtra("event_id");
 
         // get current user id
-        final String currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//        final String currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         // button event
         btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 viewModel.likeEvent(currentUid);
             }
         });
@@ -79,32 +101,7 @@ public class SingleEventActivity extends AppCompatActivity {
         viewModel = ViewModelProviders.of(this).get(EventViewModel.class);
 
         // track event data
-        viewModel.getEvent().observe(this, new Observer<Event>() {
-            @Override
-            public void onChanged(@Nullable Event newEvent) {
-                event = newEvent;
-                //set text in textview
-                viewTitle.setText(event.name);
-                viewMonth.setText(getEventStartMonth());
-                viewDate.setText(getEventStartDay());
-                viewDesc.setText(event.description);
-
-                // set image
-                if (event.image != null){
-//                    viewImage.setImageURI(event.image);
-                    Picasso.get().load(event.image).into(viewImage);
-                } else {
-                    viewImage.setImageResource(R.drawable.event1);
-                }
-
-                //
-                if (!event.likes.contains(currentUid)){
-                    btnLike.setEnabled(true);
-                }
-                //set toolbar title
-                toolbar.setTitle(event.name);
-            }
-        });
+        viewModel.getEvent().observe(this, this);
 
         // track user data
         viewModel.getUser().observe(this, new Observer<User>() {
@@ -137,5 +134,58 @@ public class SingleEventActivity extends AppCompatActivity {
     private String getEventStartDay(){
         android.text.format.DateFormat df = new android.text.format.DateFormat();
         return df.format("dd", this.event.start_date).toString();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        Bundle mapViewBundle = outState.getBundle(MAP_VIEW_BUNDLE_KEY);
+        if (mapViewBundle == null) {
+            mapViewBundle = new Bundle();
+            outState.putBundle(MAP_VIEW_BUNDLE_KEY, mapViewBundle);
+        }
+
+        mapView.onSaveInstanceState(mapViewBundle);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        gmap = googleMap;
+        gmap.setMinZoomPreference(15);
+        LatLng coord = new LatLng(event.lat, event.lng);
+//        LatLng ny = new LatLng(40.7143528, -74.0059731);
+
+        gmap.addMarker(new MarkerOptions().position(coord).title(event.name));
+        gmap.moveCamera(CameraUpdateFactory.newLatLng(coord));
+    }
+
+    @Override
+    public void onChanged(@Nullable Event newEvent) {
+        event = newEvent;
+        //set text in textview
+        viewTitle.setText(event.name);
+        viewMonth.setText(getEventStartMonth());
+        viewDate.setText(getEventStartDay());
+        viewDesc.setText(event.description);
+
+        // set image
+        if (event.image != null){
+//                    viewImage.setImageURI(event.image);
+            Picasso.get().load(event.image).into(viewImage);
+        } else {
+            viewImage.setImageResource(R.drawable.event1);
+        }
+
+        //
+        if (!event.likes.contains(currentUid)){
+            btnLike.setEnabled(true);
+        }
+
+        //set toolbar title
+        toolbar.setTitle(event.name);
+
+        // render map
+        mapView.getMapAsync(this);
     }
 }

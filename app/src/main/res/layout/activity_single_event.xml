@@ -18,76 +18,98 @@
         android:theme="?attr/actionBarTheme"
         app:titleTextColor="@color/white" />
 
-    <ImageView
-        android:id="@+id/view_image"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:adjustViewBounds="false"
-        android:cropToPadding="false"
-        android:scaleType="centerCrop" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="15dp">
-
-            <TextView
-                android:id="@+id/view_month"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Nov"
-                android:textAlignment="center"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/view_day"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="20"
-                android:textAlignment="center" />
-        </LinearLayout>
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/view_title"
+            <ImageView
+                android:id="@+id/view_image"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:adjustViewBounds="false"
+                android:cropToPadding="false"
+                android:scaleType="centerCrop" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Title"
-                android:textSize="28sp" />
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="15dp">
+
+                    <TextView
+                        android:id="@+id/view_month"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Nov"
+                        android:textAlignment="center"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/view_day"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="20"
+                        android:textAlignment="center" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/view_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Title"
+                        android:textSize="28sp" />
+
+                    <TextView
+                        android:id="@+id/view_owner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="owner" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:map="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/map_view"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="143dp"
+                tools:context=".SingleEventActivity" />
 
             <TextView
-                android:id="@+id/view_owner"
+                android:id="@+id/view_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Item Detail Here..."
+                android:textColor="#000"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/btn_like"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="owner" />
+                android:enabled="false"
+                android:text="@string/like" />
+
         </LinearLayout>
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/view_desc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Item Detail Here..."
-        android:textColor="#000"
-        android:textSize="30sp" />
-
-    <Button
-        android:id="@+id/btn_like"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        android:text="@string/like" />
+    </ScrollView>
 
 </LinearLayout>
