@@ -38,7 +38,7 @@ public class AuthActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
 
-        // If user is already login, go to main events
+        // If user is already login, go to main eventsList
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);

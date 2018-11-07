@@ -88,4 +88,21 @@ public class EventsListViewModel extends ViewModel {
             }
         });
     }
+
+    public void queryUserEvents(String uid) {
+        collection.whereEqualTo("uid", uid).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()){
+//                    setEventList();
+                    List<Event> events = new ArrayList<>();
+                    for (DocumentSnapshot document : task.getResult()){
+                        Event event = Event.parseFromDocument(document);
+                        events.add(event);
+                    }
+                    eventList.setValue(events);
+                }
+            }
+        });
+    }
 }

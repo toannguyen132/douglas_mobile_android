@@ -34,7 +34,6 @@ public class SingleEventActivity extends AppCompatActivity implements OnMapReady
     Button btnLike;
     Event event;
     EventViewModel viewModel;
-//    MapView mapView;
     SupportMapFragment mapView;
     String currentUid;
     Toolbar toolbar;

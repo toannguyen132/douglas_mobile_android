@@ -3,6 +3,7 @@ package com.project.groupproject.fragment;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.project.groupproject.R;
+import com.project.groupproject.UserEventsListActivity;
 import com.project.groupproject.models.User;
 import com.project.groupproject.viewmodals.AuthUserViewModel;
 
@@ -92,6 +94,14 @@ public class UserInfoFragment extends Fragment {
             }
         });
 
+        // my events
+        (view.findViewById(R.id.user_info_events_btn)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToMyEvent();
+            }
+        });
+
         // enable loading
         final ProgressBar loadingBar = getActivity().findViewById(R.id.loading_bar);
         loadingBar.setVisibility(View.VISIBLE);
@@ -100,6 +110,7 @@ public class UserInfoFragment extends Fragment {
         viewModel.getUser().observe(this, new Observer<User>() {
             @Override
             public void onChanged(@Nullable User user) {
+                mUser = user;
                 textEmail.setText(user.email);
                 textFirstName.setText(user.firstname);
                 textLastName.setText(user.lastname);
@@ -126,6 +137,15 @@ public class UserInfoFragment extends Fragment {
     public void logout() {
         FirebaseAuth.getInstance().signOut();
         getActivity().finish();
+    }
+
+    /**
+     * Open new Activity displaying my events
+     */
+    private void goToMyEvent() {
+        Intent intent = new Intent(getContext(), UserEventsListActivity.class);
+        intent.putExtra("uid", mUser.getId());
+        startActivity(intent);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
