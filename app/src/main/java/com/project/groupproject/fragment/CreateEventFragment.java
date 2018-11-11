@@ -1,6 +1,7 @@
 package com.project.groupproject.fragment;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -11,6 +12,7 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,21 +22,30 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.common.base.Strings;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.project.groupproject.R;
+import com.project.groupproject.lib.Helper;
 import com.project.groupproject.models.Event;
 import com.project.groupproject.viewmodals.EventViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Map;
+
+import io.opencensus.internal.StringUtil;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,6 +61,8 @@ public class CreateEventFragment extends Fragment {
     private Button mButton;
     private EditText fromDate;
     private EditText toDate;
+    private EditText fromTime;
+    private EditText toTime;
     private EditText inputName;
     private EditText inputDesc;
     private EditText inputLocation;
@@ -61,6 +74,7 @@ public class CreateEventFragment extends Fragment {
 
     private DatePickerDialog datepicker;
     private DatePickerDialog.OnDateSetListener fromListener, toListener;
+    private TimePickerDialog timepicker;
 
 
     static final int PICK_IMAGE = 1;
@@ -85,6 +99,8 @@ public class CreateEventFragment extends Fragment {
         //
         fromDate = view.findViewById(R.id.input_event_start_date);
         toDate = view.findViewById(R.id.input_event_end_date);
+        fromTime = view.findViewById(R.id.input_event_start_time);
+        toTime = view.findViewById(R.id.input_event_end_time);
         mButton = view.findViewById(R.id.btn_create_event);
         inputName = view.findViewById(R.id.input_event_name);
         inputDesc = view.findViewById(R.id.input_event_desc);
@@ -101,6 +117,7 @@ public class CreateEventFragment extends Fragment {
 
         // datepicker
         datepicker = new DatePickerDialog(view.getContext());
+
 
         // set listener
         fromListener = new DatePickerDialog.OnDateSetListener() {
@@ -137,6 +154,49 @@ public class CreateEventFragment extends Fragment {
             }
         });
 
+        fromTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    Calendar currentTime = Calendar.getInstance();
+                    int hour = 9; //currentTime.get(Calendar.HOUR_OF_DAY);
+                    int minute = 0; //currentTime.get(Calendar.MINUTE);
+                    timepicker = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                            String hourString = Strings.padStart(String.valueOf(hourOfDay), 2, '0');
+                            String minString = Strings.padStart(String.valueOf(minute), 2, '0');
+                            fromTime.setText( hourString + ":" + minString);
+                            fromDateValue.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                            fromDateValue.set(Calendar.MINUTE, minute);
+                        }
+                    }, hour, minute, true);
+                    timepicker.show();
+                }
+            }
+        });
+        toTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    Calendar currentTime = Calendar.getInstance();
+                    int hour = 18;//currentTime.get(Calendar.HOUR_OF_DAY);
+                    int minute = 0; //currentTime.get(Calendar.MINUTE);
+                    timepicker = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                            String hourString = Strings.padStart(String.valueOf(hourOfDay), 2, '0');
+                            String minString = Strings.padStart(String.valueOf(minute), 2, '0');
+                            toTime.setText( hourString + ":" + minString);
+                            toDateValue.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                            toDateValue.set(Calendar.MINUTE, minute);
+                        }
+                    }, hour, minute, true);
+                    timepicker.show();
+                }
+            }
+        });
+
         imgEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,7 +210,7 @@ public class CreateEventFragment extends Fragment {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Event e = getEvent();
+                final Event e = getEvent();
 
                 // get coordinate first
                 try{
@@ -160,8 +220,33 @@ public class CreateEventFragment extends Fragment {
                     ex.printStackTrace();
                 }
 
+                final String eventId = FirebaseFirestore.getInstance().collection("events").document().getId();
+                e.id = eventId;
+                if (selectedImage != null){
+                    // upload image after get id
+                    FirebaseStorage storage = FirebaseStorage.getInstance();
+                    final StorageReference storageRef = storage.getReference("events");
+                    storageRef.child(eventId).putFile(selectedImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Log.d("project_group", "upload success");
+                            storageRef.child(eventId).getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Uri> task) {
+                                    e.setImage(task.getResult());
+                                    createEvent(e);
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    createEvent(e);
+                }
+
+                Log.d("Event", "Get coordinate error");
 
                 // create event
+                /*
                 EventViewModel.createEvent(e).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
@@ -169,22 +254,45 @@ public class CreateEventFragment extends Fragment {
 
                         // upload image after get id
                         FirebaseStorage storage = FirebaseStorage.getInstance();
-                        StorageReference storageRef = storage.getReference("events");
+                        final StorageReference storageRef = storage.getReference("events");
 
-                        storageRef.child(id).putFile(selectedImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                // trigger listener to open single event
-                                mListener.onCreated(id);
-                                Log.d("project_group", "upload success");
-                            }
-                        });
+                        if (selectedImage != null){
+                            storageRef.child(id).putFile(selectedImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    // trigger listener to open single event
+                                    mListener.onCreated(id);
+
+                                    storageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Uri> task) {
+                                            FirebaseFirestore.getInstance().collection("events").document(id).set();
+                                        }
+                                    });
+
+                                    Log.d("project_group", "upload success");
+                                }
+                            });
+                        }
                     }
                 });
+                */
             }
         });
 
         return view;
+    }
+
+    public void createEvent(Event event){
+        final Event e = event;
+        EventViewModel.createEvent(e.id, event).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+                // trigger listener to open single event
+                mListener.onCreated(e.id);
+            }
+        });
     }
 
     @Override

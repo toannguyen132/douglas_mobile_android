@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.zip.Inflater;
@@ -17,6 +19,7 @@ import java.util.zip.Inflater;
 import com.project.groupproject.R;
 import com.project.groupproject.models.Event;
 import com.project.groupproject.SingleEventActivity;
+import com.squareup.picasso.Picasso;
 
 public class ListEventsAdapter extends BaseAdapter{
 
@@ -36,7 +39,7 @@ public class ListEventsAdapter extends BaseAdapter{
     }
 
     public class ViewHolder{
-        TextView mTitleTv, mDescTv;
+        TextView mTitleTv, mDescTv, mMonthTv, mDayTv;
         ImageView mIconIv;
     }
 
@@ -66,18 +69,40 @@ public class ListEventsAdapter extends BaseAdapter{
             holder.mTitleTv = view.findViewById(R.id.mainTitle);
             holder.mDescTv = view.findViewById(R.id.mainDesc);
             holder.mIconIv = view.findViewById(R.id.mainIcon);
+            holder.mMonthTv = view.findViewById(R.id.mainMonth);
+            holder.mDayTv = view.findViewById(R.id.mainDate);
 
             view.setTag(holder);
-
         }
         else {
             holder = (ViewHolder)view.getTag();
         }
+
+        Event currentEvent = modellist.get(postition);
+
         //set the results into textviews
-        holder.mTitleTv.setText(modellist.get(postition).name);
-        holder.mDescTv.setText(modellist.get(postition).location);
-        //set the result in imageview
-        holder.mIconIv.setImageResource(R.drawable.event1);
+        holder.mTitleTv.setText(currentEvent.name);
+        holder.mDescTv.setText(currentEvent.location);
+
+        Date date = new Date(currentEvent.start_date);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+
+        String month = cal.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault());
+
+        holder.mMonthTv.setText(month);
+        holder.mDayTv.setText(String.valueOf(cal.get(Calendar.DAY_OF_MONTH)));
+
+//        holder.mMonthTv.setText(cal.get(Calendar.MONTH));
+//        holder.mDayTv.setText(cal.get(Calendar.DAY_OF_MONTH));
+
+        if (currentEvent.image != null) {
+            holder.mIconIv.setImageURI(currentEvent.imageUri);
+            Picasso.get().load(currentEvent.image).into(holder.mIconIv);
+        } else {
+            //set the result in imageview
+            holder.mIconIv.setImageResource(R.drawable.event1);
+        }
 
         //listview item clicks
         view.setOnClickListener(new View.OnClickListener() {
@@ -87,45 +112,8 @@ public class ListEventsAdapter extends BaseAdapter{
                 Event selectedEvent = modellist.get(postition);
 
                 Intent intent = new Intent(mContext, SingleEventActivity.class);
-//                intent.putExtra("event", selectedEvent);
                 intent.putExtra("event_id", selectedEvent.id);
                 mContext.startActivity(intent);
-
-//                if (postition == 1){
-//                    //start NewActivity with title for actionbar and text for textview
-//                    Intent intent = new Intent(mContext, SingleEventActivity.class);
-//                    intent.putExtra("actionBarTitle", "Neighbor Community Potluck");
-//                    intent.putExtra("contentTv", "Event 1 detail...");
-//                    mContext.startActivity(intent);
-//                }
-//                else if (postition == 2){
-//                    //start NewActivity with title for actionbar and text for textview
-//                    Intent intent = new Intent(mContext, SingleEventActivity.class);
-//                    intent.putExtra("actionBarTitle", "Andre Nickatina");
-//                    intent.putExtra("contentTv", "Event 2 detail...");
-//                    mContext.startActivity(intent);
-//                }
-//                else if (postition == 3){
-//                    //start NewActivity with title for actionbar and text for textview
-//                    Intent intent = new Intent(mContext, SingleEventActivity.class);
-//                    intent.putExtra("actionBarTitle", "DON DIABLO");
-//                    intent.putExtra("contentTv", "Event 3 detail...");
-//                    mContext.startActivity(intent);
-//                }
-//                else if (modellist.get(postition).getTitle().equals("DIM SUM Making")){
-//                    //start NewActivity with title for actionbar and text for textview
-//                    Intent intent = new Intent(mContext, SingleEventActivity.class);
-//                    intent.putExtra("actionBarTitle", "DIM SUM Making");
-//                    intent.putExtra("contentTv", "Event 4 detail...");
-//                    mContext.startActivity(intent);
-//                }
-//                else {
-//                    //start NewActivity with title for actionbar and text for textview
-//                    Intent intent = new Intent(mContext, SingleEventActivity.class);
-//                    intent.putExtra("actionBarTitle", "My BizDay Vancouver");
-//                    intent.putExtra("contentTv", "Event 5 detail...");
-//                    mContext.startActivity(intent);
-//                }
             }
         });
 

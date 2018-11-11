@@ -23,7 +23,7 @@ public class Event implements Serializable {
     public String id;
 
     @Exclude
-    public Uri image;
+    public Uri imageUri;
 
     public String uid;
     public String name;
@@ -35,6 +35,7 @@ public class Event implements Serializable {
     public long end_date;
     public long num_like;
     public long num_follow;
+    public String image;
     public List<String> tags;
     public List<String> likes;
 
@@ -45,6 +46,11 @@ public class Event implements Serializable {
     public Event() {
         tags = new ArrayList<>();
         likes = new ArrayList<>();
+    }
+
+    public void setImage(Uri uri){
+        imageUri = uri;
+        image = uri.toString();
     }
 
     public Event(String uid, String name, String description, String location, long start_date, long end_date) {
@@ -88,6 +94,7 @@ public class Event implements Serializable {
         result.put("num_follow", num_follow);
         result.put("tags", tags);
         result.put("likes", likes);
+        result.put("imageUrl", image);
 
         return result;
     }

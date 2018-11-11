@@ -4,6 +4,7 @@ import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,6 +17,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.project.groupproject.models.Event;
 import com.squareup.picasso.Picasso;
 
@@ -28,6 +31,7 @@ public class EventsListViewModel extends ViewModel {
     public static final String NAME = "events";
 
     private CollectionReference collection = FirebaseFirestore.getInstance().collection(NAME);
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
 
     private MutableLiveData<List<Event>> eventList = new MutableLiveData<>();
     public LiveData<List<Event>> getEventList() {
@@ -45,14 +49,17 @@ public class EventsListViewModel extends ViewModel {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    List<Event> events = new ArrayList<>();
+                    final List<Event> events = new ArrayList<>();
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         // Map<String, Object> data =  document.getData();
                         Event event = document.toObject(Event.class);
                         event.id = document.getId();
+
+
                         events.add(event);
                         Log.d("event id ", document.getId());
                     }
+
                     eventList.setValue(events);
                 }
             }
@@ -71,7 +78,7 @@ public class EventsListViewModel extends ViewModel {
     public void queryEvents(){
         long today = (new Date()).getTime();
 
-        collection.whereGreaterThan("start_date", today).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        collection.whereGreaterThan("start_date", today).orderBy("start_date", Query.Direction.ASCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -80,9 +87,16 @@ public class EventsListViewModel extends ViewModel {
                         // Map<String, Object> data =  document.getData();
                         Event event = document.toObject(Event.class);
                         event.id = document.getId();
+
+                        String imageUrl = (String)document.get("imageUrl");
+                        if (imageUrl != null && !imageUrl.equals("")) {
+                            event.setImage(Uri.parse(imageUrl));
+                        }
+
                         events.add(event);
                         Log.d("event id ", document.getId());
                     }
+
                     eventList.setValue(events);
                 }
             }

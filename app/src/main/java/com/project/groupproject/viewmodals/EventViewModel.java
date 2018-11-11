@@ -68,9 +68,9 @@ public class EventViewModel extends ViewModel {
                     ref.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
                         @Override
                         public void onComplete(@NonNull Task<Uri> task) {
-                             Event e = fetchedEvent;
+                            Event e = fetchedEvent;
                             if (task.isSuccessful()){
-                                e.image = task.getResult();
+                                e.setImage(task.getResult());
                             }
                             event.setValue(e);
                             setEvent(e);
@@ -123,6 +123,15 @@ public class EventViewModel extends ViewModel {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
         return firestore.collection(NAME).add(event);
+    }
+
+    static public Task<Void> createEvent(String id, Event event) {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+
+        event.id = id;
+
+        return firestore.collection("events").document(id)
+                .set(event.toMap());
     }
 
 }
