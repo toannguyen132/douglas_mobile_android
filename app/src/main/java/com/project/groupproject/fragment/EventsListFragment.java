@@ -7,6 +7,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -39,6 +40,7 @@ public class EventsListFragment extends Fragment {
     ListEventsAdapter adapter;
     EventsListViewModel viewModel;
     EditText inputSearch;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     public EventsListFragment() {
         // Required empty public constructor
@@ -57,6 +59,7 @@ public class EventsListFragment extends Fragment {
 
         eventsView = view.findViewById(R.id.listView);
         inputSearch = view.findViewById(R.id.input_search);
+        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
 
         eventsList = new ArrayList<>();
 
@@ -89,6 +92,7 @@ public class EventsListFragment extends Fragment {
                 eventsList.addAll(events);
                 adapter.notifyDataSetChanged();
                 loadingBar.setVisibility(View.GONE);
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
 
@@ -104,6 +108,15 @@ public class EventsListFragment extends Fragment {
                     applyFilter(searchQuery);
                 }
                 return false;
+            }
+        });
+
+        // swipe refresh
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadingBar.setVisibility(View.VISIBLE);
+                viewModel.queryEvents();
             }
         });
 
