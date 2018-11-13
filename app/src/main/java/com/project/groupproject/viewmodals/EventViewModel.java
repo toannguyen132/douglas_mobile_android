@@ -60,11 +60,12 @@ public class EventViewModel extends ViewModel {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             user.setValue(User.parseFromDocument(documentSnapshot));
+                            event.setValue(fetchedEvent);
                         }
                     });
 
                     // get image
-                    StorageReference ref = storage.getReference("events").child(fetchedEvent.id);
+                    /*StorageReference ref = storage.getReference("events").child(fetchedEvent.id);
                     ref.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
                         @Override
                         public void onComplete(@NonNull Task<Uri> task) {
@@ -75,7 +76,7 @@ public class EventViewModel extends ViewModel {
                             event.setValue(e);
                             setEvent(e);
                         }
-                    });
+                    });*/
                 }
             }
         });

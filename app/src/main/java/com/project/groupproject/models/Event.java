@@ -107,6 +107,12 @@ public class Event implements Serializable {
     static public Event parseFromDocument(DocumentSnapshot document) {
         Event event = document.toObject(Event.class);
         event.id = document.getId();
+
+        String imageUrl = (String)document.get("imageUrl");
+        if (imageUrl != null && !imageUrl.equals("")) {
+            event.setImage(Uri.parse(imageUrl));
+        }
+
         return event;
     }
 
