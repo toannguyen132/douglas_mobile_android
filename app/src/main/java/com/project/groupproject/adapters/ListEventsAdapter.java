@@ -97,7 +97,7 @@ public class ListEventsAdapter extends BaseAdapter{
 //        holder.mDayTv.setText(cal.get(Calendar.DAY_OF_MONTH));
 
         if (currentEvent.image != null) {
-            holder.mIconIv.setImageURI(currentEvent.imageUri);
+//            holder.mIconIv.setImageURI(currentEvent.imageUri);
             Picasso.get().load(currentEvent.image).into(holder.mIconIv);
         } else {
             //set the result in imageview
