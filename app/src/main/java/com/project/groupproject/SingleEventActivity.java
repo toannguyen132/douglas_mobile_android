@@ -28,7 +28,7 @@ import com.squareup.picasso.Picasso;
 
 public class SingleEventActivity extends AppCompatActivity implements OnMapReadyCallback, Observer<Event> {
 
-    TextView viewMonth, viewDate, viewTitle, viewOwner, viewDesc;
+    TextView viewMonth, viewDate, viewTitle, viewOwner, viewDesc, viewLocation, viewTime, viewLike;
     ImageView viewImage;
     Button btnLike;
     Event event;
@@ -67,6 +67,9 @@ public class SingleEventActivity extends AppCompatActivity implements OnMapReady
         viewTitle = findViewById(R.id.view_title);
         viewOwner = findViewById(R.id.view_owner);
         viewDesc = findViewById(R.id.view_desc);
+        viewLocation = findViewById(R.id.view_location);
+        viewTime = findViewById(R.id.view_time);
+        viewLike = findViewById(R.id.view_like);
         btnLike = findViewById(R.id.btn_like);
         viewImage = findViewById(R.id.view_image);
         viewImage.setImageResource(R.drawable.event1);
@@ -134,6 +137,11 @@ public class SingleEventActivity extends AppCompatActivity implements OnMapReady
         return df.format("dd", this.event.start_date).toString();
     }
 
+    private String getEventTime() {
+        android.text.format.DateFormat df = new android.text.format.DateFormat();
+        return df.format("hh:mm a", this.event.start_date).toString();
+    }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -166,6 +174,9 @@ public class SingleEventActivity extends AppCompatActivity implements OnMapReady
         viewMonth.setText(getEventStartMonth());
         viewDate.setText(getEventStartDay());
         viewDesc.setText(event.description);
+        viewLocation.setText(event.location);
+        viewTime.setText(getEventTime());
+        viewLike.setText(String.valueOf(event.num_like) + " like(s)");
 
         // set image
         if (event.image != null){
