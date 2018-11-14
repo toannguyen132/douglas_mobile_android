@@ -178,6 +178,8 @@ public class SingleEventActivity extends AppCompatActivity implements OnMapReady
         //
         if (!event.likes.contains(currentUid)){
             btnLike.setEnabled(true);
+        } else {
+            btnLike.setEnabled(false);
         }
 
         //set toolbar title

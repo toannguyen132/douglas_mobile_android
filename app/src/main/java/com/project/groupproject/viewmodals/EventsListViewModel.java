@@ -51,10 +51,7 @@ public class EventsListViewModel extends ViewModel {
                 if (task.isSuccessful()) {
                     final List<Event> events = new ArrayList<>();
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        // Map<String, Object> data =  document.getData();
-                        Event event = document.toObject(Event.class);
-                        event.id = document.getId();
-
+                        Event event = Event.parseFromDocument(document);
 
                         events.add(event);
                         Log.d("event id ", document.getId());
@@ -68,7 +65,7 @@ public class EventsListViewModel extends ViewModel {
         if (TextUtils.isEmpty(query)){
             collection.whereGreaterThan("start_date", today).get().addOnCompleteListener(listener);
         } else {
-            collection.whereArrayContains("tags", query).whereGreaterThan("start_date", today).get().addOnCompleteListener(listener);
+            collection.whereArrayContains("tags", query.toLowerCase()).whereGreaterThan("start_date", today).get().addOnCompleteListener(listener);
         }
 
 
@@ -84,14 +81,7 @@ public class EventsListViewModel extends ViewModel {
                 if (task.isSuccessful()) {
                     List<Event> events = new ArrayList<>();
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        // Map<String, Object> data =  document.getData();
-                        Event event = document.toObject(Event.class);
-                        event.id = document.getId();
-
-                        String imageUrl = (String)document.get("imageUrl");
-                        if (imageUrl != null && !imageUrl.equals("")) {
-                            event.setImage(Uri.parse(imageUrl));
-                        }
+                        Event event = Event.parseFromDocument(document);
 
                         events.add(event);
                         Log.d("event id ", document.getId());

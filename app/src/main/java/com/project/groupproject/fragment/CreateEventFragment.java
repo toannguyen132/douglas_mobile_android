@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -285,10 +286,13 @@ public class CreateEventFragment extends Fragment {
 
     public void createEvent(Event event){
         final Event e = event;
+        final ProgressBar loadingBar = getActivity().findViewById(R.id.loading_bar);
+        loadingBar.setVisibility(ProgressBar.VISIBLE);;
         EventViewModel.createEvent(e.id, event).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
 
+                loadingBar.setVisibility(ProgressBar.GONE);;
                 // trigger listener to open single event
                 mListener.onCreated(e.id);
             }
