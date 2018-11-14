@@ -29,28 +29,38 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="15dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="5dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="17dp"
+                android:paddingTop="10dp">
 
-                    <TextView
-                        android:id="@+id/mainMonth"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Nov"
-                        android:textAlignment="center"
-                        android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/mainMonth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Nov"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/mainDate"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="20"
-                        android:textAlignment="center" />
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/mainDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/playball_regular"
+                    android:text="20"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -61,17 +71,35 @@
                         android:id="@+id/mainTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingTop="10dp"
                         android:text="Title"
-                        android:textSize="28sp" />
+                        android:textColor="@color/colorText"
+                        android:textSize="24sp"
+                        android:textStyle="normal" />
 
                     <TextView
                         android:id="@+id/mainDesc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="owner" />
+                        android:drawableLeft="@drawable/maps-and-flags"
+                        android:drawablePadding="7dp"
+                        android:text="owner"
+                        android:textColor="@color/colorText"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/mainLike"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/heart2"
+                        android:drawablePadding="7dp"
+                        android:text="2345 likes"
+                        android:textColor="@color/colorText"
+                        android:textSize="16sp" />
 
 
-        </LinearLayout>
+                </LinearLayout>
         </LinearLayout>
         <!--<TextView-->
             <!--android:id="@+id/mainTitle"-->
