@@ -82,7 +82,7 @@
                         android:id="@+id/mainDesc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/maps-and-flags"
+                        android:drawableLeft="@drawable/maps_and_flags"
                         android:drawablePadding="7dp"
                         android:text="owner"
                         android:textColor="@color/colorText"
