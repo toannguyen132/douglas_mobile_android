@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.android.gms.common.util.Strings;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -42,7 +43,7 @@ public class EventsListViewModel extends ViewModel {
         this.eventList.setValue(events);
     }
 
-    public void filterEvent(String query) {
+    public void filterEvent(final String query) {
         long today = (new Date()).getTime();
 
         OnCompleteListener<QuerySnapshot> listener = new OnCompleteListener<QuerySnapshot>() {
@@ -50,10 +51,20 @@ public class EventsListViewModel extends ViewModel {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     final List<Event> events = new ArrayList<>();
+                    String s = query.trim().toLowerCase();
+
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Event event = Event.parseFromDocument(document);
 
-                        events.add(event);
+                        // check condition here
+                        if (Strings.isEmptyOrWhitespace(query)) {
+                            events.add(event);
+                        } else {
+                            if (event.location.toLowerCase().indexOf(s) >= 0) {
+                                events.add(event);
+                            }
+                        }
+
                         Log.d("event id ", document.getId());
                     }
 
@@ -65,7 +76,7 @@ public class EventsListViewModel extends ViewModel {
         if (TextUtils.isEmpty(query)){
             collection.whereGreaterThan("start_date", today).get().addOnCompleteListener(listener);
         } else {
-            collection.whereArrayContains("tags", query.toLowerCase()).whereGreaterThan("start_date", today).get().addOnCompleteListener(listener);
+            collection.whereGreaterThan("start_date", today).get().addOnCompleteListener(listener);
         }
 
 
