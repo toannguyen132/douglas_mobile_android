@@ -3,99 +3,132 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.UserInfoFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        style="@style/Container"
-        >
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/first_name"
-                android:layout_weight="2"
-                style="@style/InfoLabel"/>
-
-            <TextView
-                android:id="@+id/user_first_name"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="value"
-                style="@style/InfoValue"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/last_name"
-                android:layout_weight="2"
-                style="@style/InfoLabel"/>
-
-            <TextView
-                android:id="@+id/user_last_name"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="value"
-                style="@style/InfoValue"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/email"
-                android:layout_weight="2"
-                style="@style/InfoLabel"/>
-
-            <TextView
-                android:id="@+id/user_email"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="value"
-                style="@style/InfoValue"/>
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/user_info_edit_button"
-            style="@style/ButtonPrimary"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/button"
-            android:text="Edit Profile" />
+            android:background="@drawable/header_bg"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:contentInsetLeft="0dp"
+            app:contentInsetRight="0dp"
+            app:contentInsetStart="0dp"
+            app:contentInsetEnd="0dp">
 
-        <Button
-            android:id="@+id/user_info_events_btn"
-            style="@style/ButtonPrimary"
+            <TextView
+                android:id="@+id/textView4"
+                style="@style/MyToolBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Profile"
+                android:textSize="34sp" />
+        </android.support.v7.widget.Toolbar>
+
+
+
+
+        <LinearLayout
+            style="@style/Container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/button"
-            android:text="My Events" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/user_info_logout"
-            style="@style/ButtonPrimary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/button_normal"
-            android:text="Log Out" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+                <TextView
+                    style="@style/InfoLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:text="@string/first_name" />
+
+                <TextView
+                    android:id="@+id/user_first_name"
+                    style="@style/InfoValue"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="value" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/InfoLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:text="@string/last_name" />
+
+                <TextView
+                    android:id="@+id/user_last_name"
+                    style="@style/InfoValue"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="value" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/InfoLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:text="@string/email" />
+
+                <TextView
+                    android:id="@+id/user_email"
+                    style="@style/InfoValue"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="value" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/user_info_edit_button"
+                style="@style/ButtonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button"
+                android:text="Edit Profile" />
+
+            <Button
+                android:id="@+id/user_info_events_btn"
+                style="@style/ButtonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button"
+                android:text="My Events" />
+
+            <Button
+                android:id="@+id/user_info_logout"
+                style="@style/ButtonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_normal"
+                android:text="Log Out" />
+
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

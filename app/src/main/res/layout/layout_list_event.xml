@@ -75,8 +75,7 @@
                         android:paddingTop="10dp"
                         android:text="Title"
                         android:textColor="@color/colorText"
-                        android:textSize="24sp"
-                        android:textStyle="normal" />
+                        android:textSize="24sp" />
 
                     <TextView
                         android:id="@+id/mainDesc"
@@ -84,7 +83,7 @@
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/maps_and_flags"
                         android:drawablePadding="7dp"
-                        android:text="owner"
+                        android:text="@string/location"
                         android:textColor="@color/colorText"
                         android:textSize="16sp" />
 
