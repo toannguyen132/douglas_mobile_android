@@ -97,20 +97,69 @@ public class EventViewModel extends ViewModel {
                 Event tranEvent =  Event.parseFromDocument(transaction.get(eventRef));
                 User tranUser = User.parseFromDocument(transaction.get(userRef));
 
-                // event update
-                tranEvent.num_like++;
-                tranEvent.likes.add(uid);
-                HashMap<String, Object> data = new HashMap<>();
-                data.put("num_like", tranEvent.num_like);
-                data.put("likes", tranEvent.likes);
+                // validate if user liked event or not
+                if (tranEvent.likes.contains(uid)) {
+                    // event update
+                    tranEvent.num_like++;
+                    tranEvent.likes.add(uid);
+                    HashMap<String, Object> data = new HashMap<>();
+                    data.put("num_like", tranEvent.num_like);
+                    data.put("likes", tranEvent.likes);
 
-                transaction.update(eventRef, data);
+                    transaction.update(eventRef, data);
 
-                // user update
-                tranUser.liked_events.add(eventId);
-                transaction.update(userRef, "liked_events", tranUser.liked_events);
+                    // user update
+                    tranUser.liked_events.add(eventId);
+                    transaction.update(userRef, "liked_events", tranUser.liked_events);
 
-                return tranEvent;
+                    return tranEvent;
+                } else {
+                    throw new FirebaseFirestoreException("You have already liked event", FirebaseFirestoreException.Code.ABORTED);
+                }
+            }
+        }).addOnSuccessListener(new OnSuccessListener<Event>() {
+            @Override
+            public void onSuccess(Event event) {
+                setEvent(event);
+            }
+        });
+    }
+
+    public void unlike(final String uid) {
+        Event currentEvent = event.getValue();
+        final String eventId = currentEvent.id;
+
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final DocumentReference eventRef = db.collection(NAME).document(eventId);
+        final DocumentReference userRef = db.collection("users").document(uid);
+
+        db.runTransaction(new Transaction.Function<Event>() {
+            @Nullable
+            @Override
+            public Event apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
+                Event tranEvent =  Event.parseFromDocument(transaction.get(eventRef));
+                User tranUser = User.parseFromDocument(transaction.get(userRef));
+
+                // verify if user liked the event
+                if ( tranEvent.num_like > 0 && tranEvent.likes.contains(uid)) {
+                    // event update
+                    tranEvent.num_like--;
+                    tranEvent.likes.remove(uid);
+                    HashMap<String, Object> data = new HashMap<>();
+                    data.put("num_like", tranEvent.num_like);
+                    data.put("likes", tranEvent.likes);
+
+                    transaction.update(eventRef, data);
+
+                    // user update
+                    tranUser.liked_events.remove(eventId);
+                    transaction.update(userRef, "liked_events", tranUser.liked_events);
+
+                    return tranEvent;
+                } else {
+                    throw new FirebaseFirestoreException("You didn't like event yet", FirebaseFirestoreException.Code.ABORTED);
+                }
+
             }
         }).addOnSuccessListener(new OnSuccessListener<Event>() {
             @Override
