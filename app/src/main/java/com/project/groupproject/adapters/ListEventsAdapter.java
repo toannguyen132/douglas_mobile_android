@@ -17,6 +17,7 @@ import java.util.Locale;
 import java.util.zip.Inflater;
 
 import com.project.groupproject.R;
+import com.project.groupproject.lib.Helper;
 import com.project.groupproject.models.Event;
 import com.project.groupproject.SingleEventActivity;
 import com.squareup.picasso.Picasso;
@@ -39,7 +40,7 @@ public class ListEventsAdapter extends BaseAdapter{
     }
 
     public class ViewHolder{
-        TextView mTitleTv, mDescTv, mMonthTv, mDayTv;
+        TextView mTitleTv, mDescTv, mMonthTv, mDayTv, mLike;
         ImageView mIconIv;
     }
 
@@ -71,6 +72,7 @@ public class ListEventsAdapter extends BaseAdapter{
             holder.mIconIv = view.findViewById(R.id.mainIcon);
             holder.mMonthTv = view.findViewById(R.id.mainMonth);
             holder.mDayTv = view.findViewById(R.id.mainDate);
+            holder.mLike = view.findViewById(R.id.mainLike);
 
             view.setTag(holder);
         }
@@ -83,6 +85,7 @@ public class ListEventsAdapter extends BaseAdapter{
         //set the results into textviews
         holder.mTitleTv.setText(currentEvent.name);
         holder.mDescTv.setText(currentEvent.location);
+        holder.mLike.setText(currentEvent.num_like + " " + Helper.pluralize(currentEvent.num_like, "Like", "Likes"));
 
         Date date = new Date(currentEvent.start_date);
         Calendar cal = Calendar.getInstance();

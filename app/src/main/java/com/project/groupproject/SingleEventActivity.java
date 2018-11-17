@@ -21,6 +21,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.rpc.Help;
+import com.project.groupproject.lib.Helper;
 import com.project.groupproject.models.Event;
 import com.project.groupproject.models.User;
 import com.project.groupproject.viewmodals.EventViewModel;
@@ -196,7 +198,7 @@ public class SingleEventActivity extends AppCompatActivity implements OnMapReady
         viewDesc.setText(event.description);
         viewLocation.setText(event.location);
         viewTime.setText(getEventTime());
-        viewLike.setText(String.valueOf(event.num_like) + " like(s)");
+        viewLike.setText(String.valueOf(event.num_like) + " " + Helper.pluralize(event.num_like, "Like", "Likes"));
 
         // set image
         if (event.image != null){

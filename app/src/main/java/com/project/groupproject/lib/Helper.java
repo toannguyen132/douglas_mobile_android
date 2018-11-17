@@ -15,6 +15,14 @@ import com.project.groupproject.models.User;
 
 public class Helper {
 
+    static public String pluralize(long count, String single, String plural){
+        return count == 1 ? single : plural;
+    }
+
+    static public String pluralize(int count, String single, String plural){
+        return count == 1 ? single : plural;
+    }
+
     static public void seed() {
         String email = "Mavis_Goyette@hotmail.com";
         String password = "123456";
