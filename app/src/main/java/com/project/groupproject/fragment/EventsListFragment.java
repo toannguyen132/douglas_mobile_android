@@ -17,6 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
@@ -57,6 +58,7 @@ public class EventsListFragment extends Fragment {
     SwipeRefreshLayout swipeRefreshLayout;
     LocationManager locationManager;
     Context context;
+    FragmentActivity parent;
 
     LocationListener listener = new LocationListener() {
         @Override
@@ -70,7 +72,6 @@ public class EventsListFragment extends Fragment {
                 List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
                 String city = addresses.get(0).getLocality();
                 String postalCode = addresses.get(0).getPostalCode().replace(" ", "");
-                Toast.makeText(getActivity(), "city " + city, Toast.LENGTH_SHORT ).show();
                 inputSearch.setText(city);
                 applyFilter(city);
             } catch (IOException e) {
@@ -111,6 +112,7 @@ public class EventsListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_events_list, container, false);
 
         context = view.getContext();
+        parent = this.getActivity();
 
         eventsView = view.findViewById(R.id.listView);
         inputSearch = view.findViewById(R.id.input_search);
@@ -136,7 +138,7 @@ public class EventsListFragment extends Fragment {
         final TextView inputSearch = view.findViewById(R.id.input_search);
 
         //loading bar
-        final ProgressBar loadingBar = getActivity().findViewById(R.id.loading_bar);
+        final ProgressBar loadingBar = parent.findViewById(R.id.loading_bar);
         loadingBar.setVisibility(View.VISIBLE);
 
         // watch the event data
@@ -153,7 +155,7 @@ public class EventsListFragment extends Fragment {
         });
 
         // get current location
-        locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager)parent.getSystemService(Context.LOCATION_SERVICE);
         getLocation();
 
         // query
