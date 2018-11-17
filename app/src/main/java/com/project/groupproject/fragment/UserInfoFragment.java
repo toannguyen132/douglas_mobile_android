@@ -1,21 +1,27 @@
 package com.project.groupproject.fragment;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.support.v7.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.project.groupproject.R;
 import com.project.groupproject.UserEventsListActivity;
+import com.project.groupproject.adapters.ViewPageAdapter;
 import com.project.groupproject.models.User;
 import com.project.groupproject.viewmodals.AuthUserViewModel;
 
@@ -36,6 +42,8 @@ public class UserInfoFragment extends Fragment {
     private TextView textFirstName;
     private TextView textLastName;
     private TextView textEmail;
+
+    private ViewPager viewPager;
 
     public UserInfoFragment() {
         // Required empty public constructor
@@ -71,13 +79,35 @@ public class UserInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_user_info, container, false);
+//        View view = inflater.inflate(R.layout.fragment_user_info, container, false);
+        View view = inflater.inflate(R.layout.fragment_user_info2, container, false);
+
+        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.htab_tabs);
+        tabLayout.addTab(tabLayout.newTab().setText("LIKED EVENTS"));
+        tabLayout.addTab(tabLayout.newTab().setText("CREATED EVENTS"));
+
+        viewPager = view.findViewById(R.id.htab_viewpager);
+        ViewPageAdapter adapter = new ViewPageAdapter(getFragmentManager());
+        adapter.AddFragment(new EventCreatedFragment(), "Created");
+        adapter.AddFragment(new EventLikedFragment(), "Liked");
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+
+//        //Toolbar
+//        Toolbar toolbar = view.findViewById(R.id.htab_toolbar);
+//        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+//        if(((AppCompatActivity)getActivity()).getSupportActionBar() != null){
+//            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        }
+//
+//        final ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+//        actionBar.hide();
 
         //
-        textEmail = view.findViewById(R.id.user_email);
-        textFirstName = view.findViewById(R.id.user_first_name);
-        textLastName = view.findViewById(R.id.user_last_name);
-
+//        textEmail = view.findViewById(R.id.user_email);
+//        textFirstName = view.findViewById(R.id.user_first_name);
+//        textLastName = view.findViewById(R.id.user_last_name);
+//
         // event click
         (view.findViewById(R.id.user_info_edit_button)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,39 +115,39 @@ public class UserInfoFragment extends Fragment {
                 switchView();
             }
         });
-
-        // logout
-        (view.findViewById(R.id.user_info_logout)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logout();
-            }
-        });
-
-        // my events
-        (view.findViewById(R.id.user_info_events_btn)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goToMyEvent();
-            }
-        });
-
-        // enable loading
-        final ProgressBar loadingBar = getActivity().findViewById(R.id.loading_bar);
-        loadingBar.setVisibility(View.VISIBLE);
-
-        // track user data
-        viewModel.getUser().observe(this, new Observer<User>() {
-            @Override
-            public void onChanged(@Nullable User user) {
-                mUser = user;
-                textEmail.setText(user.email);
-                textFirstName.setText(user.firstname);
-                textLastName.setText(user.lastname);
-                loadingBar.setVisibility(View.GONE);
-            }
-        });
-        viewModel.fetchCurrentUser();
+//
+//        // logout
+//        (view.findViewById(R.id.user_info_logout)).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                logout();
+//            }
+//        });
+//
+//        // my events
+//        (view.findViewById(R.id.user_info_events_btn)).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                goToMyEvent();
+//            }
+//        });
+//
+//        // enable loading
+//        final ProgressBar loadingBar = getActivity().findViewById(R.id.loading_bar);
+//        loadingBar.setVisibility(View.VISIBLE);
+//
+//        // track user data
+//        viewModel.getUser().observe(this, new Observer<User>() {
+//            @Override
+//            public void onChanged(@Nullable User user) {
+//                mUser = user;
+//                textEmail.setText(user.email);
+//                textFirstName.setText(user.firstname);
+//                textLastName.setText(user.lastname);
+//                loadingBar.setVisibility(View.GONE);
+//            }
+//        });
+//        viewModel.fetchCurrentUser();
 
         return view;
     }
@@ -180,4 +210,6 @@ public class UserInfoFragment extends Fragment {
         // TODO: Update argument type and name
         void onEditButtonClicked();
     }
+
+
 }

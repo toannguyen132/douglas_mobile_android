@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
@@ -37,6 +38,8 @@ import android.widget.Toast;
 
 import com.project.groupproject.adapters.ListEventsAdapter;
 import com.project.groupproject.fragment.CreateEventFragment;
+import com.project.groupproject.fragment.EventCreatedFragment;
+import com.project.groupproject.fragment.EventLikedFragment;
 import com.project.groupproject.fragment.EventsListFragment;
 import com.project.groupproject.fragment.UserEditFragment;
 import com.project.groupproject.fragment.UserInfoFragment;
@@ -48,7 +51,9 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements UserInfoFragment.OnUserInfoFragmentListener,
         UserEditFragment.OnUserEditFragmentListener,
-        CreateEventFragment.CreateEventFragmentListener
+        CreateEventFragment.CreateEventFragmentListener,
+        EventLikedFragment.OnFragmentInteractionListener,
+        EventCreatedFragment.OnFragmentInteractionListener
         {
 
     public final static int LOCATION_PERMISSION = 1;
@@ -196,4 +201,9 @@ public class MainActivity extends AppCompatActivity implements UserInfoFragment.
         intent.putExtra("event_id", id);
         startActivity(intent);
     }
-}
+
+            @Override
+            public void onFragmentInteraction(Uri uri) {
+
+            }
+        }

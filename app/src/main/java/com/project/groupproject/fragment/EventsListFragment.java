@@ -56,6 +56,7 @@ public class EventsListFragment extends Fragment {
     EditText inputSearch;
     SwipeRefreshLayout swipeRefreshLayout;
     LocationManager locationManager;
+    Context context;
 
     LocationListener listener = new LocationListener() {
         @Override
@@ -63,7 +64,8 @@ public class EventsListFragment extends Fragment {
             double lng = location.getLongitude();
             double lat = location.getLatitude();
             Log.d("request_location", lat + ", " + lng);
-            Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+
+            Geocoder geocoder = new Geocoder(context, Locale.getDefault());
             try {
                 List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
                 String city = addresses.get(0).getLocality();
@@ -107,6 +109,8 @@ public class EventsListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_events_list, container, false);
+
+        context = view.getContext();
 
         eventsView = view.findViewById(R.id.listView);
         inputSearch = view.findViewById(R.id.input_search);
