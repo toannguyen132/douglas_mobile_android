@@ -7,8 +7,10 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -91,14 +93,13 @@ public class EventViewModel extends ViewModel {
         final DocumentReference userRef = db.collection("users").document(uid);
 
         db.runTransaction(new Transaction.Function<Event>() {
-            @Nullable
             @Override
-            public Event apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
+            public Event apply(Transaction transaction) throws FirebaseFirestoreException {
                 Event tranEvent =  Event.parseFromDocument(transaction.get(eventRef));
                 User tranUser = User.parseFromDocument(transaction.get(userRef));
 
                 // validate if user liked event or not
-                if (tranEvent.likes.contains(uid)) {
+                if (!tranEvent.likes.contains(uid)) {
                     // event update
                     tranEvent.num_like++;
                     tranEvent.likes.add(uid);
@@ -122,6 +123,11 @@ public class EventViewModel extends ViewModel {
             public void onSuccess(Event event) {
                 setEvent(event);
             }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(NAME, "transaction failed", e);
+            }
         });
     }
 
@@ -134,9 +140,8 @@ public class EventViewModel extends ViewModel {
         final DocumentReference userRef = db.collection("users").document(uid);
 
         db.runTransaction(new Transaction.Function<Event>() {
-            @Nullable
             @Override
-            public Event apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
+            public Event apply(Transaction transaction) throws FirebaseFirestoreException {
                 Event tranEvent =  Event.parseFromDocument(transaction.get(eventRef));
                 User tranUser = User.parseFromDocument(transaction.get(userRef));
 

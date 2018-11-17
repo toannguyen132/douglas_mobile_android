@@ -94,7 +94,13 @@ public class SingleEventActivity extends AppCompatActivity implements OnMapReady
         btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewModel.likeEvent(currentUid);
+                // disable button first
+                btnLike.setEnabled(false);
+                // the process
+                if (isLiked())
+                    viewModel.unlike(currentUid);
+                else
+                    viewModel.likeEvent(currentUid);
             }
         });
 
@@ -166,6 +172,20 @@ public class SingleEventActivity extends AppCompatActivity implements OnMapReady
         gmap.moveCamera(CameraUpdateFactory.newLatLng(coord));
     }
 
+    public boolean isLiked() {
+        return event.likes.contains(currentUid);
+    }
+
+    public void checkLikeButton() {
+        if (isLiked()) {
+            btnLike.setText("Unlike");
+        } else {
+            btnLike.setText("Like");
+        }
+        // activate button again
+        btnLike.setEnabled(true);
+    }
+
     @Override
     public void onChanged(@Nullable Event newEvent) {
         event = newEvent;
@@ -187,11 +207,7 @@ public class SingleEventActivity extends AppCompatActivity implements OnMapReady
         }
 
         //
-        if (!event.likes.contains(currentUid)){
-            btnLike.setEnabled(true);
-        } else {
-            btnLike.setEnabled(false);
-        }
+        checkLikeButton();
 
         //set toolbar title
         toolbar.setTitle(event.name);
