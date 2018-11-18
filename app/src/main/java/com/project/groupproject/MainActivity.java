@@ -194,7 +194,6 @@ public class MainActivity extends AppCompatActivity implements UserInfoFragment.
 
     @Override
     public void onCreated(String id) {
-
         loadFragment(fragmentEventsList);
 
         Intent intent = new Intent(this, SingleEventActivity.class);
@@ -202,8 +201,4 @@ public class MainActivity extends AppCompatActivity implements UserInfoFragment.
         startActivity(intent);
     }
 
-            @Override
-            public void onFragmentInteraction(Uri uri) {
-
-            }
-        }
+}

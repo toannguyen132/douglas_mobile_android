@@ -1,5 +1,6 @@
 package com.project.groupproject.fragment;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
 
@@ -22,8 +24,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.project.groupproject.R;
 import com.project.groupproject.UserEventsListActivity;
 import com.project.groupproject.adapters.ViewPageAdapter;
+import com.project.groupproject.models.Event;
 import com.project.groupproject.models.User;
 import com.project.groupproject.viewmodals.AuthUserViewModel;
+import com.project.groupproject.viewmodals.EventsListViewModel;
+
+import java.util.List;
+
+import javax.annotation.Nullable;
 
 /**
  */
@@ -37,10 +45,11 @@ public class UserInfoFragment extends Fragment {
 
     private OnUserInfoFragmentListener mListener;
     private AuthUserViewModel viewModel;
+    private EventsListViewModel createdViewModel;
+    private EventsListViewModel likedViewModel;
 
     // view
-    private TextView textFirstName;
-    private TextView textLastName;
+    private TextView textName;
     private TextView textEmail;
 
     private ViewPager viewPager;
@@ -104,9 +113,8 @@ public class UserInfoFragment extends Fragment {
 //        actionBar.hide();
 
         //
-//        textEmail = view.findViewById(R.id.user_email);
-//        textFirstName = view.findViewById(R.id.user_first_name);
-//        textLastName = view.findViewById(R.id.user_last_name);
+        textEmail = view.findViewById(R.id.text_email);
+        textName = view.findViewById(R.id.text_name);
 //
         // event click
         (view.findViewById(R.id.user_info_edit_button)).setOnClickListener(new View.OnClickListener() {
@@ -132,22 +140,22 @@ public class UserInfoFragment extends Fragment {
 //            }
 //        });
 //
-//        // enable loading
-//        final ProgressBar loadingBar = getActivity().findViewById(R.id.loading_bar);
-//        loadingBar.setVisibility(View.VISIBLE);
+        // enable loading
+        final ProgressBar loadingBar = getActivity().findViewById(R.id.loading_bar);
+        loadingBar.setVisibility(View.VISIBLE);
 //
 //        // track user data
-//        viewModel.getUser().observe(this, new Observer<User>() {
-//            @Override
-//            public void onChanged(@Nullable User user) {
-//                mUser = user;
-//                textEmail.setText(user.email);
-//                textFirstName.setText(user.firstname);
-//                textLastName.setText(user.lastname);
-//                loadingBar.setVisibility(View.GONE);
-//            }
-//        });
-//        viewModel.fetchCurrentUser();
+        viewModel.getUser().observe(this, new Observer<User>() {
+            @Override
+            public void onChanged(@Nullable User user) {
+                mUser = user;
+                textEmail.setText(user.email);
+                textName.setText(user.firstname + " " + user.lastname);
+                loadingBar.setVisibility(View.GONE);
+
+            }
+        });
+        viewModel.fetchCurrentUser();
 
         return view;
     }
