@@ -43,6 +43,10 @@ public class EventCreatedFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public List<Event> getEvents() {
+        return events;
+    }
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -62,6 +66,8 @@ public class EventCreatedFragment extends Fragment {
         super.onCreate(savedInstanceState);
         viewmodel = ViewModelProviders.of(getActivity()).get(AuthUserViewModel.class);
         context = getContext();
+        events = new ArrayList<>();
+        adapter = new ListEventsAdapter(context, events);
     }
 
     @Override
@@ -69,22 +75,31 @@ public class EventCreatedFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_event_created, container, false);
-
         listView = view.findViewById(R.id.list);
-        events = new ArrayList<>();
-        adapter = new ListEventsAdapter(context, events);
-        listView.setAdapter(adapter);
 
-        viewmodel.getCreatedEvents().observe(this, new Observer<List<Event>>() {
-            @Override
-            public void onChanged(@Nullable List<Event> resultEvents) {
-                events.clear();
-                events.addAll(resultEvents);
-                adapter.notifyDataSetChanged();
-            }
-        });
+        if (listView.getAdapter() == null){
+            listView.setAdapter(adapter);
+
+            viewmodel.getCreatedEvents().observe(this, new Observer<List<Event>>() {
+                @Override
+                public void onChanged(@Nullable List<Event> resultEvents) {
+                    events.clear();
+                    events.addAll(resultEvents);
+                    adapter.notifyDataSetChanged();
+                }
+            });
+        } else {
+            events.clear();
+            adapter.notifyDataSetChanged();
+        }
+
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override

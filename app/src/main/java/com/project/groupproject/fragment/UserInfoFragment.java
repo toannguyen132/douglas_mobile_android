@@ -47,12 +47,17 @@ public class UserInfoFragment extends Fragment {
     private AuthUserViewModel viewModel;
     private EventsListViewModel createdViewModel;
     private EventsListViewModel likedViewModel;
+    private EventCreatedFragment createdEventFragment;
+    private EventLikedFragment likedEventFragment;
+    private ViewPageAdapter adapter;
 
     // view
     private TextView textName;
     private TextView textEmail;
 
     private ViewPager viewPager;
+
+    ProgressBar loadingBar;
 
     public UserInfoFragment() {
         // Required empty public constructor
@@ -82,6 +87,10 @@ public class UserInfoFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = ViewModelProviders.of(getActivity()).get(AuthUserViewModel.class);
+
+        // init event
+        createdEventFragment = new EventCreatedFragment();
+        likedEventFragment = new EventLikedFragment();
     }
 
     @Override
@@ -92,25 +101,16 @@ public class UserInfoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user_info2, container, false);
 
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.htab_tabs);
+        tabLayout.removeAllTabs();
         tabLayout.addTab(tabLayout.newTab().setText("LIKED EVENTS"));
         tabLayout.addTab(tabLayout.newTab().setText("CREATED EVENTS"));
 
         viewPager = view.findViewById(R.id.htab_viewpager);
-        ViewPageAdapter adapter = new ViewPageAdapter(getFragmentManager());
-        adapter.AddFragment(new EventCreatedFragment(), "Created");
-        adapter.AddFragment(new EventLikedFragment(), "Liked");
+        adapter = new ViewPageAdapter(getChildFragmentManager());
+        adapter.AddFragment(createdEventFragment, "Created");
+        adapter.AddFragment(likedEventFragment, "Liked");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
-
-//        //Toolbar
-//        Toolbar toolbar = view.findViewById(R.id.htab_toolbar);
-//        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-//        if(((AppCompatActivity)getActivity()).getSupportActionBar() != null){
-//            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        }
-//
-//        final ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
-//        actionBar.hide();
 
         //
         textEmail = view.findViewById(R.id.text_email);
@@ -141,10 +141,10 @@ public class UserInfoFragment extends Fragment {
 //        });
 //
         // enable loading
-        final ProgressBar loadingBar = getActivity().findViewById(R.id.loading_bar);
-        loadingBar.setVisibility(View.VISIBLE);
-//
-//        // track user data
+        loadingBar = getActivity().findViewById(R.id.loading_bar);
+//        loadingBar.setVisibility(View.VISIBLE);
+
+        // track user data
         viewModel.getUser().observe(this, new Observer<User>() {
             @Override
             public void onChanged(@Nullable User user) {
@@ -152,9 +152,9 @@ public class UserInfoFragment extends Fragment {
                 textEmail.setText(user.email);
                 textName.setText(user.firstname + " " + user.lastname);
                 loadingBar.setVisibility(View.GONE);
-
             }
         });
+
         viewModel.fetchCurrentUser();
 
         return view;

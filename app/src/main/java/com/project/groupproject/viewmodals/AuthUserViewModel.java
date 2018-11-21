@@ -51,6 +51,9 @@ public class AuthUserViewModel extends ViewModel {
      */
 
     public void fetchUser(final String uid) {
+//        setUser(new User());
+//        setCreatedEvents(new ArrayList<Event>());
+//        setLikedEvents(new ArrayList<Event>());
         collection.document(uid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(final DocumentSnapshot document) {
