@@ -76,7 +76,6 @@ public class UserEditFragment extends Fragment {
             @Override
             public void onChanged(@Nullable User user) {
                 // set current user info to edit text
-
                 inputFirstName.setText(user.firstname);
                 inputLastName.setText(user.lastname);
             }
