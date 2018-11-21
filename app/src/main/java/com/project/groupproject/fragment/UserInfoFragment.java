@@ -97,6 +97,7 @@ public class UserInfoFragment extends Fragment {
 
         viewPager = view.findViewById(R.id.htab_viewpager);
         ViewPageAdapter adapter = new ViewPageAdapter(getFragmentManager());
+        adapter.AddFragment(new UserAboutFragment(), "About");
         adapter.AddFragment(new EventCreatedFragment(), "Created");
         adapter.AddFragment(new EventLikedFragment(), "Liked");
         viewPager.setAdapter(adapter);
@@ -113,16 +114,16 @@ public class UserInfoFragment extends Fragment {
 //        actionBar.hide();
 
         //
-        textEmail = view.findViewById(R.id.text_email);
+//        textEmail = view.findViewById(R.id.text_email);
         textName = view.findViewById(R.id.text_name);
 //
         // event click
-        (view.findViewById(R.id.user_info_edit_button)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switchView();
-            }
-        });
+//        (view.findViewById(R.id.user_info_edit_button)).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                switchView();
+//            }
+//        });
 //
 //        // logout
 //        (view.findViewById(R.id.user_info_logout)).setOnClickListener(new View.OnClickListener() {
@@ -149,7 +150,7 @@ public class UserInfoFragment extends Fragment {
             @Override
             public void onChanged(@Nullable User user) {
                 mUser = user;
-                textEmail.setText(user.email);
+//                textEmail.setText(user.email);
                 textName.setText(user.firstname + " " + user.lastname);
                 loadingBar.setVisibility(View.GONE);
 

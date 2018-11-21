@@ -41,6 +41,7 @@ import com.project.groupproject.fragment.CreateEventFragment;
 import com.project.groupproject.fragment.EventCreatedFragment;
 import com.project.groupproject.fragment.EventLikedFragment;
 import com.project.groupproject.fragment.EventsListFragment;
+import com.project.groupproject.fragment.UserAboutFragment;
 import com.project.groupproject.fragment.UserEditFragment;
 import com.project.groupproject.fragment.UserInfoFragment;
 import com.project.groupproject.models.Event;
@@ -53,7 +54,8 @@ public class MainActivity extends AppCompatActivity implements UserInfoFragment.
         UserEditFragment.OnUserEditFragmentListener,
         CreateEventFragment.CreateEventFragmentListener,
         EventLikedFragment.OnFragmentInteractionListener,
-        EventCreatedFragment.OnFragmentInteractionListener
+        EventCreatedFragment.OnFragmentInteractionListener,
+        UserAboutFragment.OnFragmentInteractionListener
         {
 
     public final static int LOCATION_PERMISSION = 1;
@@ -201,4 +203,8 @@ public class MainActivity extends AppCompatActivity implements UserInfoFragment.
         startActivity(intent);
     }
 
-}
+            @Override
+            public void onFragmentInteraction(Uri uri) {
+
+            }
+        }
