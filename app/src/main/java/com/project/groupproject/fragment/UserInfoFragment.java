@@ -117,7 +117,7 @@ public class UserInfoFragment extends Fragment {
 
         //
 //        textEmail = view.findViewById(R.id.text_email);
-        // textName = view.findViewById(R.id.text_name);
+         textName = view.findViewById(R.id.text_name);
 //
         // event click
 //        (view.findViewById(R.id.user_info_edit_button)).setOnClickListener(new View.OnClickListener() {
