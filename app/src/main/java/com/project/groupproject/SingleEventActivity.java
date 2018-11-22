@@ -4,7 +4,9 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.NavUtils;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -28,7 +30,8 @@ import com.project.groupproject.models.User;
 import com.project.groupproject.viewmodals.EventViewModel;
 import com.squareup.picasso.Picasso;
 
-public class SingleEventActivity extends AppCompatActivity implements OnMapReadyCallback, Observer<Event> {
+public class SingleEventActivity extends AppCompatActivity
+        implements OnMapReadyCallback, Observer<Event>, AppBarLayout.OnOffsetChangedListener {
 
     TextView viewMonth, viewDate, viewTitle, viewOwner, viewDesc, viewLocation, viewTime, viewLike;
     ImageView viewImage;
@@ -40,6 +43,11 @@ public class SingleEventActivity extends AppCompatActivity implements OnMapReady
     Toolbar toolbar;
     GoogleMap gmap;
 
+    private static final int PERCENTAGE_TO_SHOW_IMAGE = 20;
+    private View mFab;
+    private int mMaxScrollSize;
+    private boolean mIsImageHidden;
+
     private static final String MAP_VIEW_BUNDLE_KEY = "viewbundlekey";
 
     @Override
@@ -50,13 +58,15 @@ public class SingleEventActivity extends AppCompatActivity implements OnMapReady
         //hide actionbar
 //        final ActionBar actionBar = getSupportActionBar();
 //        actionBar.hide();
+        AppBarLayout appbar = (AppBarLayout) findViewById(R.id.flexible_example_appbar);
+        appbar.addOnOffsetChangedListener(this);
 
         toolbar = findViewById(R.id.toolbarSingleEvent);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                onBackPressed();
             }
         });
         toolbar.setTitleTextAppearance(this, R.style.TitleFont);
@@ -64,15 +74,15 @@ public class SingleEventActivity extends AppCompatActivity implements OnMapReady
         final SingleEventActivity instance = this;
 
         // setup views
-        viewMonth = findViewById(R.id.view_month);
+//        viewMonth = findViewById(R.id.view_month);
         viewDate = findViewById(R.id.view_day);
-        viewTitle = findViewById(R.id.view_title);
+//        viewTitle = findViewById(R.id.view_title);
         viewOwner = findViewById(R.id.view_owner);
         viewDesc = findViewById(R.id.view_desc);
         viewLocation = findViewById(R.id.view_location);
-        viewTime = findViewById(R.id.view_time);
+//        viewTime = findViewById(R.id.view_time);
         viewLike = findViewById(R.id.view_like);
-        btnLike = findViewById(R.id.btn_like);
+//        btnLike = findViewById(R.id.btn_like);
         viewImage = findViewById(R.id.view_image);
         viewImage.setImageResource(R.drawable.event1);
         mapView = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_view);
@@ -93,18 +103,18 @@ public class SingleEventActivity extends AppCompatActivity implements OnMapReady
         currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         // button event
-        btnLike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // disable button first
-                btnLike.setEnabled(false);
-                // the process
-                if (isLiked())
-                    viewModel.unlike(currentUid);
-                else
-                    viewModel.likeEvent(currentUid);
-            }
-        });
+//        btnLike.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // disable button first
+//                btnLike.setEnabled(false);
+//                // the process
+//                if (isLiked())
+//                    viewModel.unlike(currentUid);
+//                else
+//                    viewModel.likeEvent(currentUid);
+//            }
+//        });
 
         // create viewModel
         viewModel = ViewModelProviders.of(this).get(EventViewModel.class);
@@ -179,25 +189,25 @@ public class SingleEventActivity extends AppCompatActivity implements OnMapReady
     }
 
     public void checkLikeButton() {
-        if (isLiked()) {
-            btnLike.setText("Unlike");
-        } else {
-            btnLike.setText("Like");
-        }
-        // activate button again
-        btnLike.setEnabled(true);
+//        if (isLiked()) {
+//            btnLike.setText("Unlike");
+//        } else {
+//            btnLike.setText("Like");
+//        }
+//        // activate button again
+//        btnLike.setEnabled(true);
     }
 
     @Override
     public void onChanged(@Nullable Event newEvent) {
         event = newEvent;
         //set text in textview
-        viewTitle.setText(event.name);
-        viewMonth.setText(getEventStartMonth());
+//        viewTitle.setText(event.name);
+//        viewMonth.setText(getEventStartMonth());
         viewDate.setText(getEventStartDay());
         viewDesc.setText(event.description);
         viewLocation.setText(event.location);
-        viewTime.setText(getEventTime());
+//        viewTime.setText(getEventTime());
         viewLike.setText(String.valueOf(event.num_like) + " " + Helper.pluralize(event.num_like, "Like", "Likes"));
 
         // set image
@@ -216,5 +226,29 @@ public class SingleEventActivity extends AppCompatActivity implements OnMapReady
 
         // render map
         mapView.getMapAsync(this);
+    }
+
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+        if (mMaxScrollSize == 0)
+            mMaxScrollSize = appBarLayout.getTotalScrollRange();
+
+        int currentScrollPercentage = (Math.abs(i)) * 100
+                / mMaxScrollSize;
+
+        if (currentScrollPercentage >= PERCENTAGE_TO_SHOW_IMAGE) {
+            if (!mIsImageHidden) {
+                mIsImageHidden = true;
+
+                ViewCompat.animate(mFab).scaleY(0).scaleX(0).start();
+            }
+        }
+
+        if (currentScrollPercentage < PERCENTAGE_TO_SHOW_IMAGE) {
+            if (mIsImageHidden) {
+                mIsImageHidden = false;
+                ViewCompat.animate(mFab).scaleY(1).scaleX(1).start();
+            }
+        }
     }
 }
