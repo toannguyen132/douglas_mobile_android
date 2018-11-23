@@ -108,7 +108,7 @@ public class UserInfoFragment extends Fragment {
         viewPager = view.findViewById(R.id.htab_viewpager);
 
         adapter = new ViewPageAdapter(getChildFragmentManager());
-        adapter.AddFragment(new UserAboutFragment(), "About");
+//        adapter.AddFragment(new UserAboutFragment(), "About");
         adapter.AddFragment(createdEventFragment, "Created");
         adapter.AddFragment(likedEventFragment, "Liked");
 
@@ -116,24 +116,24 @@ public class UserInfoFragment extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
 
         //
-//        textEmail = view.findViewById(R.id.text_email);
-         textName = view.findViewById(R.id.text_name);
+        textEmail = view.findViewById(R.id.text_email);
+        textName = view.findViewById(R.id.text_name);
 //
         // event click
-//        (view.findViewById(R.id.user_info_edit_button)).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                switchView();
-//            }
-//        });
-//
-//        // logout
-//        (view.findViewById(R.id.user_info_logout)).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                logout();
-//            }
-//        });
+        (view.findViewById(R.id.user_info_edit_button)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchView();
+            }
+        });
+
+        // logout
+        (view.findViewById(R.id.user_info_logout)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
+            }
+        });
 //
 //        // my events
 //        (view.findViewById(R.id.user_info_events_btn)).setOnClickListener(new View.OnClickListener() {
