@@ -222,7 +222,7 @@ public class SingleEventActivity extends AppCompatActivity
         checkLikeButton();
 
         //set toolbar title
-        toolbar.setTitle(event.name);
+//        toolbar.setTitle(event.name);
 
         // render map
         mapView.getMapAsync(this);
@@ -230,8 +230,9 @@ public class SingleEventActivity extends AppCompatActivity
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
-        if (mMaxScrollSize == 0)
+        if (mMaxScrollSize == 0){
             mMaxScrollSize = appBarLayout.getTotalScrollRange();
+        }
 
         int currentScrollPercentage = (Math.abs(i)) * 100
                 / mMaxScrollSize;
@@ -241,6 +242,7 @@ public class SingleEventActivity extends AppCompatActivity
                 mIsImageHidden = true;
 
                 ViewCompat.animate(mFab).scaleY(0).scaleX(0).start();
+                toolbar.setTitle(event.name);
             }
         }
 
