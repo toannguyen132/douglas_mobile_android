@@ -213,7 +213,7 @@ public class UserInfoFragment extends Fragment {
         final String uid = mUser.getId();
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        final StorageReference storageRef = storage.getReference("events");
+        final StorageReference storageRef = storage.getReference("users");
         storageRef.child(uid).putFile(selectedImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
