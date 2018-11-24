@@ -12,6 +12,7 @@ public class User implements Serializable{
     public String firstname;
     public String lastname;
     public String email;
+    public String avatar;
     public List<String> liked_events;
 
     public User() {

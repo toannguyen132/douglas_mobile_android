@@ -4,7 +4,9 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,14 +15,22 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.project.groupproject.R;
 import com.project.groupproject.UserEventsListActivity;
 import com.project.groupproject.adapters.ViewPageAdapter;
@@ -28,6 +38,7 @@ import com.project.groupproject.models.Event;
 import com.project.groupproject.models.User;
 import com.project.groupproject.viewmodals.AuthUserViewModel;
 import com.project.groupproject.viewmodals.EventsListViewModel;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -39,6 +50,7 @@ public class UserInfoFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_USER = "user";
+    private static final int PICK_IMAGE = 1;
 
     // TODO: Rename and change types of parameters
     private User mUser;
@@ -54,6 +66,8 @@ public class UserInfoFragment extends Fragment {
     // view
     private TextView textName;
     private TextView textEmail;
+    private ImageView imageProfile;
+    private Uri selectedImage;
 
     private ViewPager viewPager;
 
@@ -134,15 +148,18 @@ public class UserInfoFragment extends Fragment {
                 logout();
             }
         });
-//
-//        // my events
-//        (view.findViewById(R.id.user_info_events_btn)).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                goToMyEvent();
-//            }
-//        });
-//
+
+        /**
+         * Display photo dialog to upload a profile photo
+         */
+        imageProfile = view.findViewById(R.id.profile_image);
+        imageProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openPhotoDialog();
+            }
+        });
+
         // enable loading
         loadingBar = getActivity().findViewById(R.id.loading_bar);
 //        loadingBar.setVisibility(View.VISIBLE);
@@ -155,6 +172,9 @@ public class UserInfoFragment extends Fragment {
 //                textEmail.setText(user.email);
                 textName.setText(user.firstname + " " + user.lastname);
                 loadingBar.setVisibility(View.GONE);
+                if (mUser.avatar != null){
+                    Picasso.get().load(mUser.avatar).into(imageProfile);
+                }
             }
         });
 
@@ -178,6 +198,49 @@ public class UserInfoFragment extends Fragment {
     public void logout() {
         FirebaseAuth.getInstance().signOut();
         getActivity().finish();
+    }
+
+    private void openPhotoDialog() {
+        Intent photoIntent = new Intent(Intent.ACTION_PICK);
+        photoIntent.setType("image/*");
+        startActivityForResult(photoIntent, PICK_IMAGE);
+    }
+
+    /**
+     * handle uploading profile
+     */
+    private void uploadProfile() {
+        final String uid = mUser.getId();
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        final StorageReference storageRef = storage.getReference("events");
+        storageRef.child(uid).putFile(selectedImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Log.d("project_group", "upload success");
+                storageRef.child(uid).getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        mUser.avatar = task.getResult().toString();
+                        viewModel.saveCurrentUser(mUser);
+                    }
+                });
+            }
+        });
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE){
+            Log.d("PICK_IMAGE", "pick image success");
+            selectedImage = data.getData();
+            imageProfile.setImageURI(selectedImage);
+
+            // process uploading
+            uploadProfile();
+        }
     }
 
     /**
