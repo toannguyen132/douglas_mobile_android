@@ -107,10 +107,11 @@
     <style name="ToolBarWithNavigationBack">
         <item name="navigationIcon">@drawable/ic_arrow_back_black_24dp</item>
     </style>
+
     <style name="TextAppearance" parent="TextAppearance.AppCompat"/>
     <style name="TextAppearance.Header">
         <item name="android:textAllCaps">true</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textColor">?colorAccent</item>
     </style>
 

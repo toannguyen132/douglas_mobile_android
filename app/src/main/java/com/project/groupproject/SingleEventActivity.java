@@ -78,7 +78,7 @@ public class SingleEventActivity extends AppCompatActivity
         // setup views
 //        viewMonth = findViewById(R.id.view_month);
         viewDate = findViewById(R.id.view_day);
-//        viewTitle = findViewById(R.id.view_title);
+        viewTitle = findViewById(R.id.view_title);
         viewOwner = findViewById(R.id.view_owner);
         viewDesc = findViewById(R.id.view_desc);
         viewLocation = findViewById(R.id.view_location);
@@ -134,7 +134,7 @@ public class SingleEventActivity extends AppCompatActivity
         viewModel.getUser().observe(this, new Observer<User>() {
             @Override
             public void onChanged(@Nullable User user) {
-                viewOwner.setText(user.firstname + " " + user.lastname);
+                viewOwner.setText("By " +user.firstname + " " + user.lastname);
             }
         });
 
@@ -153,14 +153,9 @@ public class SingleEventActivity extends AppCompatActivity
         }
     }
 
-    private String getEventStartMonth(){
+    private String getEventDate(){
         android.text.format.DateFormat df = new android.text.format.DateFormat();
-        return df.format("MMM", this.event.start_date).toString();
-    }
-
-    private String getEventStartDay(){
-        android.text.format.DateFormat df = new android.text.format.DateFormat();
-        return df.format("dd", this.event.start_date).toString();
+        return df.format("dd MMM yyyy", this.event.start_date).toString();
     }
 
     private String getEventTime() {
@@ -212,9 +207,9 @@ public class SingleEventActivity extends AppCompatActivity
     public void onChanged(@Nullable Event newEvent) {
         event = newEvent;
         //set text in textview
-//        viewTitle.setText(event.name);
+        viewTitle.setText(event.name);
 //        viewMonth.setText(getEventStartMonth());
-        viewDate.setText(getEventStartDay());
+        viewDate.setText( getEventDate() + " | " + getEventTime());
         viewDesc.setText(event.description);
         viewLocation.setText(event.location);
 //        viewTime.setText(getEventTime());
@@ -247,10 +242,13 @@ public class SingleEventActivity extends AppCompatActivity
         int currentScrollPercentage = (Math.abs(i)) * 100
                 / mMaxScrollSize;
 
+        if(currentScrollPercentage == 0) {
+            toolbar.setTitle("");
+        }
+
         if (currentScrollPercentage >= PERCENTAGE_TO_SHOW_IMAGE) {
             if (!mIsImageHidden) {
                 mIsImageHidden = true;
-
                 ViewCompat.animate(mFab).scaleY(0).scaleX(0).start();
             }
         }

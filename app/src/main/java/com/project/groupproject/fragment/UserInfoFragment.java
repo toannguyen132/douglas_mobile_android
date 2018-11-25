@@ -169,7 +169,7 @@ public class UserInfoFragment extends Fragment {
             @Override
             public void onChanged(@Nullable User user) {
                 mUser = user;
-//                textEmail.setText(user.email);
+                textEmail.setText(user.email);
                 textName.setText(user.firstname + " " + user.lastname);
                 loadingBar.setVisibility(View.GONE);
                 if (mUser.avatar != null){
