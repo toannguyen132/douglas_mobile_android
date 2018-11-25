@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -35,7 +36,8 @@ public class SingleEventActivity extends AppCompatActivity
 
     TextView viewMonth, viewDate, viewTitle, viewOwner, viewDesc, viewLocation, viewTime, viewLike;
     ImageView viewImage;
-    Button btnLike;
+//    Button btnLike;
+    FloatingActionButton btnLike;
     Event event;
     EventViewModel viewModel;
     SupportMapFragment mapView;
@@ -83,6 +85,7 @@ public class SingleEventActivity extends AppCompatActivity
 //        viewTime = findViewById(R.id.view_time);
         viewLike = findViewById(R.id.view_like);
 //        btnLike = findViewById(R.id.btn_like);
+        btnLike = findViewById(R.id.likeBtn);
         viewImage = findViewById(R.id.view_image);
         viewImage.setImageResource(R.drawable.event1);
         mapView = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_view);
@@ -103,18 +106,23 @@ public class SingleEventActivity extends AppCompatActivity
         currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         // button event
-//        btnLike.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // disable button first
-//                btnLike.setEnabled(false);
-//                // the process
-//                if (isLiked())
-//                    viewModel.unlike(currentUid);
-//                else
-//                    viewModel.likeEvent(currentUid);
-//            }
-//        });
+        btnLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // disable button first
+                btnLike.setEnabled(false);
+                // the process
+                if (isLiked()) {
+                    viewModel.unlike(currentUid);
+                    btnLike.setImageResource(R.drawable.heart_passive);
+                }
+                else{
+                    viewModel.likeEvent(currentUid);
+                    btnLike.setImageResource(R.drawable.heart);
+                }
+
+            }
+        });
 
         // create viewModel
         viewModel = ViewModelProviders.of(this).get(EventViewModel.class);
@@ -189,13 +197,15 @@ public class SingleEventActivity extends AppCompatActivity
     }
 
     public void checkLikeButton() {
-//        if (isLiked()) {
+        if (isLiked()) {
 //            btnLike.setText("Unlike");
-//        } else {
+            btnLike.setImageResource(R.drawable.heart);
+        } else {
 //            btnLike.setText("Like");
-//        }
-//        // activate button again
-//        btnLike.setEnabled(true);
+            btnLike.setImageResource(R.drawable.heart_passive);
+        }
+        // activate button again
+        btnLike.setEnabled(true);
     }
 
     @Override
@@ -222,7 +232,7 @@ public class SingleEventActivity extends AppCompatActivity
         checkLikeButton();
 
         //set toolbar title
-//        toolbar.setTitle(event.name);
+        toolbar.setTitle(event.name);
 
         // render map
         mapView.getMapAsync(this);
@@ -242,7 +252,6 @@ public class SingleEventActivity extends AppCompatActivity
                 mIsImageHidden = true;
 
                 ViewCompat.animate(mFab).scaleY(0).scaleX(0).start();
-                toolbar.setTitle(event.name);
             }
         }
 
