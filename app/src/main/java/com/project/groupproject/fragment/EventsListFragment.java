@@ -20,6 +20,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -116,6 +117,8 @@ public class EventsListFragment extends Fragment {
 
         eventsView = view.findViewById(R.id.listView);
         inputSearch = view.findViewById(R.id.input_search);
+        inputSearch.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
 
 

@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -67,6 +68,7 @@ public class UserInfoFragment extends Fragment {
     private TextView textName;
     private TextView textEmail;
     private ImageView imageProfile;
+    private Button editImage;
     private Uri selectedImage;
 
     private ViewPager viewPager;
@@ -154,6 +156,13 @@ public class UserInfoFragment extends Fragment {
          */
         imageProfile = view.findViewById(R.id.profile_image);
         imageProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openPhotoDialog();
+            }
+        });
+        editImage = view.findViewById(R.id.edit_pic);
+        editImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openPhotoDialog();
