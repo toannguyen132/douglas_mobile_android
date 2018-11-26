@@ -160,8 +160,8 @@
                 android:id="@+id/view_image"
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/event1" />
+                android:background="@color/white"
+                android:scaleType="centerCrop" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbarSingleEvent"
@@ -239,7 +239,8 @@
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
                         android:text="Nov 16 2019 "
-                        android:textColor="@color/colorText" />
+                        android:textColor="@color/colorText"
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/view_location"
@@ -251,7 +252,8 @@
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
                         android:text="Location"
-                        android:textColor="@color/colorText" />
+                        android:textColor="@color/colorText"
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/view_like"
@@ -264,7 +266,8 @@
                         android:paddingTop="6dp"
                         android:text="123 likes"
                         android:textAppearance="@style/TextAppearance.Header"
-                        android:textColor="@color/colorText" />
+                        android:textColor="@color/colorText"
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/textView6"
@@ -273,7 +276,8 @@
                         android:paddingBottom="12dp"
                         android:paddingTop="12dp"
                         android:text="Description"
-                        android:textAppearance="@style/TextAppearance.Header" />
+                        android:textAppearance="@style/TextAppearance.Header"
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/view_desc"
@@ -282,7 +286,7 @@
                         android:fontFamily="@font/roboto_regular"
                         android:lineSpacingExtra="8dp"
                         android:text="The event is aimed at children ages 6 to 12, but everyone is welcome to enjoy cookie decorating, holiday crafts, games, treats, sports challenges, a photo station and more."
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/textView3"
@@ -291,7 +295,8 @@
                         android:paddingBottom="12dp"
                         android:paddingTop="12dp"
                         android:text="Location"
-                        android:textAppearance="@style/TextAppearance.Header" />
+                        android:textAppearance="@style/TextAppearance.Header"
+                        android:textSize="15sp" />
 
                     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
                         xmlns:map="http://schemas.android.com/apk/res-auto"

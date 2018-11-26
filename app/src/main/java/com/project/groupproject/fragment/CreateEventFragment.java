@@ -115,7 +115,8 @@ public class CreateEventFragment extends Fragment {
         inputName.setText("");
         inputDesc.setText("");
         inputLocation.setText("");
-        imgEvent.setImageResource(R.drawable.event1);
+//        imgEvent.setImageResource(R.drawable.event1);
+        imgEvent.setImageResource(R.drawable.logo222);
 
         // datepicker
         datepicker = new DatePickerDialog(view.getContext());
@@ -243,6 +244,15 @@ public class CreateEventFragment extends Fragment {
                     });
                 } else {
                     createEvent(e);
+                    //reset fields
+                    fromDate.setText("");
+                    toDate.setText("");
+                    fromTime.setText("");
+                    toTime.setText("");
+                    inputName.setText("");
+                    inputDesc.setText("");
+                    inputLocation.setText("");
+                    Toast.makeText(getActivity(),"Your event is created", Toast.LENGTH_LONG).show();
                 }
 
                 Log.d("Event", "Get coordinate error");

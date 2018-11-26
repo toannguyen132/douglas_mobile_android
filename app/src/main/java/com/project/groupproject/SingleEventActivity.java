@@ -87,7 +87,8 @@ public class SingleEventActivity extends AppCompatActivity
 //        btnLike = findViewById(R.id.btn_like);
         btnLike = findViewById(R.id.likeBtn);
         viewImage = findViewById(R.id.view_image);
-        viewImage.setImageResource(R.drawable.event1);
+//        viewImage.setImageResource(R.drawable.event1);
+//        viewImage.setImageResource(R.drawable.logo222);
         mapView = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_view);
 
         // map init
@@ -220,7 +221,8 @@ public class SingleEventActivity extends AppCompatActivity
 //                    viewImage.setImageURI(event.image);
             Picasso.get().load(event.image).into(viewImage);
         } else {
-            viewImage.setImageResource(R.drawable.event1);
+//            viewImage.setImageResource(R.drawable.event1);
+            viewImage.setImageResource(R.drawable.logo222);
         }
 
         //
