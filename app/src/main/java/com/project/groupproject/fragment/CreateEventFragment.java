@@ -11,6 +11,7 @@ import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -128,6 +129,8 @@ public class CreateEventFragment extends Fragment {
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 fromDate.setText(year + "/" + month + "/" + dayOfMonth);
                 fromDateValue.set(year, month, dayOfMonth);
+                datepicker.getDatePicker().setMinDate(0);
+                datepicker.getDatePicker().setMinDate(fromDateValue.getTime().getTime());
             }
         };
         toListener = new DatePickerDialog.OnDateSetListener() {
@@ -141,8 +144,9 @@ public class CreateEventFragment extends Fragment {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    Toast.makeText(view.getContext(), "test", Toast.LENGTH_SHORT);
+                    datepicker = new DatePickerDialog(view.getContext());
                     datepicker.setOnDateSetListener(fromListener);
+                    datepicker.getDatePicker().setMinDate(Calendar.getInstance().getTime().getTime());
                     datepicker.show();
                 }
             }
