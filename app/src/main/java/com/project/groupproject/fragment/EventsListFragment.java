@@ -60,25 +60,29 @@ public class EventsListFragment extends Fragment {
     LocationManager locationManager;
     Context context;
     FragmentActivity parent;
+    boolean locationFetched = false;
+    boolean firstFetched = false;
 
     LocationListener listener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
-            double lng = location.getLongitude();
-            double lat = location.getLatitude();
-            Log.d("request_location", lat + ", " + lng);
+            if (!locationFetched) {
+                double lng = location.getLongitude();
+                double lat = location.getLatitude();
+                Log.d("request_location", lat + ", " + lng);
+                locationFetched = true;
 
-            Geocoder geocoder = new Geocoder(context, Locale.getDefault());
-            try {
-                List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
-                String city = addresses.get(0).getLocality();
-                String postalCode = addresses.get(0).getPostalCode().replace(" ", "");
-                inputSearch.setText(city);
-                applyFilter(city);
-            } catch (IOException e) {
+                Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+                try {
+                    List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+                    String city = addresses.get(0).getLocality();
+                    String postalCode = addresses.get(0).getPostalCode().replace(" ", "");
+                    inputSearch.setText(city);
+                    applyFilter(city);
+                } catch (IOException e) {
 
+                }
             }
-
         }
 
         @Override
@@ -110,17 +114,16 @@ public class EventsListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_events_list, container, false);
+        final View view = inflater.inflate(R.layout.fragment_events_list, container, false);
 
         context = view.getContext();
         parent = this.getActivity();
 
-        eventsView = view.findViewById(R.id.listView);
+        eventsView = view.findViewById(R.id.list);
         inputSearch = view.findViewById(R.id.input_search);
         inputSearch.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
 
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
-
 
         eventsList = new ArrayList<>();
 
@@ -129,6 +132,7 @@ public class EventsListFragment extends Fragment {
 
         //bind the adapter to the listview
         eventsView.setAdapter(adapter);
+        eventsView.setEmptyView(view.findViewById(R.id.empty));
 
         // query
         viewModel = ViewModelProviders.of(getActivity()).get(EventsListViewModel.class);
@@ -151,18 +155,25 @@ public class EventsListFragment extends Fragment {
             public void onChanged(@Nullable List<Event> events) {
                 eventsList.clear();
                 eventsList.addAll(events);
+                eventsView.setEmptyView(view.findViewById(R.id.empty));
                 adapter.notifyDataSetChanged();
                 loadingBar.setVisibility(View.GONE);
                 swipeRefreshLayout.setRefreshing(false);
+
+                // turn the firstFetch FLAG to true, prevent auto refresh
+                if (!firstFetched) firstFetched = true;
             }
         });
 
+
         // get current location
-        locationManager = (LocationManager)parent.getSystemService(Context.LOCATION_SERVICE);
+        if (locationManager == null) locationManager = (LocationManager)parent.getSystemService(Context.LOCATION_SERVICE);
         getLocation();
 
-        // query
-        viewModel.queryEvents();
+        // query events automatically for the first time only
+        if (!firstFetched) {
+            viewModel.queryEvents();
+        }
 
         inputSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -187,6 +198,8 @@ public class EventsListFragment extends Fragment {
 
         return view;
     }
+
+
 
     public void applyFilter(String s) {
         viewModel.filterEvent(s);

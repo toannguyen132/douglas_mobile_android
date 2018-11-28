@@ -57,17 +57,26 @@
 
             </android.support.v7.widget.Toolbar>
 
+            <TextView
+                android:id="@+id/empty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="15dp"
+                android:textAlignment="center"
+                android:text="@string/no_event"/>
+
             <android.support.v4.widget.SwipeRefreshLayout
                 android:id="@+id/swipe_refresh_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <ListView
-                    android:id="@+id/listView"
+                    android:id="@+id/list"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:divider="@null"
-                    android:dividerHeight="0dp"></ListView>
+                    android:dividerHeight="0dp"
+                    android:visibility="gone"/>
 
             </android.support.v4.widget.SwipeRefreshLayout>
         </LinearLayout>
