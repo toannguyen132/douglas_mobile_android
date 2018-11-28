@@ -169,7 +169,7 @@
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
-                        android:src="@drawable/avatar"
+                        android:src="@drawable/user_default"
                         app:civ_border_color="#ffffff"
                         app:civ_border_width="2dp"
                         app:layout_constraintBottom_toBottomOf="parent"
