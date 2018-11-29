@@ -14,10 +14,12 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -59,6 +61,7 @@ import io.opencensus.internal.StringUtil;
 public class CreateEventFragment extends Fragment {
 
     private CreateEventFragmentListener mListener;
+    private Context context;
 
     // components
     private Button mButton;
@@ -92,12 +95,18 @@ public class CreateEventFragment extends Fragment {
         return new CreateEventFragment();
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        context = getActivity();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_create_event, container, false);
+
 
         //
         fromDate = view.findViewById(R.id.input_event_start_date);
@@ -140,67 +149,59 @@ public class CreateEventFragment extends Fragment {
                 toDateValue.set(year, month, dayOfMonth);
             }
         };
-        fromDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        fromDate.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    datepicker = new DatePickerDialog(view.getContext());
-                    datepicker.setOnDateSetListener(fromListener);
-                    datepicker.getDatePicker().setMinDate(Calendar.getInstance().getTime().getTime());
-                    datepicker.show();
-                }
+            public void onClick(View v) {
+                datepicker = new DatePickerDialog(view.getContext());
+                datepicker.setOnDateSetListener(fromListener);
+                datepicker.getDatePicker().setMinDate(Calendar.getInstance().getTime().getTime());
+                datepicker.show();
             }
         });
-        toDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        toDate.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    datepicker.setOnDateSetListener(toListener);
-                    datepicker.show();
-                }
+            public void onClick(View v) {
+                datepicker.setOnDateSetListener(toListener);
+                datepicker.show();
             }
         });
 
-        fromTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        fromTime.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    Calendar currentTime = Calendar.getInstance();
-                    int hour = 9; //currentTime.get(Calendar.HOUR_OF_DAY);
-                    int minute = 0; //currentTime.get(Calendar.MINUTE);
-                    timepicker = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
-                        @Override
-                        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                            String hourString = Strings.padStart(String.valueOf(hourOfDay), 2, '0');
-                            String minString = Strings.padStart(String.valueOf(minute), 2, '0');
-                            fromTime.setText( hourString + ":" + minString);
-                            fromDateValue.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                            fromDateValue.set(Calendar.MINUTE, minute);
-                        }
-                    }, hour, minute, true);
-                    timepicker.show();
-                }
+            public void onClick(View v) {Calendar currentTime = Calendar.getInstance();
+                int hour = 9; //currentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = 0; //currentTime.get(Calendar.MINUTE);
+                timepicker = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        String hourString = Strings.padStart(String.valueOf(hourOfDay), 2, '0');
+                        String minString = Strings.padStart(String.valueOf(minute), 2, '0');
+                        fromTime.setText( hourString + ":" + minString);
+                        fromDateValue.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        fromDateValue.set(Calendar.MINUTE, minute);
+                    }
+                }, hour, minute, true);
+                timepicker.show();
             }
         });
-        toTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        toTime.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    Calendar currentTime = Calendar.getInstance();
-                    int hour = 18;//currentTime.get(Calendar.HOUR_OF_DAY);
-                    int minute = 0; //currentTime.get(Calendar.MINUTE);
-                    timepicker = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
-                        @Override
-                        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                            String hourString = Strings.padStart(String.valueOf(hourOfDay), 2, '0');
-                            String minString = Strings.padStart(String.valueOf(minute), 2, '0');
-                            toTime.setText( hourString + ":" + minString);
-                            toDateValue.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                            toDateValue.set(Calendar.MINUTE, minute);
-                        }
-                    }, hour, minute, true);
-                    timepicker.show();
-                }
+            public void onClick(View v) {
+                Calendar currentTime = Calendar.getInstance();
+                int hour = 18;//currentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = 0; //currentTime.get(Calendar.MINUTE);
+                timepicker = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        String hourString = Strings.padStart(String.valueOf(hourOfDay), 2, '0');
+                        String minString = Strings.padStart(String.valueOf(minute), 2, '0');
+                        toTime.setText( hourString + ":" + minString);
+                        toDateValue.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        toDateValue.set(Calendar.MINUTE, minute);
+                        toTime.clearFocus();
+                    }
+                }, hour, minute, true);
+                timepicker.show();
             }
         });
 
@@ -248,15 +249,6 @@ public class CreateEventFragment extends Fragment {
                     });
                 } else {
                     createEvent(e);
-                    //reset fields
-                    fromDate.setText("");
-                    toDate.setText("");
-                    fromTime.setText("");
-                    toTime.setText("");
-                    inputName.setText("");
-                    inputDesc.setText("");
-                    inputLocation.setText("");
-                    Toast.makeText(getActivity(),"Your event is created", Toast.LENGTH_LONG).show();
                 }
 
                 Log.d("Event", "Get coordinate error");
@@ -302,16 +294,80 @@ public class CreateEventFragment extends Fragment {
     public void createEvent(Event event){
         final Event e = event;
         final ProgressBar loadingBar = getActivity().findViewById(R.id.loading_bar);
-        loadingBar.setVisibility(ProgressBar.VISIBLE);;
-        EventViewModel.createEvent(e.id, event).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
 
-                loadingBar.setVisibility(ProgressBar.GONE);;
-                // trigger listener to open single event
-                mListener.onCreated(e.id);
-            }
-        });
+        if (validate()) {
+            Toast.makeText(context, "validate success", Toast.LENGTH_SHORT).show();
+
+            //reset fields
+            fromDate.setText("");
+            toDate.setText("");
+            fromTime.setText("");
+            toTime.setText("");
+            inputName.setText("");
+            inputDesc.setText("");
+            inputLocation.setText("");
+
+//            loadingBar.setVisibility(ProgressBar.VISIBLE);;
+//            EventViewModel.createEvent(e.id, event).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                @Override
+//                public void onComplete(@NonNull Task<Void> task) {
+//                    loadingBar.setVisibility(ProgressBar.GONE);;
+//                    // trigger listener to open single event
+//                    mListener.onCreated(e.id);
+//                }
+//            });
+        } else {
+
+            Toast.makeText(context, "Validation failed", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private boolean validate() {
+        //
+        if (inputName.getText().toString().trim().equals("")){
+            inputName.requestFocus();
+            inputName.setError(context.getString(R.string.error_event_name_blank));
+            return false;
+        }
+
+        if (fromDate.getText().toString().trim().equals("")){
+            fromDate.requestFocus();
+            fromDate.setError(context.getString(R.string.error_event_start_date_blank));
+            return false;
+        }
+
+        if (fromTime.getText().toString().trim().equals("")){
+            fromTime.requestFocus();
+            fromTime.setError(context.getString(R.string.error_event_start_time_blank));
+            return false;
+        }
+
+        if (toDate.getText().toString().trim().equals("")){
+            toDate.requestFocus();
+            toDate.setError(context.getString(R.string.error_event_end_date_blank));
+            return false;
+        }
+
+        if (toTime.getText().toString().trim().equals("")){
+            toTime.requestFocus();
+            toTime.setError(context.getString(R.string.error_event_end_time_blank));
+            return false;
+        }
+
+        if (fromDateValue.getTimeInMillis() > toDateValue.getTimeInMillis()) {
+            toTime.requestFocus();
+            toTime.setError(context.getString(R.string.error_event_time_conflict));
+            return false;
+        }
+
+        if (inputLocation.getText().toString().trim().equals("")){
+            inputLocation.requestFocus();
+            inputLocation.setError(context.getString(R.string.error_event_loc_blank));
+            return false;
+        }
+
+        return true;
     }
 
     @Override

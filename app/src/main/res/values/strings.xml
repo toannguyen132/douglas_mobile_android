@@ -19,6 +19,14 @@
     <string name="error_email_used">Email has been used! please choose another email.</string>
     <string name="error_password_confirm_not_match">Password confirmation is not matched</string>
 
+    <string name="error_event_name_blank">Event name cannot be blank</string>
+    <string name="error_event_start_date_blank">Start date cannot be blank</string>
+    <string name="error_event_start_time_blank">Start time cannot be blank</string>
+    <string name="error_event_end_date_blank">End date cannot be blank</string>
+    <string name="error_event_end_time_blank">End time cannot be blank</string>
+    <string name="error_event_loc_blank">Event Location cannot be blank</string>
+    <string name="error_event_time_conflict">End time cannot be smaller than start time</string>
+
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
 

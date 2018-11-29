@@ -68,6 +68,8 @@
                             android:drawableLeft="@drawable/title"
                             android:drawablePadding="10dp"
                             android:ems="10"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
                             android:hint="@string/event_name"
                             android:inputType="text"
                             android:textColor="@color/colorText" />
@@ -97,8 +99,11 @@
                                     android:drawableLeft="@drawable/date"
                                     android:drawablePadding="10dp"
                                     android:ems="10"
+                                    android:focusableInTouchMode="true"
                                     android:hint="@string/start_date"
-                                    android:inputType="datetime"
+                                    android:inputType="none"
+                                    android:clickable="true"
+                                    android:focusable="false"
                                     android:textColor="@color/colorText" />
                             </android.support.design.widget.TextInputLayout>
 
@@ -109,6 +114,7 @@
 
                                 <EditText
                                     android:id="@+id/input_event_start_time"
+                                    android:focusableInTouchMode="true"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="2"
@@ -116,7 +122,9 @@
                                     android:drawablePadding="10dp"
                                     android:ems="10"
                                     android:hint="@string/start_time"
-                                    android:inputType="datetime"
+                                    android:inputType="none"
+                                    android:clickable="true"
+                                    android:focusable="false"
                                     android:textColor="@color/colorText" />
                             </android.support.design.widget.TextInputLayout>
                         </LinearLayout>
@@ -149,7 +157,9 @@
                                     android:drawablePadding="10dp"
                                     android:ems="10"
                                     android:hint="@string/end_date"
-                                    android:inputType="datetime"
+                                    android:inputType="none"
+                                    android:clickable="true"
+                                    android:focusable="false"
                                     android:textColor="@color/colorText" />
                             </android.support.design.widget.TextInputLayout>
 
@@ -167,7 +177,9 @@
                                     android:drawablePadding="10dp"
                                     android:ems="10"
                                     android:hint="@string/end_time"
-                                    android:inputType="datetime"
+                                    android:inputType="none"
+                                    android:clickable="true"
+                                    android:focusable="true"
                                     android:textColor="@color/colorText" />
                             </android.support.design.widget.TextInputLayout>
                         </LinearLayout>
