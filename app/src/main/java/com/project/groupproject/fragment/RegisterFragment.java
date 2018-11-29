@@ -147,7 +147,7 @@ public class RegisterFragment extends Fragment {
      * new user will be save to firebase
      */
     private void register() {
-        String email = getUsername();
+        final String email = getUsername();
         String password = getPassword();
 
 
@@ -165,7 +165,9 @@ public class RegisterFragment extends Fragment {
                         // add new User account
                         FirebaseFirestore db = FirebaseFirestore.getInstance();
                         User newUser = new User();
-                        newUser.firstname = "";
+
+                        int index = email.indexOf('@');
+                        newUser.firstname = email.substring(0,index);;
                         newUser.lastname = "";
                         newUser.email = user.getEmail();
                         db.collection("users").document(user.getUid())
