@@ -296,7 +296,7 @@ public class CreateEventFragment extends Fragment {
         final ProgressBar loadingBar = getActivity().findViewById(R.id.loading_bar);
 
         if (validate()) {
-            Toast.makeText(context, "validate success", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "validate success", Toast.LENGTH_SHORT).show();
 
             //reset fields
             fromDate.setText("");
@@ -317,8 +317,7 @@ public class CreateEventFragment extends Fragment {
                 }
             });
         } else {
-
-            Toast.makeText(context, "Validation failed", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "Validation failed", Toast.LENGTH_SHORT).show();
         }
 
     }
