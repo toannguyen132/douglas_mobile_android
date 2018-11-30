@@ -307,15 +307,15 @@ public class CreateEventFragment extends Fragment {
             inputDesc.setText("");
             inputLocation.setText("");
 
-//            loadingBar.setVisibility(ProgressBar.VISIBLE);;
-//            EventViewModel.createEvent(e.id, event).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                @Override
-//                public void onComplete(@NonNull Task<Void> task) {
-//                    loadingBar.setVisibility(ProgressBar.GONE);;
-//                    // trigger listener to open single event
-//                    mListener.onCreated(e.id);
-//                }
-//            });
+            loadingBar.setVisibility(ProgressBar.VISIBLE);;
+            EventViewModel.createEvent(e.id, event).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    loadingBar.setVisibility(ProgressBar.GONE);;
+                    // trigger listener to open single event
+                    mListener.onCreated(e.id);
+                }
+            });
         } else {
 
             Toast.makeText(context, "Validation failed", Toast.LENGTH_SHORT).show();
