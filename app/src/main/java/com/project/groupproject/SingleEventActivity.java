@@ -82,7 +82,7 @@ public class SingleEventActivity extends AppCompatActivity
         viewOwner = findViewById(R.id.view_owner);
         viewDesc = findViewById(R.id.view_desc);
         viewLocation = findViewById(R.id.view_location);
-//        viewTime = findViewById(R.id.view_time);
+        viewTime = findViewById(R.id.view_time);
         viewLike = findViewById(R.id.view_like);
 //        btnLike = findViewById(R.id.btn_like);
         btnLike = findViewById(R.id.likeBtn);
@@ -156,12 +156,14 @@ public class SingleEventActivity extends AppCompatActivity
 
     private String getEventDate(){
         android.text.format.DateFormat df = new android.text.format.DateFormat();
-        return df.format("dd MMM yyyy", this.event.start_date).toString();
+        return (df.format("dd MMM yyyy", this.event.start_date).toString() + " - " +
+                df.format("dd MMM yyyy", this.event.end_date).toString());
     }
 
     private String getEventTime() {
         android.text.format.DateFormat df = new android.text.format.DateFormat();
-        return df.format("hh:mm a", this.event.start_date).toString();
+        return (df.format("hh:mm a", this.event.start_date).toString() + " - " +
+                df.format("hh:mm a", this.event.end_date).toString());
     }
 
     @Override
@@ -210,10 +212,10 @@ public class SingleEventActivity extends AppCompatActivity
         //set text in textview
         viewTitle.setText(event.name);
 //        viewMonth.setText(getEventStartMonth());
-        viewDate.setText( getEventDate() + " | " + getEventTime());
+        viewDate.setText( getEventDate());
         viewDesc.setText(event.description);
         viewLocation.setText(event.location);
-//        viewTime.setText(getEventTime());
+        viewTime.setText(getEventTime());
         viewLike.setText(String.valueOf(event.num_like) + " " + Helper.pluralize(event.num_like, "Like", "Likes"));
 
         // set image
