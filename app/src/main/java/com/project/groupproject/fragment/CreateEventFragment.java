@@ -136,7 +136,7 @@ public class CreateEventFragment extends Fragment {
         fromListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                fromDate.setText(year + "/" + month + "/" + dayOfMonth);
+                fromDate.setText(year + "/" + (month+1) + "/" + dayOfMonth);
                 fromDateValue.set(year, month, dayOfMonth);
                 datepicker.getDatePicker().setMinDate(0);
                 datepicker.getDatePicker().setMinDate(fromDateValue.getTime().getTime());
@@ -145,7 +145,7 @@ public class CreateEventFragment extends Fragment {
         toListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                toDate.setText(year + "/" + month + "/" + dayOfMonth);
+                toDate.setText(year + "/" + (month+1) + "/" + dayOfMonth);
                 toDateValue.set(year, month, dayOfMonth);
             }
         };
