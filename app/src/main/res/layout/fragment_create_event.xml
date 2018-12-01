@@ -177,7 +177,7 @@
                                     android:drawablePadding="10dp"
                                     android:ems="10"
                                     android:hint="@string/end_time"
-                                    android:inputType="none"
+                                    android:inputType="time"
                                     android:clickable="true"
                                     android:focusable="true"
                                     android:textColor="@color/colorText" />

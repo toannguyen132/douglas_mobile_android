@@ -62,6 +62,7 @@ public class EventsListFragment extends Fragment {
     FragmentActivity parent;
     boolean locationFetched = false;
     boolean firstFetched = false;
+    String searchQuery = "";
 
     LocationListener listener = new LocationListener() {
         @Override
@@ -122,6 +123,7 @@ public class EventsListFragment extends Fragment {
         eventsView = view.findViewById(R.id.list);
         inputSearch = view.findViewById(R.id.input_search);
         inputSearch.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        searchQuery = inputSearch.getText().toString();
 
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
 
@@ -172,7 +174,7 @@ public class EventsListFragment extends Fragment {
 
         // query events automatically for the first time only
         if (!firstFetched) {
-            viewModel.queryEvents();
+            applyFilter(inputSearch.getText().toString());
         }
 
         inputSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -180,8 +182,8 @@ public class EventsListFragment extends Fragment {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_GO || actionId == EditorInfo.IME_ACTION_DONE){
                     Log.d(MainActivity.TAG, "search here");
-                    String searchQuery = inputSearch.getText().toString();
-                    applyFilter(searchQuery);
+//                    searchQuery = inputSearch.getText().toString();
+                    applyFilter(inputSearch.getText().toString());
                 }
                 return false;
             }
@@ -192,7 +194,8 @@ public class EventsListFragment extends Fragment {
             @Override
             public void onRefresh() {
                 loadingBar.setVisibility(View.VISIBLE);
-                viewModel.queryEvents();
+//                searchQuery = inputSearch.getText().toString();
+                applyFilter(inputSearch.getText().toString());
             }
         });
 

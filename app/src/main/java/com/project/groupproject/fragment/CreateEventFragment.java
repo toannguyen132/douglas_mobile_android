@@ -131,7 +131,6 @@ public class CreateEventFragment extends Fragment {
         // datepicker
         datepicker = new DatePickerDialog(view.getContext());
 
-
         // set listener
         fromListener = new DatePickerDialog.OnDateSetListener() {
             @Override
