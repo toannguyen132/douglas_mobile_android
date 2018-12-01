@@ -16,6 +16,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -74,6 +75,7 @@ public class CreateEventFragment extends Fragment {
     private EditText inputLocation;
     private ImageView imgEvent;
     private Uri selectedImage;
+    private ProgressBar loadingBar;
 
     private Calendar fromDateValue;
     private Calendar toDateValue;
@@ -81,7 +83,7 @@ public class CreateEventFragment extends Fragment {
     private DatePickerDialog datepicker;
     private DatePickerDialog.OnDateSetListener fromListener, toListener;
     private TimePickerDialog timepicker;
-
+    private FragmentActivity activity;
 
     static final int PICK_IMAGE = 1;
 
@@ -99,6 +101,7 @@ public class CreateEventFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getActivity();
+        activity = getActivity();
     }
 
     @Override
@@ -118,6 +121,8 @@ public class CreateEventFragment extends Fragment {
         inputDesc = view.findViewById(R.id.input_event_desc);
         inputLocation = view.findViewById(R.id.input_event_location);
         imgEvent = view.findViewById(R.id.event_photo);
+
+        loadingBar = activity.findViewById(R.id.loading_bar);
 
         // reset fields
         fromDate.setText("");
@@ -292,7 +297,6 @@ public class CreateEventFragment extends Fragment {
 
     public void createEvent(Event event){
         final Event e = event;
-        final ProgressBar loadingBar = getActivity().findViewById(R.id.loading_bar);
 
         if (validate()) {
 //            Toast.makeText(context, "validate success", Toast.LENGTH_SHORT).show();
@@ -306,7 +310,9 @@ public class CreateEventFragment extends Fragment {
             inputDesc.setText("");
             inputLocation.setText("");
 
-            loadingBar.setVisibility(ProgressBar.VISIBLE);;
+            if (loadingBar != null) {
+                loadingBar.setVisibility(ProgressBar.VISIBLE);;
+            }
             EventViewModel.createEvent(e.id, event).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
