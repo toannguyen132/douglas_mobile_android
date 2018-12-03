@@ -96,11 +96,8 @@ public class ListEventsAdapter extends BaseAdapter{
         holder.mMonthTv.setText(month);
         holder.mDayTv.setText(String.valueOf(cal.get(Calendar.DAY_OF_MONTH)));
 
-//        holder.mMonthTv.setText(cal.get(Calendar.MONTH));
-//        holder.mDayTv.setText(cal.get(Calendar.DAY_OF_MONTH));
 
         if (currentEvent.image != null) {
-//            holder.mIconIv.setImageURI(currentEvent.imageUri);
             Picasso.get().load(currentEvent.image).into(holder.mIconIv);
         } else {
             //set the result in imageview
@@ -123,23 +120,4 @@ public class ListEventsAdapter extends BaseAdapter{
 
         return view;
     }
-
-    //filter
-    public void filter(String charText){
-        charText = charText.toLowerCase(Locale.getDefault());
-        modellist.clear();
-        if (charText.length()==0){
-            modellist.addAll(arrayList);
-        }
-        else {
-            for (Event model : arrayList){
-                if (model.getTitle().toLowerCase(Locale.getDefault())
-                        .contains(charText)){
-                    modellist.add(model);
-                }
-            }
-        }
-        notifyDataSetChanged();
-    }
-
 }

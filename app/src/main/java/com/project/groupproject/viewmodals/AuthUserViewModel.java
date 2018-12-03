@@ -51,37 +51,34 @@ public class AuthUserViewModel extends ViewModel {
      */
 
     public void fetchUser(final String uid) {
-//        setUser(new User());
-//        setCreatedEvents(new ArrayList<Event>());
-//        setLikedEvents(new ArrayList<Event>());
         collection.document(uid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(final DocumentSnapshot document) {
-                User user = document.toObject(User.class);
-                user.setId(document.getId());
-                setUser(user);
+            User user = document.toObject(User.class);
+            user.setId(document.getId());
+            setUser(user);
 
-                collectionEvent.whereEqualTo("uid", uid).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot documentSnapshots) {
-                        List<Event> events = new ArrayList<>();
-                        for (DocumentSnapshot document :  documentSnapshots.getDocuments()) {
-                            events.add(Event.parseFromDocument(document));
-                        }
-                        setCreatedEvents(events);
+            collectionEvent.whereEqualTo("uid", uid).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot documentSnapshots) {
+                    List<Event> events = new ArrayList<>();
+                    for (DocumentSnapshot document :  documentSnapshots.getDocuments()) {
+                        events.add(Event.parseFromDocument(document));
                     }
-                });
+                    setCreatedEvents(events);
+                }
+            });
 
-                collectionEvent.whereArrayContains("likes", uid).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot documentSnapshots) {
-                        List<Event> events = new ArrayList<>();
-                        for (DocumentSnapshot document :  documentSnapshots.getDocuments()) {
-                            events.add(Event.parseFromDocument(document));
-                        }
-                        setLikedEvents(events);
+            collectionEvent.whereArrayContains("likes", uid).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot documentSnapshots) {
+                    List<Event> events = new ArrayList<>();
+                    for (DocumentSnapshot document :  documentSnapshots.getDocuments()) {
+                        events.add(Event.parseFromDocument(document));
                     }
-                });
+                    setLikedEvents(events);
+                }
+            });
             }
         });
     }

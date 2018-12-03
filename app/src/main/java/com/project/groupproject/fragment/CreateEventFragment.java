@@ -222,73 +222,40 @@ public class CreateEventFragment extends Fragment {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Event e = getEvent();
+            final Event e = getEvent();
 
-                // get coordinate first
-                try{
-                    e.generateCoordinate(getContext());
-                } catch (IOException ex) {
-                    Log.d("Event", "Get coordinate error");
-                    ex.printStackTrace();
-                }
-
-                final String eventId = FirebaseFirestore.getInstance().collection("events").document().getId();
-                e.id = eventId;
-                if (selectedImage != null){
-                    // upload image after get id
-                    FirebaseStorage storage = FirebaseStorage.getInstance();
-                    final StorageReference storageRef = storage.getReference("events");
-                    storageRef.child(eventId).putFile(selectedImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Log.d("project_group", "upload success");
-                            storageRef.child(eventId).getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Uri> task) {
-                                    e.setImage(task.getResult());
-                                    createEvent(e);
-                                }
-                            });
-                        }
-                    });
-                } else {
-                    createEvent(e);
-                }
-
+            // get coordinate first
+            try{
+                e.generateCoordinate(getContext());
+            } catch (IOException ex) {
                 Log.d("Event", "Get coordinate error");
+                ex.printStackTrace();
+            }
 
-                // create event
-                /*
-                EventViewModel.createEvent(e).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            final String eventId = FirebaseFirestore.getInstance().collection("events").document().getId();
+            e.id = eventId;
+            if (selectedImage != null){
+                // upload image after get id
+                FirebaseStorage storage = FirebaseStorage.getInstance();
+                final StorageReference storageRef = storage.getReference("events");
+                storageRef.child(eventId).putFile(selectedImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        final String id = documentReference.getId();
-
-                        // upload image after get id
-                        FirebaseStorage storage = FirebaseStorage.getInstance();
-                        final StorageReference storageRef = storage.getReference("events");
-
-                        if (selectedImage != null){
-                            storageRef.child(id).putFile(selectedImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                    // trigger listener to open single event
-                                    mListener.onCreated(id);
-
-                                    storageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Uri> task) {
-                                            FirebaseFirestore.getInstance().collection("events").document(id).set();
-                                        }
-                                    });
-
-                                    Log.d("project_group", "upload success");
-                                }
-                            });
-                        }
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Log.d("project_group", "upload success");
+                        storageRef.child(eventId).getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Uri> task) {
+                                e.setImage(task.getResult());
+                                createEvent(e);
+                            }
+                        });
                     }
                 });
-                */
+            } else {
+                createEvent(e);
+            }
+
+            Log.d("Event", "Get coordinate error");
             }
         });
 
@@ -299,7 +266,6 @@ public class CreateEventFragment extends Fragment {
         final Event e = event;
 
         if (validate()) {
-//            Toast.makeText(context, "validate success", Toast.LENGTH_SHORT).show();
 
             //reset fields
             fromDate.setText("");
@@ -321,10 +287,7 @@ public class CreateEventFragment extends Fragment {
                     mListener.onCreated(e.id);
                 }
             });
-        } else {
-//            Toast.makeText(context, "Validation failed", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     private boolean validate() {

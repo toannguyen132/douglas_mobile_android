@@ -109,16 +109,6 @@ public class MainActivity extends AppCompatActivity implements UserInfoFragment.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = this.getWindow();
-            Drawable background = this.getResources().getDrawable(R.drawable.header_bg);
-//            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//            window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-//            window.setStatusBarColor(this.getResources().getColor(android.R.color.transparent));
-//            window.setNavigationBarColor(this.getResources().getColor(android.R.color.transparent));
-//            window.setBackgroundDrawable(background);
-        }
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -142,9 +132,6 @@ public class MainActivity extends AppCompatActivity implements UserInfoFragment.
             layoutParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 26, displayMetrics);
             iconView.setLayoutParams(layoutParams);
         }
-
-//        final ActionBar actionBar = getSupportActionBar();
-//        actionBar.hide();
 
         // load home fragment by default
         navigation.setSelectedItemId(R.id.navigation_home);

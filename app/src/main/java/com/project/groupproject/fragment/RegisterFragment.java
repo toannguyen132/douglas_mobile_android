@@ -157,33 +157,33 @@ public class RegisterFragment extends Fragment {
             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "createUserWithEmail:success");
-                        FirebaseUser user = mAuth.getCurrentUser();
+                if (task.isSuccessful()) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(TAG, "createUserWithEmail:success");
+                    FirebaseUser user = mAuth.getCurrentUser();
 
-                        // add new User account
-                        FirebaseFirestore db = FirebaseFirestore.getInstance();
-                        User newUser = new User();
+                    // add new User account
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    User newUser = new User();
 
-                        int index = email.indexOf('@');
-                        newUser.firstname = email.substring(0,index);;
-                        newUser.lastname = "";
-                        newUser.email = user.getEmail();
-                        db.collection("users").document(user.getUid())
-                                .set(newUser);
+                    int index = email.indexOf('@');
+                    newUser.firstname = email.substring(0,index);;
+                    newUser.lastname = "";
+                    newUser.email = user.getEmail();
+                    db.collection("users").document(user.getUid())
+                            .set(newUser);
 
-                        // trigger event on register success
-                        if (mListener != null) {
-                            mListener.onRegisterSuccess(user);
-                        }
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                        textError.setText(task.getException().getMessage());
+                    // trigger event on register success
+                    if (mListener != null) {
+                        mListener.onRegisterSuccess(user);
                     }
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                    textError.setText(task.getException().getMessage());
+                }
 
-                    loadingBar.setVisibility(View.GONE);
+                loadingBar.setVisibility(View.GONE);
                 }
             });
     }

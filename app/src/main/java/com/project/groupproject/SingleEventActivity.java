@@ -34,9 +34,8 @@ import com.squareup.picasso.Picasso;
 public class SingleEventActivity extends AppCompatActivity
         implements OnMapReadyCallback, Observer<Event>, AppBarLayout.OnOffsetChangedListener {
 
-    TextView viewMonth, viewDate, viewTitle, viewOwner, viewDesc, viewLocation, viewTime, viewLike;
+    TextView viewDate, viewTitle, viewOwner, viewDesc, viewLocation, viewTime, viewLike;
     ImageView viewImage;
-//    Button btnLike;
     FloatingActionButton btnLike;
     Event event;
     EventViewModel viewModel;
@@ -57,9 +56,6 @@ public class SingleEventActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_event);
 
-        //hide actionbar
-//        final ActionBar actionBar = getSupportActionBar();
-//        actionBar.hide();
         AppBarLayout appbar = (AppBarLayout) findViewById(R.id.flexible_example_appbar);
         appbar.addOnOffsetChangedListener(this);
 
@@ -76,7 +72,6 @@ public class SingleEventActivity extends AppCompatActivity
         final SingleEventActivity instance = this;
 
         // setup views
-//        viewMonth = findViewById(R.id.view_month);
         viewDate = findViewById(R.id.view_day);
         viewTitle = findViewById(R.id.view_title);
         viewOwner = findViewById(R.id.view_owner);
@@ -84,11 +79,8 @@ public class SingleEventActivity extends AppCompatActivity
         viewLocation = findViewById(R.id.view_location);
         viewTime = findViewById(R.id.view_time);
         viewLike = findViewById(R.id.view_like);
-//        btnLike = findViewById(R.id.btn_like);
         btnLike = findViewById(R.id.likeBtn);
         viewImage = findViewById(R.id.view_image);
-//        viewImage.setImageResource(R.drawable.event1);
-//        viewImage.setImageResource(R.drawable.logo222);
         mapView = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_view);
 
         // map init
@@ -103,7 +95,6 @@ public class SingleEventActivity extends AppCompatActivity
         String id = intent.getStringExtra("event_id");
 
         // get current user id
-//        final String currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         // button event
@@ -184,7 +175,6 @@ public class SingleEventActivity extends AppCompatActivity
         gmap = googleMap;
         gmap.setMinZoomPreference(15);
         LatLng coord = new LatLng(event.lat, event.lng);
-//        LatLng ny = new LatLng(40.7143528, -74.0059731);
 
         gmap.addMarker(new MarkerOptions().position(coord).title(event.name));
         gmap.moveCamera(CameraUpdateFactory.newLatLng(coord));
@@ -196,10 +186,8 @@ public class SingleEventActivity extends AppCompatActivity
 
     public void checkLikeButton() {
         if (isLiked()) {
-//            btnLike.setText("Unlike");
             btnLike.setImageResource(R.drawable.heart);
         } else {
-//            btnLike.setText("Like");
             btnLike.setImageResource(R.drawable.heart_passive);
         }
         // activate button again
@@ -211,7 +199,6 @@ public class SingleEventActivity extends AppCompatActivity
         event = newEvent;
         //set text in textview
         viewTitle.setText(event.name);
-//        viewMonth.setText(getEventStartMonth());
         viewDate.setText( getEventDate());
         viewDesc.setText(event.description);
         viewLocation.setText(event.location);
@@ -220,10 +207,8 @@ public class SingleEventActivity extends AppCompatActivity
 
         // set image
         if (event.image != null){
-//                    viewImage.setImageURI(event.image);
             Picasso.get().load(event.image).into(viewImage);
         } else {
-//            viewImage.setImageResource(R.drawable.event1);
             viewImage.setImageResource(R.drawable.logo222);
         }
 

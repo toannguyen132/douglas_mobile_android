@@ -33,8 +33,7 @@ public class AuthActivity extends AppCompatActivity
             w.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             w.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
-//        final ActionBar actionBar = getSupportActionBar();
-//        actionBar.hide();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
 

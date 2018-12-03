@@ -113,7 +113,6 @@ public class UserInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-//        View view = inflater.inflate(R.layout.fragment_user_info, container, false);
         View view = inflater.inflate(R.layout.fragment_user_info2, container, false);
 
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.htab_tabs);
@@ -124,7 +123,6 @@ public class UserInfoFragment extends Fragment {
         viewPager = view.findViewById(R.id.htab_viewpager);
 
         adapter = new ViewPageAdapter(getChildFragmentManager());
-//        adapter.AddFragment(new UserAboutFragment(), "About");
         adapter.AddFragment(createdEventFragment, "Created");
         adapter.AddFragment(likedEventFragment, "Liked");
 
@@ -134,7 +132,7 @@ public class UserInfoFragment extends Fragment {
         //
         textEmail = view.findViewById(R.id.text_email);
         textName = view.findViewById(R.id.text_name);
-//
+
         // event click
         (view.findViewById(R.id.user_info_edit_button)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,7 +169,6 @@ public class UserInfoFragment extends Fragment {
 
         // enable loading
         loadingBar = getActivity().findViewById(R.id.loading_bar);
-//        loadingBar.setVisibility(View.VISIBLE);
 
         // track user data
         viewModel.getUser().observe(this, new Observer<User>() {
@@ -261,13 +258,6 @@ public class UserInfoFragment extends Fragment {
         startActivity(intent);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onCreated(uri);
-//        }
-//    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -278,14 +268,6 @@ public class UserInfoFragment extends Fragment {
                     + " must implement OnUserEditFragmentListener");
         }
     }
-
-
-//
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
 
     /**
      */

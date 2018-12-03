@@ -49,27 +49,27 @@ public class EventsListViewModel extends ViewModel {
         OnCompleteListener<QuerySnapshot> listener = new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    final List<Event> events = new ArrayList<>();
-                    String s = query.trim().toLowerCase();
+            if (task.isSuccessful()) {
+                final List<Event> events = new ArrayList<>();
+                String s = query.trim().toLowerCase();
 
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Event event = Event.parseFromDocument(document);
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Event event = Event.parseFromDocument(document);
 
-                        // check condition here
-                        if (Strings.isEmptyOrWhitespace(query)) {
+                    // check condition here
+                    if (Strings.isEmptyOrWhitespace(query)) {
+                        events.add(event);
+                    } else {
+                        if (event.location.toLowerCase().indexOf(s) >= 0) {
                             events.add(event);
-                        } else {
-                            if (event.location.toLowerCase().indexOf(s) >= 0) {
-                                events.add(event);
-                            }
                         }
-
-                        Log.d("event id ", document.getId());
                     }
 
-                    eventList.setValue(events);
+                    Log.d("event id ", document.getId());
                 }
+
+                eventList.setValue(events);
+            }
             }
         };
 
