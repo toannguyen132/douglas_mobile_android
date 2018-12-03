@@ -9,12 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +18,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.support.v7.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,15 +27,11 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.project.groupproject.R;
-import com.project.groupproject.UserEventsListActivity;
 import com.project.groupproject.adapters.ViewPageAdapter;
-import com.project.groupproject.models.Event;
 import com.project.groupproject.models.User;
 import com.project.groupproject.viewmodals.AuthUserViewModel;
 import com.project.groupproject.viewmodals.EventsListViewModel;
 import com.squareup.picasso.Picasso;
-
-import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -247,15 +237,6 @@ public class UserInfoFragment extends Fragment {
             // process uploading
             uploadProfile();
         }
-    }
-
-    /**
-     * Open new Activity displaying my events
-     */
-    private void goToMyEvent() {
-        Intent intent = new Intent(getContext(), UserEventsListActivity.class);
-        intent.putExtra("uid", mUser.getId());
-        startActivity(intent);
     }
 
     @Override
