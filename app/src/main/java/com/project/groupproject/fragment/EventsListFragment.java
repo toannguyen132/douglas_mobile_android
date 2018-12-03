@@ -27,7 +27,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -182,7 +181,6 @@ public class EventsListFragment extends Fragment {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_GO || actionId == EditorInfo.IME_ACTION_DONE){
                     Log.d(MainActivity.TAG, "search here");
-//                    searchQuery = inputSearch.getText().toString();
                     applyFilter(inputSearch.getText().toString());
                 }
                 return false;
@@ -194,7 +192,6 @@ public class EventsListFragment extends Fragment {
             @Override
             public void onRefresh() {
                 loadingBar.setVisibility(View.VISIBLE);
-//                searchQuery = inputSearch.getText().toString();
                 applyFilter(inputSearch.getText().toString());
             }
         });

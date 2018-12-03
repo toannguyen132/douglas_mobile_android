@@ -30,7 +30,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".UserProfileActivity" />
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

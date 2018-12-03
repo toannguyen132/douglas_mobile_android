@@ -3,7 +3,6 @@ package com.project.groupproject.fragment;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,7 +15,6 @@ import com.project.groupproject.R;
 import com.project.groupproject.adapters.ListEventsAdapter;
 import com.project.groupproject.models.Event;
 import com.project.groupproject.viewmodals.AuthUserViewModel;
-import com.project.groupproject.viewmodals.EventsListViewModel;
 
 import java.util.ArrayList;
 import java.util.List;

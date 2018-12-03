@@ -6,21 +6,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -29,29 +25,23 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.common.base.Strings;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.project.groupproject.R;
-import com.project.groupproject.lib.Helper;
 import com.project.groupproject.models.Event;
 import com.project.groupproject.viewmodals.EventViewModel;
-import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.Map;
 
-import io.opencensus.internal.StringUtil;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -130,7 +120,6 @@ public class CreateEventFragment extends Fragment {
         inputName.setText("");
         inputDesc.setText("");
         inputLocation.setText("");
-//        imgEvent.setImageResource(R.drawable.event1);
         imgEvent.setImageResource(R.drawable.logo222);
 
         // datepicker
