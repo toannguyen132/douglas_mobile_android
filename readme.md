@@ -4,5 +4,11 @@
 
 This is the app that allows users to share & find nearby events easily and efficiantly.
 
+Technical used:
 
-!(demo image)[https://github.com/toannguyen132/douglas_mobile_android/raw/master/docs/app-demo.gif]
+* Firebase (authentication, firestore, storage)
+* Google map
+* ViewModel, LiveData
+
+Demo gif:
+![demo image](https://github.com/toannguyen132/douglas_mobile_android/raw/master/docs/app-demo.gif)
