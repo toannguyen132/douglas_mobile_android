@@ -157,6 +157,7 @@ public class EventsListFragment extends Fragment {
                 eventsList.clear();
                 eventsList.addAll(events);
                 eventsView.setEmptyView(view.findViewById(R.id.empty));
+
                 adapter.notifyDataSetChanged();
                 loadingBar.setVisibility(View.GONE);
                 swipeRefreshLayout.setRefreshing(false);

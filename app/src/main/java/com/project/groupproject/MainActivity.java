@@ -19,6 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.net.PlacesClient;
 import com.project.groupproject.fragment.CreateEventFragment;
 import com.project.groupproject.fragment.EventCreatedFragment;
 import com.project.groupproject.fragment.EventLikedFragment;
@@ -89,6 +91,8 @@ public class MainActivity extends AppCompatActivity implements UserInfoFragment.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         // create fragments
         fragmentEventsList = EventsListFragment.getInstance();

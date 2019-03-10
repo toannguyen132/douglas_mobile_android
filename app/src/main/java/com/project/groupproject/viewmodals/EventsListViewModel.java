@@ -20,6 +20,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.project.groupproject.models.Event;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -68,13 +69,7 @@ public class EventsListViewModel extends ViewModel {
             }
         };
 
-        if (TextUtils.isEmpty(query)){
-            collection.whereGreaterThan("start_date", today).get().addOnCompleteListener(listener);
-        } else {
-            collection.whereGreaterThan("start_date", today).get().addOnCompleteListener(listener);
-        }
-
-
+        collection.whereGreaterThan("start_date", today).get().addOnCompleteListener(listener);
     }
 
     /** database **/

@@ -15,7 +15,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +29,25 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.AutocompletePrediction;
+import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.model.TypeFilter;
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.common.base.Strings;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -36,10 +55,13 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.project.groupproject.R;
+import com.project.groupproject.adapters.LocationAdapter;
 import com.project.groupproject.models.Event;
 import com.project.groupproject.viewmodals.EventViewModel;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 
 
@@ -49,7 +71,8 @@ import java.util.Calendar;
  * {@link CreateEventFragmentListener} interface
  * to handle interaction events.
  */
-public class CreateEventFragment extends Fragment {
+public class CreateEventFragment extends Fragment
+    implements LocationAdapter.OnSelectLocation {
 
     private CreateEventFragmentListener mListener;
     private Context context;
@@ -74,6 +97,9 @@ public class CreateEventFragment extends Fragment {
     private DatePickerDialog.OnDateSetListener fromListener, toListener;
     private TimePickerDialog timepicker;
     private FragmentActivity activity;
+
+    private RecyclerView locationAutocompleteView;
+    private LocationAdapter locationAdapter;
 
     static final int PICK_IMAGE = 1;
 
@@ -100,7 +126,6 @@ public class CreateEventFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_create_event, container, false);
 
-
         //
         fromDate = view.findViewById(R.id.input_event_start_date);
         toDate = view.findViewById(R.id.input_event_end_date);
@@ -113,6 +138,13 @@ public class CreateEventFragment extends Fragment {
         imgEvent = view.findViewById(R.id.event_photo);
 
         loadingBar = activity.findViewById(R.id.loading_bar);
+
+        // location
+        locationAutocompleteView = view.findViewById(R.id.location_autocomplete);
+        locationAdapter = new LocationAdapter();
+        locationAutocompleteView.setAdapter(locationAdapter);
+        locationAutocompleteView.setLayoutManager(new LinearLayoutManager(getContext()));
+        locationAdapter.setOnSelectListener(this);
 
         // reset fields
         fromDate.setText("");
@@ -248,6 +280,55 @@ public class CreateEventFragment extends Fragment {
             }
         });
 
+
+        // Auto place
+        final AutocompleteSessionToken token = AutocompleteSessionToken.newInstance();
+
+        // init places
+        Places.initialize(view.getContext().getApplicationContext(), getString(R.string.google_api_key));
+        final PlacesClient placesClient = Places.createClient(view.getContext());
+
+        inputLocation.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {String query = inputLocation.getText().toString();
+                // Use the builder to create a FindAutocompletePredictionsRequest.
+                FindAutocompletePredictionsRequest request = FindAutocompletePredictionsRequest.builder()
+                        //.setLocationRestriction(bounds)
+                        .setCountry("ca")
+                        .setTypeFilter(TypeFilter.ESTABLISHMENT)
+                        .setSessionToken(token)
+                        .setQuery(query)
+                        .build();
+
+                placesClient.findAutocompletePredictions(request).addOnSuccessListener(new OnSuccessListener<FindAutocompletePredictionsResponse>() {
+                    @Override
+                    public void onSuccess(FindAutocompletePredictionsResponse response) {
+
+                        ArrayList<String> list = LocationAdapter.convertToArray(response);
+                        locationAdapter.updateData(list);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        if (exception instanceof ApiException) {
+                            ApiException apiException = (ApiException) exception;
+                            Log.e("DEBUGZZZ", "Place not found: " + apiException.getStatusCode());
+                        }
+                    }
+                });
+            }
+        });
+
         return view;
     }
 
@@ -324,6 +405,12 @@ public class CreateEventFragment extends Fragment {
         }
 
         return true;
+    }
+
+    @Override
+    public void onSelect(String item) {
+        inputLocation.setText(item);
+        locationAdapter.clearData();
     }
 
     @Override
